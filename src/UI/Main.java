@@ -1,10 +1,257 @@
 package UI;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+//import java.rmi.Naming;
+//import java.rmi.NotBoundException;
+//import java.rmi.RemoteException;
+import java.util.ArrayList;
+
+import Insurance.Insurance;
+import Insurance.InsuranceListImpl;
+import Insurance.Terms;
+import Insurance.TermsListImpl;
+
 public class Main {
 	
-	public static void main(String[] args) {
-		System.out.println("ì•„ìì•„ìí™”ì´íŒ…");
-		System.out.println("í™”ì´íŒ…ì´ì—ìš”!");
-	}
+	public static void main(String[] args) throws IOException{
+		
+		String userChoice = "";
+		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in)); 		
+		InsuranceListImpl insuranceListImpl = new InsuranceListImpl("Insurance.txt");
+		TermsListImpl termsListImpl = new TermsListImpl("Terms.txt");
+			while(!userChoice.equals("x")) {
+				showMenu();				
+				userChoice = inputReader.readLine().trim();
+			switch(userChoice) {
+			case "1":
+				showOnSaleInsurance(insuranceListImpl, inputReader);
+				break;
+			case "2":
+				designInsurance(insuranceListImpl,termsListImpl, inputReader);			
+				break;		
+			default:
+				System.out.println("Invalid Choice !!!");}}}
 
+	private static void designInsurance(InsuranceListImpl insuranceListImpl,TermsListImpl termsListImpl,BufferedReader inputReader) throws IOException {
+		
+		String choice = "";
+		while(!choice.equals("x")) {
+			System.out.println("****************** Insurance DESIGN MENU *******************");
+			System.out.println("1. ¼³°èÇÑ º¸Çè Á¶È¸ 2. »õ º¸Çè ¼³°è 3. ¾à°ü °ü¸® x. Á¾·á");
+			System.out.println("¼±ÅÃ : ");
+			choice = inputReader.readLine().trim();
+			System.out.println(choice);			
+			switch(choice) {
+			case "1" : showDesignedInsurance(insuranceListImpl, inputReader); break;
+			case "2" : createInsurance(insuranceListImpl, inputReader); break;
+			case "3" : termsManagement(insuranceListImpl, termsListImpl, inputReader); break;
+			case "x" : break;
+			default : System.out.println("Invalid Choice !!!");}}}
+
+	private static void termsManagement(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl,BufferedReader inputReader) throws IOException {
+		System.out.println("****************** Terms Management MENU *******************");
+		System.out.println("1. ¾à°ü Á¶È¸ 2. »õ ¾à°ü µî·Ï");
+		System.out.println("¼±ÅÃ : ");
+		String choice = inputReader.readLine().trim();
+		switch(choice) {
+		case "1":
+			showList(termsListImpl.retrieveAllTerms());
+			break;
+		case "2": 
+			createTerms(termsListImpl, inputReader);
+			break;
+		default:
+			System.out.println("Invalid Choice !!!");}}
+
+	private static void createTerms(TermsListImpl termsListImpl, BufferedReader inputReader) throws NumberFormatException, IOException {
+		Terms terms = new Terms();	
+		System.out.println("--------Terms Info---------");
+		System.out.println("¾à°ü ID : "); terms.setTermsID(Integer.valueOf(inputReader.readLine().trim()));
+		System.out.println("¾à°ü¸í  : "); terms.setTermsName(inputReader.readLine().trim()); 
+		System.out.println("Áö±Şº¸Çè±İ »êÁ¤¹æ½Ä(,·Î ÀÌ¾î¼­ ÀÛ¼º) : "); terms.setCalculatedMoneyMethod(inputReader.readLine().trim());
+		System.out.println("º¸Àå³»¿ë : "); terms.setTermsContent(inputReader.readLine().trim());				
+		if(termsListImpl.createTerms(terms)) System.out.println("µî·ÏµÇ¾ú½À´Ï´Ù.");
+		else System.out.println("µî·ÏµÇÁö ¾Ê¾Ò½À´Ï´Ù.");		}
+
+	private static void showDesignedInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws IOException {
+		showList(insuranceListImpl.getUnregisteredInsuranceList()); 
+		System.out.println("****************** UnregisteredInsurance MENU *******************");
+		System.out.println("1. ¼±ÅÃÇÑ º¸Çè ÀÚ¼¼È÷ º¸±â 2. ÆÇ¸Å ÁßÀ¸·Î º¸Çè µî·ÏÇÏ±â 3. ±İÀ¶°¨µ¶¿ø¿¡ ÀÎ°¡ ¿äÃ» x. Á¾·á");
+		System.out.println("¼±ÅÃ : ");
+		String choice = inputReader.readLine().trim();
+		switch(choice) {
+		case "1" :
+			retrieveInsuranceDetail(insuranceListImpl, inputReader);
+			break;
+		case "2" :
+			registerInsurance(insuranceListImpl, inputReader);
+			break;
+		case "3" :
+			requestAuthorization(insuranceListImpl, inputReader);
+			break;
+		case "x" : break;
+		default :
+			System.out.println("Invalid Choice !!!");	}}
+
+	private static void requestAuthorization(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws IOException {
+		System.out.println("ÀÎ°¡¸¦ ¿äÃ»ÇÒ º¸Çè ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ¾øÀ¸¸é x¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		System.out.println("¼±ÅÃ : ");
+		String insuranceID = inputReader.readLine().trim();
+		if(!insuranceID.equals("x")) {
+			if(!insuranceID.equals(null)) {
+			String insuranceName = insuranceListImpl.requestAuthorization(Integer.valueOf(insuranceID));
+			if(!insuranceName.equals(null)) System.out.println(insuranceName + "ÀÎ°¡ ½ÅÃ»ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. ÀÎ°¡ ¿Ï·á±îÁö ¼ö ÀÏÀÌ ¼Ò¿äµÉ ¼ö ÀÖ½À´Ï´Ù.");
+			else System.out.println("½ÅÃ»¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+			} 
+			else System.out.println("¾Æ¹«°Íµµ ÀÔ·ÂµÇÁö ¾Ê¾Ò½À´Ï´Ù.");	}
+		}
+
+	private static void registerInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws IOException {
+		System.out.println("ÆÇ¸ÅÁßÀ¸·Î µî·ÏÇÒ º¸Çè ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ¾øÀ¸¸é x¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		System.out.println("¼±ÅÃ : ");
+		String insuranceID = inputReader.readLine().trim();
+		if(!insuranceID.equals("x")) {
+			if(!insuranceID.equals(null)) {
+				System.out.println("±İÀ¶°¨µ¶¿ø¿¡ ÀÇÇØ ÀÎ°¡¹ŞÀº º¸ÇèÀÌ È®½ÇÇÕ´Ï±î?");
+				System.out.println("Y/N : ");
+				String choice = inputReader.readLine().trim();
+				if(choice.equals("Y")) { 
+					if(insuranceListImpl.updateAuthorization(Integer.valueOf(insuranceID), true)) System.out.println("½Å±Ô º¸Çè µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+					else System.out.println("½ÅÃ»¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+				}
+				} 
+			else System.out.println("¾Æ¹«°Íµµ ÀÔ·ÂµÇÁö ¾Ê¾Ò½À´Ï´Ù.");		}}
+
+	private static void showOnSaleInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws IOException{
+		System.out.println("****************** Insurance MENU *******************");
+		System.out.println("Á¶È¸ÇÏ½Ç º¸Çè Á¾·ù¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		System.out.println("1. ÀüÃ¼, 2. ÀÚµ¿Â÷º¸Çè, 3. »óÇØ/Áúº´º¸Çè, 4. ¾Ïº¸Çè, 5. È­Àçº¸Çè");
+		System.out.println("¼±ÅÃ : ");
+		String insuranceType = inputReader.readLine().trim();	
+		switch(insuranceType) {
+		case "1":
+			showList(insuranceListImpl.getOnSaleInsuranceList()); 
+			if(insuranceListImpl.getOnSaleInsuranceList().equals(null)) 
+				retrieveInsuranceDetail(insuranceListImpl, inputReader);
+			break;
+		case "2":
+			showList(insuranceListImpl.retrieveInsurance("Car")); 
+			if(insuranceListImpl.retrieveInsurance("Car").equals(null)) retrieveInsuranceDetail(insuranceListImpl, inputReader);
+			break;
+		case "3":
+			showList(insuranceListImpl.retrieveInsurance("Disease")); 
+			if(insuranceListImpl.retrieveInsurance("Disease").equals(null)) retrieveInsuranceDetail(insuranceListImpl, inputReader);
+			break;
+		case "4":
+			showList(insuranceListImpl.retrieveInsurance("Cancer")); 
+			if(insuranceListImpl.retrieveInsurance("Cancer").equals(null)) retrieveInsuranceDetail(insuranceListImpl, inputReader);
+			break;
+		case "5":
+			showList(insuranceListImpl.retrieveInsurance("Fire")); 
+			if(insuranceListImpl.retrieveInsurance("Fire").equals(null)) retrieveInsuranceDetail(insuranceListImpl, inputReader);
+			break;
+		default:
+			System.out.println("Invalid Choice !!!");}}	
+
+	private static void retrieveInsuranceDetail(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws IOException {
+		System.out.println("ÀÚ¼¼ÇÑ Á¤º¸¸¦ Á¶È¸ÇÒ º¸Çè ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ¾øÀ¸¸é x¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		String insuranceID = "";
+		Insurance insurance;
+		while(true) {
+		if(!insuranceID.equals(null)) {
+			System.out.println("¼±ÅÃ : ");
+			insuranceID = inputReader.readLine().trim();
+			if(insuranceID.equals("x"))  break;
+			insurance = insuranceListImpl.retrieveInsuranceDetail(Integer.valueOf(insuranceID));	
+				System.out.println(insurance.toString());
+				System.out.println("1. ¼öÁ¤ÇÏ±â, 2. »èÁ¦ÇÏ±â");
+				String choice = inputReader.readLine().trim();
+				switch (choice) {
+				case "1": 
+					updateInsurance(insurance, insuranceListImpl, inputReader);
+					break;
+				case "2":
+					deleteInsurance(insuranceListImpl, insurance.getInsuranceID(), inputReader);
+					break;
+				default:
+					System.out.println("Invalid Choice !!");}}}}
+
+	private static void createInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws IOException{
+		Insurance insurance = new Insurance();
+		System.out.println("--------Insurance Info---------");
+		System.out.println("º¸Çè ID : "); insurance.setInsuranceID(Integer.valueOf(inputReader.readLine().trim()));
+		System.out.println("º¸Çè ÀÌ¸§ : "); insurance.setInsuranceName(inputReader.readLine().trim()); 
+		System.out.println("º¸Çè Á¾·ù : "); insurance.setType(inputReader.readLine().trim());
+		System.out.println("º¸Çè°¡ÀÔ±İ¾× : "); insurance.setMaxCompensation(Integer.valueOf(inputReader.readLine().trim()));
+		System.out.println("º¸Çè ±â°£ : "); insurance.setPeriodOfInsurance(inputReader.readLine().trim());
+		System.out.println("³³ÀÔ ÁÖ±â : "); insurance.setPaymentCycle(inputReader.readLine().trim());
+		System.out.println("³³ÀÔ ±â°£ : "); insurance.setPaymentPeriod(inputReader.readLine().trim());
+		System.out.println("°¡ÀÔ ³ªÀÌ : "); insurance.setAgeOfTarget(inputReader.readLine().trim());
+		System.out.println("±âº» º¸Çè·á : "); insurance.setBasicPremium(Integer.valueOf(inputReader.readLine().trim()));
+		System.out.println("¿äÀ² : "); insurance.setRate(inputReader.readLine().trim());
+		System.out.println("¹è´ç ¿©ºÎ(False/True) : "); insurance.setDistributionStatus(Boolean.parseBoolean(inputReader.readLine().trim()));
+		while(true) {
+		System.out.println("º¸Àå ³»¿ë(¾à°üID, ÄŞ¸¶·Î ±¸ºĞÇØÁÖ¼¼¿ä) : "); 
+		if(insurance.setTermsIDList(inputReader.readLine().trim())==false) System.out.println("¾à°üID°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä");
+		else break;
+		}
+		System.out.println("ÁÖÀÇ»çÇ× : "); insurance.setPrecaution(inputReader.readLine().trim());
+		System.out.println("º¸Çè ¸éÃ¥ ±â°£ : "); insurance.setInsuranceClausePeriod(Integer.valueOf(inputReader.readLine().trim()));
+		if(insuranceListImpl.createInsurance(insurance)) System.out.println("µî·ÏµÇ¾ú½À´Ï´Ù.");
+		else System.out.println("µî·ÏµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+	}
+	
+	private static void updateInsurance(Insurance insurance, InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws IOException{
+		String choice  = "";
+		while(!choice.equals("x")) {
+		System.out.println("¼öÁ¤ÇÒ Á¤º¸¸¦ ¼±ÅÃÇÏ¼¼¿ä. ¼öÁ¤ÇÒ Á¤º¸°¡ ¾ø´Ù¸é xÀÔ·Â");
+		System.out.println("1. º¸Çè ID, 2. º¸Çè ÀÌ¸§, 3. º¸Çè Á¾·ù, 4. º¸Çè°¡ÀÔ±İ¾×, 5. º¸Çè ±â°£, 6. ³³ÀÔ ÁÖ±â, 7. ³³ÀÔ ±â°£, 8. °¡ÀÔ ³ªÀÌ, 9. ±âº» º¸Çè·á, 10. ¿äÀ², "
+				+ "11. ¹è´ç ¿©ºÎ(False/True), 12. º¸Àå ³»¿ë(¾à°üID, ÄŞ¸¶·Î ±¸ºĞÇØÁÖ¼¼¿ä), 13. ÁÖÀÇ»çÇ×, 14. º¸Çè ¸éÃ¥ ±â°£");
+		choice  = inputReader.readLine().trim();
+		System.out.println("¼öÁ¤ÇÒ ³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä");
+		String content  = inputReader.readLine().trim();
+		switch (choice) {
+		case ("1") : insurance.setInsuranceID(Integer.valueOf(content));break;
+		case ("2") : insurance.setInsuranceName(content); break;
+		case ("3") : insurance.setType(content);break;
+		case ("4") : insurance.setMaxCompensation(Integer.valueOf(content)); break;
+		case ("5") : insurance.setPeriodOfInsurance(content); break;
+		case ("6") : insurance.setPaymentCycle(content); break;
+		case ("7") : insurance.setPaymentPeriod(content); break;
+		case ("8") : insurance.setAgeOfTarget(content); break;
+		case ("9") : insurance.setBasicPremium(Integer.valueOf(content));break;
+		case ("10") : insurance.setRate(content); break;
+		case ("11") : insurance.setDistributionStatus(Boolean.parseBoolean(content)); break;
+		case ("12"): 
+			if(insurance.setTermsIDList(content)==false) System.out.println("¾à°ü ID°¡ Á¸ÀçÇÏÁö ¾Ê¾Æ Á¤º¸°¡ ÀúÀåµÇÁö ¾Ê¾Ò½À´Ï´Ù."); break;
+		case("13"): insurance.setPrecaution(content); break;
+		case("14"): insurance.setInsuranceClausePeriod(Integer.valueOf(content)); break;
+		default: System.out.println("Invalid Choice !!!");
+		}
+		}
+		if(insuranceListImpl.updateinsurance(insurance)) System.out.println("¼öÁ¤ÀÌ ÀúÀåµÇ¾ú½À´Ï´Ù.");
+		else System.out.println("¼öÁ¤¿¡ ½ÇÆĞÇß½À´Ï´Ù.");}	
+	
+	private static void deleteInsurance(InsuranceListImpl insuranceListImpl, String insuranceID, BufferedReader inputReader) throws IOException{
+		System.out.println("º¸ÇèID : " + insuranceID + "¸¦ »èÁ¦ÇÏ½Ã°Ú½À´Ï±î? (Y/N)");
+		String choice  = inputReader.readLine().trim();
+		if(choice.equals("Y")) 
+			if(insuranceListImpl.deleteInsurance(Integer.valueOf(insuranceID))) System.out.println("»èÁ¦µÇ¾ú½À´Ï´Ù.");
+			else System.out.println("»èÁ¦¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+		else if(choice.equals("N")) System.out.println("»èÁ¦°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
+		else System.out.println("Invalid Choice !!!");}
+	
+	private static void showList(ArrayList<?> dataList) {
+		String list ="";
+		for(int i=0; i<dataList.size(); i++) {
+			list += dataList.get(i)+ "\n";}
+		System.out.println(list);}
+
+	private static void showMenu() {
+		System.out.println("****************** MENU *******************");
+		System.out.println("1. º¸Çè Á¶È¸");
+		System.out.println("2. º¸Çè ¼³°è");}
 }
+

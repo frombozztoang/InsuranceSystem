@@ -8,10 +8,7 @@ public interface TermsList {
 
 	public boolean add();
 
-	public boolean delete();
-
 	public ArrayList<Terms> retrieve();
 
-	public boolean update();
 
 }
