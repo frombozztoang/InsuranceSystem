@@ -8,7 +8,7 @@ public class ContractListImpl {
 	private ArrayList<Contract> contractList;
 	public Contract m_Contract;
 
-	public ContractListImpl(){
+	public ContractListImpl(String string){
 
 	}
 
