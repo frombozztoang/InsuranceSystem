@@ -1,32 +1,46 @@
-package Customer;
-
+package customer;
 import java.util.ArrayList;
 
-public class CustomerListImpl {
+public class CustomerListImpl implements CustomerList{
 
 	private ArrayList<Customer> customerList;
-	public Customer m_Customer;
+
 
 	public CustomerListImpl(){
-
+		this.customerList = new ArrayList<Customer>();
 	}
 
-	public void finalize() throws Throwable {
-
+	public boolean add(Customer customer){
+		if(this.customerList.add(customer)) return true;	
+		else return false;
 	}
-	public boolean add(){
+
+	public boolean delete(int customerID){
+		for(Customer customer : this.customerList) {
+			if(customer.getCustomerID() == customerID) {
+				if(this.customerList.remove(customer)) return true;
+				break;
+			}
+		}
 		return false;
 	}
 
-	public boolean delete(){
+
+	public boolean update(Customer customer, int customerID){
+		for(Customer uCustomer : this.customerList) {
+			if(uCustomer.getCustomerID() == customerID) {
+				uCustomer.setCustomerName(customer.getCustomerName());
+				uCustomer.setPnumber(customer.getPnumber());
+			}
+		}
 		return false;
 	}
-
-	public ArrayList<Customer> retrieve(){
-		return null;
+	public ArrayList<Customer> retrieve() {
+		return customerList;
+	}
+	public void setRetrieve(ArrayList<Customer> customerList) {
+		this.customerList = customerList;
 	}
 
-	public boolean update(){
-		return false;
-	}
-}//end CustomerListImpl
+	
+}
