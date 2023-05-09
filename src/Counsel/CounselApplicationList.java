@@ -2,6 +2,7 @@ package counsel;
 
 import java.util.ArrayList;
 
+
 public interface CounselApplicationList {
 
 	public boolean add(CounselApplication counselApplication);
