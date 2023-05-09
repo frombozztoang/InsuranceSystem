@@ -1,61 +1,76 @@
 package Contract;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.StringTokenizer;
 
 public class Payment {
 
-//	Payment class는 계약에 대한 납입 정보를 나타내며, 납입 여부를 갱신하는 메소드를 제공한다.
-
-	private int customerID; // 고객 ID
-	private int insuranceID; // 보험ID
-	private Date dateOfPayment; // 납입일
-	private boolean whetherPayment; // 납입 여부
+	private int customerID;
+	private int insuranceID;
+	private LocalDate dateOfPayment;
+	private boolean whetherPayment;
 	private String stringDateOfPayment;
+	
+	public Payment() {
 
-	public Payment(String inputPaymentInfo) throws ParseException {
-		StringTokenizer stringTokenizer = new StringTokenizer(inputPaymentInfo);
-
-		this.customerID = Integer.parseInt(stringTokenizer.nextToken());
-		this.insuranceID = Integer.parseInt(stringTokenizer.nextToken());
-		this.stringDateOfPayment = stringTokenizer.nextToken();
-
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); // string to Date formatter
-		Date date = format.parse(stringDateOfPayment);
-		this.dateOfPayment = format.parse(stringDateOfPayment);
-
-		this.whetherPayment = Boolean.parseBoolean(stringTokenizer.nextToken());
 	}
 
 	public boolean match(int customerID, int insuranceID) {
 		return (this.customerID == customerID) && (this.insuranceID == insuranceID);
 	}
 
-	public Date getDateOfPayment() {
-		return this.dateOfPayment;
-	}
-
-	public boolean getWhetherPayment() {
-		return this.whetherPayment;
-	}
-
 	public String toString() {
-		String stringPaymentInfo = this.customerID + " " + this.insuranceID + " " + this.dateOfPayment + " "
+		String stringReturn = customerID + " " + this.insuranceID + " " + this.dateOfPayment + " "
 				+ this.whetherPayment;
-		return stringPaymentInfo;
-
+		return stringReturn;
 	}
 
 	public void finalize() throws Throwable {
 
 	}
 
-	// 납입 여부를 변경하는 메소드
-	public boolean updatePayment(boolean inputUpdatePayment) {
-		this.whetherPayment = inputUpdatePayment;
-		return this.whetherPayment;
+	public boolean updatePayment() {
+		return !this.whetherPayment;
+	}
+
+	public int getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
+	}
+	
+	public String getStringDateOfPayment() {
+		return stringDateOfPayment;
+	}
+
+	public void setStringDateOfPayment(String stringDateOfPayment) {
+		this.stringDateOfPayment = stringDateOfPayment;
+	}
+
+
+	public LocalDate getDateOfPayment() {
+		return dateOfPayment;
+	}
+
+	public void setDateOfPayment(LocalDate date) {
+		this.dateOfPayment = date;
+	}
+
+	public int getInsuranceID() {
+		return insuranceID;
+	}
+
+	public void setInsuranceID(int insuranceID) {
+		this.insuranceID = insuranceID;
+	}
+
+	public boolean isWhetherPayment() {
+		return whetherPayment;
+	}
+
+	public void setWhetherPayment(boolean whetherPayment) {
+		this.whetherPayment = whetherPayment;
 	}
 }// end Payment
