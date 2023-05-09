@@ -1,17 +1,17 @@
-package Counsel;
+package counsel;
 
 import java.util.ArrayList;
 
+
 public interface CounselList {
 
-	public CounselListImpl m_CounselListImpl();
+	
+	public boolean add(CounselList counselList);
 
-	public void add();
+	public boolean delete(int counselID);
 
-	public void delete();
+	public ArrayList<CounselList> retrieve();
 
-	public ArrayList<Counsel> retrieve();
-
-	public void update();
+	public boolean update(CounselList counselList,int counselID);
 
 }

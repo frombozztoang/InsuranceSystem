@@ -1,33 +1,44 @@
-package Counsel;
+package counsel;
 
 import java.util.ArrayList;
 
-
 public class CounselListImpl {
 
-	private ArrayList<Counsel> counselList;
-	public Counsel m_Counsel;
+	private ArrayList<CounselList> counselList;
 
 	public CounselListImpl(){
-
+		this.counselList = new ArrayList<CounselList>();
 	}
 
-	public void finalize() throws Throwable {
-
+	public boolean add(CounselList counselList){
+		if(this.counselList.add(counselList)) return true;	
+		else return false;
 	}
-	public boolean add(){
+
+	public boolean delete(int counselID){
+//		for(CounselList counselList : this.counselList) {
+//			if(counselList.getCounselID() == counselID) {
+//				if(this.counselList.remove(counselID)) return true;
+//				break;
+//			}
+//		}
 		return false;
 	}
 
-	public boolean delete(){
+
+	public boolean update(CounselList counselList, int counselID){
+//		for(CounselList ucounselList : this.counselList) {
+//			if(ucounselList.getCustomerID() == customerID) {
+//				ucounselList.setDiseaseName(counselList.getDiseaseName());
+//				ucounselList.setRelationship(counselList.getRelationship());
+//			}
+//		}
 		return false;
 	}
-
-	public ArrayList<Counsel> retrieve(){
-		return null;
+	public ArrayList<CounselList> retrieve() {
+		return counselList;
 	}
-
-	public boolean update(){
-		return false;
+	public void setRetrieve(ArrayList<CounselList> familyHistoryList) {
+		this.counselList = familyHistoryList;
 	}
-}//end CounselListImpl
+}
