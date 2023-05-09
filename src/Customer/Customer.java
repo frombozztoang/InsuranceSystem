@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class Customer extends CounselList implements Serializable {
+
+public class Customer extends FamilyHistory implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String address;
