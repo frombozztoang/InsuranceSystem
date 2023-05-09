@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
-public class Customer extends FamilyHistory implements Serializable {
+public class Customer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String address;
@@ -20,14 +19,18 @@ public class Customer extends FamilyHistory implements Serializable {
 	private ArrayList<Customer> expiredContracts;
 	private ArrayList<Customer> unpaidCustomers;
 	private ArrayList<Customer> resurrectCandidates;
-
+	//composition
+    public FamilyHistory familyHistory;
 	public Customer(String inputString) {
-		super(inputString);
+
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
 		this.address = stringTokenizer.nextToken();
 		this.customerName = stringTokenizer.nextToken();
 		this.job = stringTokenizer.nextToken();
 
+	}
+	public Customer() {
+		this.familyHistory = new FamilyHistory();
 	}
 // 1. deleteCustomer
 	public boolean deleteCustomer(int customerID) {
