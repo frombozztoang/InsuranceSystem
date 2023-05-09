@@ -1,7 +1,6 @@
 package counsel;
 import java.util.ArrayList;
 
-import customer.Customer;
 
 
 public class CounselApplicationImpl implements CounselApplicationList{
