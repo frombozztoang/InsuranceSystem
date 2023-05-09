@@ -238,6 +238,7 @@ public class Main {
 	private static void showMenu() {
 		System.out.println("****************** MENU *******************");
 		System.out.println("1. 보험 조회");
-		System.out.println("2. 보험 설계");}
+		System.out.println("2. 보험 설계");
+		}
 }
 

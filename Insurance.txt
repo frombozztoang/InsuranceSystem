@@ -11,10 +11,10 @@
 68202 mcmc Car 1000 1 1 1 1 1 1 false 1,4 10 true  djkfldkl
 48203 mcndj Fire 1000 1 1 1 1 1 1 false 1,4 10 true  djkfldkl
 87638 iejdm Cancer 1000 1 1 1 1 1 1 false 1,4 10 true  djkfldkl
-72938 usidmc Disease 1000 1 1 1 1 1 1 false 1,4 10 false  djkfldkl
+72938 xnxn Disease 1000 1 1 1 1 1 1 false 1,4 10 false  djkfldkl
 39283 mcnsjx Disease 1000 1 1 1 1 1 1 false 1,4 10 false  djkfldkl
 38467 idofm Cancer 1000 1 1 1 1 1 1 false 1,4 10 false  djkfldkl
-1923 mcmc Car 1000 1 1 1 1 1 1 false 1,4 10 false  djkfldkl
+87263 mcmc Car 1000 1 1 1 1 1 1 false 1,4 10 false  djkfldkl
 43920 mcndj Fire 1000 1 1 1 1 1 1 false 1,4 10 false  djkfldkl
 87268 iejdm Cancer 1000 1 1 1 1 1 1 false 1,4 10 false  djkfldkl
 63728 K Car 2000 1 1 1 1 1 1 true 1,3 1 true  dsdsk
