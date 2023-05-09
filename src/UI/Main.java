@@ -46,10 +46,10 @@ public class Main {
 					retrieveCompensationClaim(compensationClaimList, inputReader);
 					break;
 				case "3":
-					showOnSaleInsurance(insuranceListImpl, inputReader, "Customer");
+					showOnSaleInsurance(insuranceList, inputReader, "Customer");
 					break;
 				case "4":
-					designInsurance(insuranceListImpl, termsListImpl, inputReader);
+					designInsurance(insuranceList, termsListImpl, inputReader);
 					//break;
 				default:
 					System.out.println("Invalid Choice !!!");
@@ -339,10 +339,9 @@ public class Main {
 			if(insuranceListImpl.deleteInsurance(Integer.valueOf(insuranceID))) System.out.println("삭제되었습니다.");
 			else System.out.println("삭제에 실패하였습니다.");
 		else if(choice.equals("N")) System.out.println("삭제가 취소되었습니다.");
-		else System.out.println("Invalid Choice !!!");}
+		else System.out.println("Invalid Choice !!!");
+	}
 
-
-}
 	private static void showList(ArrayList<?> dataList) {
 		String list = "";
 		for (int i = 0; i < dataList.size(); i++) {

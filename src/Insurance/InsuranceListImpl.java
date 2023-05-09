@@ -52,8 +52,8 @@ public class InsuranceListImpl {
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if(insurance.matchId(insuranceID)) return insurance.getInsuranceName();
-				//insurance¸¦ ±Ý°¨¿ø¿¡ º¸³»´Â ÄÚµå´Â ¹Ì±¸Çö
-				//if(±Ý°¨¿ø.requestAuthorization(insurance)) return true; 
+				//insuranceï¿½ï¿½ ï¿½Ý°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ ï¿½Ì±ï¿½ï¿½ï¿½
+				//if(ï¿½Ý°ï¿½ï¿½ï¿½.requestAuthorization(insurance)) return true; 
 		}
 		return "";
 	}
@@ -157,5 +157,13 @@ public class InsuranceListImpl {
 				return true;			
 		}
 		return false;
+	}
+	public String getInsuranceTypebyId(int insuranceID) {
+		for(int i=0;i<this.insuranceList.size();i++) {
+			Insurance insurance = (Insurance) this.insuranceList.get(i);
+			if(insurance.matchId(insuranceID))
+				return insurance.getType();
+		}
+		return null;
 	}
 }
