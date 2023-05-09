@@ -2,16 +2,12 @@ package Counsel;
 
 import java.util.ArrayList;
 
+
 public interface CounselApplicationList {
 
-	public CounselApplicationListImpl m_CounselApplicationListImpl();
-
-	public boolean add();
-
-	public boolean delete();
-
+	public boolean add(CounselApplication counselApplication);
+	public boolean delete(int counselID);
+	public boolean update(CounselApplication counselApplication, int counselID);
 	public ArrayList<CounselApplication> retrieve();
-
-	public boolean update();
 
 }

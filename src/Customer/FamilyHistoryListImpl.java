@@ -5,28 +5,40 @@ import java.util.ArrayList;
 public class FamilyHistoryListImpl {
 
 	private ArrayList<FamilyHistory> familyHistoryList;
-	public FamilyHistory m_FamilyHistory;
 
 	public FamilyHistoryListImpl(){
-
+		this.familyHistoryList = new ArrayList<FamilyHistory>();
 	}
 
-	public void finalize() throws Throwable {
-
+	public boolean add(FamilyHistory familyHistory){
+		if(this.familyHistoryList.add(familyHistory)) return true;	
+		else return false;
 	}
-	public boolean add(){
+
+	public boolean delete(int customerID){
+		for(FamilyHistory familyHistory : this.familyHistoryList) {
+			if(familyHistory.getCustomerID() == customerID) {
+				if(this.familyHistoryList.remove(familyHistory)) return true;
+				break;
+			}
+		}
 		return false;
 	}
 
-	public boolean delete(){
+
+	public boolean update(FamilyHistory familyHistory, int customerID){
+		for(FamilyHistory ufamilyHistory : this.familyHistoryList) {
+			if(ufamilyHistory.getCustomerID() == customerID) {
+				ufamilyHistory.setDiseaseName(familyHistory.getDiseaseName());
+				ufamilyHistory.setRelationship(familyHistory.getRelationship());
+			}
+		}
 		return false;
 	}
-
-	public ArrayList<FamilyHistory> retrieve(){
-		return null;
+	public ArrayList<FamilyHistory> retrieve() {
+		return familyHistoryList;
 	}
-
-	public boolean update(){
-		return false;
+	public void setRetrieve(ArrayList<FamilyHistory> familyHistoryList) {
+		this.familyHistoryList = familyHistoryList;
 	}
-}//end FamilyHistoryListImpl
+}

@@ -8,10 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.StringTokenizer;
 
 public class PaymentListImpl {
@@ -45,6 +43,7 @@ public class PaymentListImpl {
 		Payment payment = new Payment();
 
 		StringTokenizer stringTokenizer = new StringTokenizer(paymentInfo);
+		payment.setPaymentID(Integer.parseInt(stringTokenizer.nextToken()));
 		payment.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
 		payment.setInsuranceID(Integer.parseInt(stringTokenizer.nextToken()));
 		payment.setStringDateOfPayment(stringTokenizer.nextToken());
@@ -61,7 +60,7 @@ public class PaymentListImpl {
 
 	public boolean add(String paymentInfo) throws ParseException, IOException {
 		if (this.paymentList.add(new Payment())) {
-			updateFile("Database/Payment.txt");
+			updateFile("Payment.txt");
 			return true;
 		}
 		return false;
@@ -72,7 +71,7 @@ public class PaymentListImpl {
 		if (!file.exists())
 			file.createNewFile();
 		String paymentInfo = "";
-		if(!paymentList.isEmpty()) {
+		if (!paymentList.isEmpty()) {
 			paymentInfo = paymentList.get(0).toString();
 		}
 
@@ -97,20 +96,40 @@ public class PaymentListImpl {
 		return this.paymentList;
 	}
 
+	public ArrayList<Payment> retreiveCustomerPayment(int customerID) {
+		ArrayList<Payment> customerPayment = new ArrayList<Payment>();
+		for (int i = 0; i < this.paymentList.size(); i++) {
+			Payment payment = (Payment) paymentList.get(i);
+			if (this.paymentList.get(i).matchCustomerID(customerID)) {
+				customerPayment.add(payment);
+			}
+		}
+
+		return customerPayment;
+	}
+
 	public boolean update() {
 		return false;
 	}
 
-	public Boolean updateWheterPayment(int customerID, int insuranceID) throws IOException {
+	public Boolean updateWheterPayment(int paymentID) throws IOException {
 		for (int i = 0; i < this.paymentList.size(); i++) {
-			if (this.paymentList.get(i).match(customerID, insuranceID)) {
+			if (this.paymentList.get(i).matchPaymentID(paymentID)) {
 				this.paymentList.get(i).setWhetherPayment(this.paymentList.get(i).updatePayment());
-				updateFile("Database/Payment.txt");
+				updateFile("Payment.txt");
 				return true;
 			}
 		}
 
 		return false; // exception
+	}
+
+	public boolean isMatchCustomerPayment(int paymentID, String customerID) {
+		for (int i = 0; i < this.paymentList.size(); i++) {
+			if (this.paymentList.get(i).matchCustomerPayment(paymentID, customerID))
+				return true;
+		}
+		return false;
 	}
 
 }

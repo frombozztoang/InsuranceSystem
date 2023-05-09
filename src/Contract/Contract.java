@@ -1,5 +1,6 @@
 package Contract;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import CompensationClaim.CompensationClaim;
@@ -12,12 +13,12 @@ public class Contract {
 	private int premium;
 	private String paymentCycle;
 	private int maxCompensation;
-	private Date dateOfSubscription;
-	private Date dateOfMaturity;
+	private LocalDate dateOfSubscription;
+	private LocalDate dateOfMaturity;
 	private boolean maturity;
 	private boolean resurrection;
 	private boolean cancellation;
-	
+
 	private String stringDateOfSubscription;
 	private String stringDateOfMaturity;
 
@@ -27,7 +28,17 @@ public class Contract {
 	public Contract() {
 
 	}
-	
+
+	private int contractIndex;
+
+	public int getContractIndex() {
+		return contractIndex;
+	}
+
+	public void setContractIndex(int contractIndex) {
+		this.contractIndex = contractIndex;
+	}
+
 	public String getStringDateOfSubscription() {
 		return stringDateOfSubscription;
 	}
@@ -44,16 +55,15 @@ public class Contract {
 		this.stringDateOfMaturity = stringDateOfMaturity;
 	}
 
-
-
 	public boolean match(int customerID, int insuranceID) {
 		return (this.customerID == customerID) && (this.insuranceID == insuranceID);
 	}
 
 	public String toString() {
-		String stringReturn = customerID + " " + this.insuranceID + " " + this.insurancePeriod + " " + this.premium
-				+ " "+this.paymentCycle + " " + this.maxCompensation + " " + this.dateOfSubscription + this.dateOfMaturity
-				+ " " + this.maturity + " " + this.resurrection + " " + this.cancellation;
+		String stringReturn = contractIndex + " " + customerID + " " + this.insuranceID + " " + this.insurancePeriod
+				+ " " + this.premium + " " + this.paymentCycle + " " + this.maxCompensation + " "
+				+ this.dateOfSubscription + " " + this.dateOfMaturity + " " + this.maturity + " " + this.resurrection
+				+ " " + this.cancellation;
 		return stringReturn;
 	}
 
@@ -105,19 +115,19 @@ public class Contract {
 		this.maxCompensation = maxCompensation;
 	}
 
-	public Date getDateOfSubscription() {
+	public LocalDate getDateOfSubscription() {
 		return dateOfSubscription;
 	}
 
-	public void setDateOfSubscription(Date dateOfSubscription) {
-		this.dateOfSubscription = dateOfSubscription;
+	public void setDateOfSubscription(LocalDate dateOfSubscription2) {
+		this.dateOfSubscription = dateOfSubscription2;
 	}
 
-	public Date getDateOfMaturity() {
+	public LocalDate getDateOfMaturity() {
 		return dateOfMaturity;
 	}
 
-	public void setDateOfMaturity(Date dateOfMaturity) {
+	public void setDateOfMaturity(LocalDate dateOfMaturity) {
 		this.dateOfMaturity = dateOfMaturity;
 	}
 
@@ -166,6 +176,22 @@ public class Contract {
 	}
 
 	public boolean updateCancellation() {
-		return false;
+		return !this.cancellation;
+	}
+
+	public boolean matchCustomerID(int customerID) {
+		return this.customerID == customerID;
+	}
+
+	public boolean matchContractIndex(int contractIndex) {
+		return this.contractIndex == contractIndex;
+	}
+
+	public boolean matchCustomerContract(int contractIndex, String customerID) {
+		return (this.contractIndex == contractIndex) && (this.customerID == Integer.parseInt(customerID));
+	}
+
+	public boolean updateMaturity() {
+		return !this.maturity;
 	}
 }// end Contract

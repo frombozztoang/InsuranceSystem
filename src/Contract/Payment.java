@@ -1,16 +1,16 @@
 package Contract;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Payment {
 
+	private int paymentIndex;
 	private int customerID;
 	private int insuranceID;
 	private LocalDate dateOfPayment;
 	private boolean whetherPayment;
 	private String stringDateOfPayment;
-	
+
 	public Payment() {
 
 	}
@@ -20,13 +20,21 @@ public class Payment {
 	}
 
 	public String toString() {
-		String stringReturn = customerID + " " + this.insuranceID + " " + this.dateOfPayment + " "
+		String stringReturn = paymentIndex + " " + customerID + " " + this.insuranceID + " " + this.dateOfPayment + " "
 				+ this.whetherPayment;
 		return stringReturn;
 	}
 
 	public void finalize() throws Throwable {
 
+	}
+
+	public int getPaymentID() {
+		return paymentIndex;
+	}
+
+	public void setPaymentID(int paymentID) {
+		this.paymentIndex = paymentID;
 	}
 
 	public boolean updatePayment() {
@@ -40,7 +48,7 @@ public class Payment {
 	public void setCustomerID(int customerID) {
 		this.customerID = customerID;
 	}
-	
+
 	public String getStringDateOfPayment() {
 		return stringDateOfPayment;
 	}
@@ -48,7 +56,6 @@ public class Payment {
 	public void setStringDateOfPayment(String stringDateOfPayment) {
 		this.stringDateOfPayment = stringDateOfPayment;
 	}
-
 
 	public LocalDate getDateOfPayment() {
 		return dateOfPayment;
@@ -72,5 +79,18 @@ public class Payment {
 
 	public void setWhetherPayment(boolean whetherPayment) {
 		this.whetherPayment = whetherPayment;
+	}
+
+	public boolean matchCustomerID(int customerID) {
+		return this.customerID == customerID;
+	}
+
+	public boolean matchPaymentID(int paymentIndex) {
+		return this.paymentIndex == paymentIndex;
+	}
+
+	public boolean matchCustomerPayment(int paymentIndex, String customerID) {
+		// TODO Auto-generated method stub
+		return (this.paymentIndex == paymentIndex) && (this.customerID == Integer.parseInt(customerID));
 	}
 }// end Payment

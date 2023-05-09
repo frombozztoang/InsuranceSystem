@@ -1,27 +1,62 @@
 package Insurance;
-import java.util.ArrayList;
-
 
 public class Terms {
 
-	private String calculatedMoneyMethod;
-	private String termsContent;
 	private int termsID;
 	private String termsName;
-	public Guarantee m_Guarantee;
+	private String calculatedMoneyMethod;
+	private String termsContent;
 
 	public Terms(){
 
 	}
 
-	public void finalize() throws Throwable {
-
-	}
-	public boolean createTerms(){
-		return false;
+	public String getCalculatedMoneyMethod() {
+		return calculatedMoneyMethod;
 	}
 
-	public ArrayList<Terms> retrieveTerms(){
-		return null;
+
+	public void setCalculatedMoneyMethod(String calculatedMoneyMethod) {
+		this.calculatedMoneyMethod = calculatedMoneyMethod;
 	}
-}//end Terms
+
+
+	public String getTermsContent() {
+		return termsContent;
+	}
+
+
+	public void setTermsContent(String termsContent) {
+		this.termsContent = termsContent;
+	}
+
+
+	public int getTermsID() {
+		return termsID;
+	}
+
+
+	public void setTermsID(int termsID) {
+		this.termsID = termsID;
+	}
+
+
+	public String getTermsName() {
+		return termsName;
+	}
+
+
+	public void setTermsName(String termsName) {
+		this.termsName = termsName;
+	}
+	  public String toString() {
+	        String stringReturn = this.termsID + "/" + this.termsName + "/" + this.calculatedMoneyMethod + "/" + this.termsContent;
+	        return stringReturn;
+	    }
+
+	public boolean matchID(int termsID) {
+		return this.termsID == termsID;
+	}
+
+	
+}

@@ -4,14 +4,12 @@ import java.util.ArrayList;
 
 public interface FamilyHistoryList {
 
-	public FamilyHistoryListImpl m_FamilyHistoryListImpl();
+	public boolean add(FamilyHistory familyHistory);
 
-	public boolean add();
-
-	public boolean delete();
+	public boolean delete(int customerID);
 
 	public ArrayList<FamilyHistory> retrieve();
 
-	public boolean update();
+	public boolean update(FamilyHistory familyHistory,int customerID);
 
 }
