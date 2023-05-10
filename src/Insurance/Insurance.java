@@ -1,10 +1,6 @@
 package Insurance;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
-import Contract.Contract;
 
 public class Insurance {
 
@@ -184,7 +180,7 @@ public class Insurance {
 	}
 
 	public boolean setTermsIDList(String termsIDList) throws FileNotFoundException, IOException {
-		guaranteeList = new GuaranteeListImpl("Guarantee.txt"); 
+		guaranteeList = new GuaranteeListImpl("data/Guarantee.txt"); 
 		if(guaranteeList.alreadyExistInsurance(this.insuranceID)) guaranteeList.delete(insuranceID);
 		String[] termsIDListSplit = termsIDList.split(",");
 		Guarantee guarantee = new Guarantee();

@@ -1,4 +1,4 @@
-package counsel;
+package Counsel;
 
 import java.util.ArrayList;
 

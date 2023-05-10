@@ -1,10 +1,10 @@
-package counsel;
+package Counsel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import customer.Customer;
+import Customer.Customer;
 
 public class CounselApplication extends Counsel implements Serializable {
 

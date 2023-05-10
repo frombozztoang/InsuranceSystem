@@ -1,11 +1,10 @@
 package CompensationClaim;
 
-
 import java.io.BufferedReader;
 
 public class Survey {
 	private int CCID;
-	//		private int insuranceID;
+	// private int insuranceID;
 //		private int customerID;
 	private String managerName;
 	private int decisionMoney;
@@ -13,7 +12,6 @@ public class Survey {
 	private boolean responsibility;
 	private String responsibilityReason;
 	private int surveyFee;
-
 
 	/**
 	 * Getters & Setters
@@ -82,4 +80,3 @@ public class Survey {
 		return false;
 	}
 }
-
