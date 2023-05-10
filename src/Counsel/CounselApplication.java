@@ -1,12 +1,12 @@
-package Counsel;
+package counsel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import Customer.Customer;
+import customer.Customer;
 
-public class CounselApplication extends Counsel implements Serializable {
+public class CounselApplication implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String category;
@@ -17,13 +17,15 @@ public class CounselApplication extends Counsel implements Serializable {
 	private String requirement;
 	private ArrayList<Counsel> counselList;
 	public CounselApplication(String inputString){
-		super(inputString);  
+  
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
 		this.category = stringTokenizer.nextToken();
 		this.requirement = stringTokenizer.nextToken();
 
 	}
-
+	public CounselApplication() {
+		
+	}
 	    public boolean requireCounsel(String managerName, int customerID, Customer customer, String requirement) {
 	        // Check if the customer already has an existing counseling schedule
 	        for (Counsel counsel : counselList) {
