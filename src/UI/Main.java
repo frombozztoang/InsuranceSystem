@@ -62,7 +62,7 @@ public class Main {
 				break;
 			case "4":
 				designInsurance(insuranceList, termsListImpl, inputReader);
-				// break;
+				break;
 			case "5":
 				showContractList(contractListImpl, inputReader);
 				break;
@@ -76,11 +76,11 @@ public class Main {
 	private static void retrieveCompensationClaim(CompensationClaimListImpl compensationClaimList,
 			BufferedReader inputReader) throws IOException {
 		System.out.println("****************** Compensation Claim List *******************");
-		System.out.println("ë³´í—˜ID ê³ ê°ID ì²­êµ¬ID ì ‘ìˆ˜ìëª… ì ‘ìˆ˜ìì „í™”ë²ˆí˜¸ ë³´í—˜ê³„ì•½ìì™€ì˜ ê´€ê³„ êµ¬ë¹„ì„œë¥˜íŒŒì¼ê²½ë¡œ ì€í–‰ ê³„ì¢Œë²ˆí˜¸ ì˜ˆê¸ˆì£¼ëª…");
-		// ì›ë˜ëŠ” ë³´í—˜ê¸ˆ ì²­êµ¬ ID(ë³´í—˜ID+ê³ ê°ID), ì ‘ìˆ˜ìëª…, ë³´í—˜ëª…ë§Œ ì¶œë ¥í•´ì•¼í•˜ë‚˜ TUIì—ì„œëŠ” listì „ì²´ë¥¼ ë³´ì—¬ì¤Œ
-		System.out.println("1. ë³´í—˜ê¸ˆ ì²­êµ¬ ë‚´ìš© ë³´ê¸°(ë¯¸êµ¬í˜„)");
-		System.out.println("2. ì†í•´ì‚¬ì •");
-		System.out.println("3. ê²°ì •ë³´í—˜ê¸ˆ ì§€ê¸‰ ìš”ì²­");
+		System.out.println("º¸ÇèID °í°´ID Ã»±¸ID Á¢¼öÀÚ¸í Á¢¼öÀÚÀüÈ­¹øÈ£ º¸Çè°è¾àÀÚ¿ÍÀÇ °ü°è ±¸ºñ¼­·ùÆÄÀÏ°æ·Î ÀºÇà °èÁÂ¹øÈ£ ¿¹±İÁÖ¸í");
+		// ¿ø·¡´Â º¸Çè±İ Ã»±¸ ID(º¸ÇèID+°í°´ID), Á¢¼öÀÚ¸í, º¸Çè¸í¸¸ Ãâ·ÂÇØ¾ßÇÏ³ª TUI¿¡¼­´Â listÀüÃ¼¸¦ º¸¿©ÁÜ
+		System.out.println("1. º¸Çè±İ Ã»±¸ ³»¿ë º¸±â(¹Ì±¸Çö)");
+		System.out.println("2. ¼ÕÇØ»çÁ¤");
+		System.out.println("3. °áÁ¤º¸Çè±İ Áö±Ş ¿äÃ»");
 		String userChoice = "";
 		userChoice = inputReader.readLine().trim();
 		switch (userChoice) {
@@ -91,7 +91,7 @@ public class Main {
 			createSurvey(inputReader);
 			break;
 		case "3":
-			// ì—ëŸ¬ ë‚˜ì„œ ì„ì‹œ ì£¼ì„ ì²˜ë¦¬í•´ë†¨ìŠµë‹ˆë‹¤.
+			// ¿¡·¯ ³ª¼­ ÀÓ½Ã ÁÖ¼® Ã³¸®ÇØ³ù½À´Ï´Ù.
 //			survey.requestBanking();
 		}
 	}
@@ -104,38 +104,38 @@ public class Main {
 			throws IOException, ParseException {
 		CompensationClaim compensationClaim = new CompensationClaim();
 		System.out.println("****************** Compensation Claim *******************");
-		System.out.println("ê°œì¸ì •ë³´ í™•ì¸ì„ ìœ„í•´ ê³ ê°IDë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
+		System.out.println("°³ÀÎÁ¤º¸ È®ÀÎÀ» À§ÇØ °í°´ID¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
 		compensationClaim.setCustomerID(Integer.parseInt(inputReader.readLine().trim()));
-		// ê³ ê° IDê°€ ì—†ì„ ê²½ìš° Alter ì¶”ê°€í•´ì•¼í•¨
-		System.out.println("ê³ ê°ë‹˜ì´ ê°€ì…í•˜ì‹  ë³´í—˜ ì •ë³´ëŠ” ì•„ë˜ì™€ ê°™ìŠµë‹ˆë‹¤.\n" + "ë³´í—˜ê¸ˆì„ ì²­êµ¬í•  ë³´í—˜IDë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
-//		ê³ ê°ì´ ê°€ì…í•œ ë³´í—˜ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ method (in contract)
+		// °í°´ ID°¡ ¾øÀ» °æ¿ì Alter Ãß°¡ÇØ¾ßÇÔ
+		System.out.println("°í°´´ÔÀÌ °¡ÀÔÇÏ½Å º¸Çè Á¤º¸´Â ¾Æ·¡¿Í °°½À´Ï´Ù.\n" + "º¸Çè±İÀ» Ã»±¸ÇÒ º¸ÇèID¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+//		°í°´ÀÌ °¡ÀÔÇÑ º¸Çè¸®½ºÆ® Á¶È¸ method (in contract)
 		compensationClaim.setInsuranceID(Integer.parseInt(inputReader.readLine().trim()));
 		compensationClaim.setCCID(Integer.parseInt(Integer.toString(compensationClaim.getInsuranceID())
 				+ Integer.toString(compensationClaim.getCustomerID())));
-		// idë¡œ insurance ê°ì²´ ì°¾ì•„ì˜¤ê¸°
-		System.out.println("ë³´í—˜ì¢…ë¥˜: {insurance.type}\n" + "ë³´í—˜ëª…: {insurance.insuranceName}\n"
-				+ "ë³´í—˜ê¸ˆ ì²­êµ¬ë¥¼ ìœ„í•œ ì„œë¥˜ ëª©ë¡(í•˜ë‚˜ì˜ ì••ì¶•íŒŒì¼ë¡œ ì—…ë¡œë“œ)\n" + "1. ë³´í—˜ê¸ˆ ì²­êµ¬ì„œ" + "  2. ê°œì¸(ì‹ ìš©)ì •ë³´ì²˜ë¦¬ë™ì˜ì„œ" + "  3. ìˆ˜ìµì ì‹ ë¶„ì¦(ì•ë©´) ì‚¬ë³¸"
-				+ "  4. ìˆ˜ìµì í†µì¥ ì‚¬ë³¸\n" + "ë³´í—˜ì¢…ë¥˜ê°€ ìë™ì°¨ë³´í—˜ì¸ ê²½ìš°, 5. êµí†µì‚¬ê³  ì‚¬ì‹¤ í™•ì¸ì›  6. êµí†µì‚¬ê³ ì‹ ì†ì²˜ë¦¬í˜‘ì˜ì„œ ì¶”ê°€ ì œì¶œ");
-		System.out.print("ì ‘ìˆ˜ìëª…: ");
+		// id·Î insurance °´Ã¼ Ã£¾Æ¿À±â
+		System.out.println("º¸ÇèÁ¾·ù: {insurance.type}\n" + "º¸Çè¸í: {insurance.insuranceName}\n"
+				+ "º¸Çè±İ Ã»±¸¸¦ À§ÇÑ ¼­·ù ¸ñ·Ï(ÇÏ³ªÀÇ ¾ĞÃàÆÄÀÏ·Î ¾÷·Îµå)\n" + "1. º¸Çè±İ Ã»±¸¼­" + "  2. °³ÀÎ(½Å¿ë)Á¤º¸Ã³¸®µ¿ÀÇ¼­" + "  3. ¼öÀÍÀÚ ½ÅºĞÁõ(¾Õ¸é) »çº»"
+				+ "  4. ¼öÀÍÀÚ ÅëÀå »çº»\n" + "º¸ÇèÁ¾·ù°¡ ÀÚµ¿Â÷º¸ÇèÀÎ °æ¿ì, 5. ±³Åë»ç°í »ç½Ç È®ÀÎ¿ø  6. ±³Åë»ç°í½Å¼ÓÃ³¸®ÇùÀÇ¼­ Ãß°¡ Á¦Ãâ");
+		System.out.print("Á¢¼öÀÚ¸í: ");
 		compensationClaim.setReceptionistName(inputReader.readLine().trim());
-		System.out.print("ì ‘ìˆ˜ì ì „í™”ë²ˆí˜¸: ");
+		System.out.print("Á¢¼öÀÚ ÀüÈ­¹øÈ£: ");
 		compensationClaim.setReceptionistPNumber(Integer.parseInt(inputReader.readLine().trim()));
-		System.out.print("ë³´í—˜ê³„ì•½ìì™€ì˜ ê´€ê³„(ì˜ˆ:ë¶€): ");
+		System.out.print("º¸Çè°è¾àÀÚ¿ÍÀÇ °ü°è(¿¹:ºÎ): ");
 		compensationClaim.setRelationshipOfContractor(inputReader.readLine().trim());
-		System.out.print("êµ¬ë¹„ì„œë¥˜ ì—…ë¡œë“œë€: ");
+		System.out.print("±¸ºñ¼­·ù ¾÷·Îµå¶õ: ");
 		compensationClaim.setDocumentFilePath(inputReader.readLine().trim());
-		System.out.print("ì€í–‰: ");
+		System.out.print("ÀºÇà: ");
 		compensationClaim.setBank(inputReader.readLine().trim());
-		System.out.print("ê³„ì¢Œë²ˆí˜¸: ");
+		System.out.print("°èÁÂ¹øÈ£: ");
 		compensationClaim.setAccountNumber(Integer.parseInt(inputReader.readLine().trim()));
-		System.out.print("ì˜ˆê¸ˆì£¼ëª…: ");
+		System.out.print("¿¹±İÁÖ¸í: ");
 		compensationClaim.setAccountHolderName(inputReader.readLine().trim());
 		if (compensationClaimList.createCompensationClaim(compensationClaim)) {
 			if (insuranceList.getInsuranceTypebyId(compensationClaim.getInsuranceID()) == "Car")
 				createCarAccident(compensationClaim, inputReader);
-			System.out.println(compensationClaim.getCCID() + "ì‹ ì²­ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ì‹¬ì‚¬ ê²°ê³¼ì— ë”°ë¼ ë³´ìƒì´ ì œí•œë˜ê±°ë‚˜ ê±°ì ˆë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
+			System.out.println(compensationClaim.getCCID() + "½ÅÃ»ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. ½É»ç °á°ú¿¡ µû¶ó º¸»óÀÌ Á¦ÇÑµÇ°Å³ª °ÅÀıµÉ ¼ö ÀÖ½À´Ï´Ù.");
 		} else
-			System.out.println("ì‹ ì²­ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("½ÅÃ»¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù. ´Ù½Ã ½ÃµµÇØÁÖ½Ê½Ã¿À.");
 	}
 
 	private static void createCarAccident(CompensationClaim compensationClaim, BufferedReader inputReader)
@@ -143,26 +143,26 @@ public class Main {
 		CarAccident carAccident = new CarAccident();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		System.out.println("****************** Compensation Claim - Car Accident*******************");
-		System.out.print("ì‚¬ê³ ìœ í˜•: ");
+		System.out.print("»ç°íÀ¯Çü: ");
 		carAccident.setType(inputReader.readLine().trim());
-		System.out.print("ì‚¬ê³ ë‚ ì§œ: ");
+		System.out.print("»ç°í³¯Â¥: ");
 		carAccident.setDate(formatter.parse(inputReader.readLine().trim()));
-		System.out.print("ì‚¬ê³ ì‹œê°„: ");
+		System.out.print("»ç°í½Ã°£: ");
 		carAccident.setTime(Integer.parseInt(inputReader.readLine().trim()));
-		System.out.print("ì‚¬ê³ ì¥ì†Œ: ");
+		System.out.print("»ç°íÀå¼Ò: ");
 		carAccident.setPlace(inputReader.readLine().trim());
-		System.out.print("ì°¨ëŸ‰ë²ˆí˜¸: ");
+		System.out.print("Â÷·®¹øÈ£: ");
 		carAccident.setCarNumber(inputReader.readLine().trim());
-		System.out.print("ìš´ì „ì ì„±ëª…: ");
+		System.out.print("¿îÀüÀÚ ¼º¸í: ");
 		carAccident.setDriverName(inputReader.readLine().trim());
-		System.out.print("ë©´í—ˆë²ˆí˜¸: ");
+		System.out.print("¸éÇã¹øÈ£: ");
 		carAccident.setLicenseNumber(Integer.parseInt(inputReader.readLine().trim()));
-		System.out.print("ì‚¬ê³  ë‚´ìš©: ");
+		System.out.print("»ç°í ³»¿ë: ");
 		carAccident.setAccidentDetail(inputReader.readLine().trim());
 		if (carAccidentList.createCarAccident(carAccident))
-			System.out.println(compensationClaim.getCCID() + "ì‹ ì²­ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ì‹¬ì‚¬ ê²°ê³¼ì— ë”°ë¼ ë³´ìƒì´ ì œí•œë˜ê±°ë‚˜ ê±°ì ˆë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
+			System.out.println(compensationClaim.getCCID() + "½ÅÃ»ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. ½É»ç °á°ú¿¡ µû¶ó º¸»óÀÌ Á¦ÇÑµÇ°Å³ª °ÅÀıµÉ ¼ö ÀÖ½À´Ï´Ù.");
 		else
-			System.out.println("ì‹ ì²­ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•´ì£¼ì‹­ì‹œì˜¤.");
+			System.out.println("½ÅÃ»¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù. ´Ù½Ã ½ÃµµÇØÁÖ½Ê½Ã¿À.");
 	}
 
 	private static void designInsurance(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl,
@@ -170,8 +170,8 @@ public class Main {
 		String choice = "";
 		while (!choice.equals("x")) {
 			System.out.println("****************** Insurance DESIGN MENU *******************");
-			System.out.println("1. ì„¤ê³„í•œ ë³´í—˜ ì¡°íšŒ 2. ìƒˆ ë³´í—˜ ì„¤ê³„ 3. ì•½ê´€ ê´€ë¦¬ 4. íŒë§¤ì¤‘ì¸ ë³´í—˜ ì¡°íšŒ x. ì¢…ë£Œ");
-			System.out.println("ì„ íƒ : ");
+			System.out.println("1. ¼³°èÇÑ º¸Çè Á¶È¸ 2. »õ º¸Çè ¼³°è 3. ¾à°ü °ü¸® 4. ÆÇ¸ÅÁßÀÎ º¸Çè Á¶È¸ x. Á¾·á");
+			System.out.println("¼±ÅÃ : ");
 			choice = inputReader.readLine().trim();
 			if (choice.equals("1"))
 				showDesignedInsurance(insuranceListImpl, inputReader);
@@ -189,8 +189,8 @@ public class Main {
 	private static void termsManagement(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl,
 			BufferedReader inputReader) throws IOException {
 		System.out.println("****************** Terms Management MENU *******************");
-		System.out.println("1. ì•½ê´€ ì¡°íšŒ 2. ìƒˆ ì•½ê´€ ë“±ë¡");
-		System.out.println("ì„ íƒ : ");
+		System.out.println("1. ¾à°ü Á¶È¸ 2. »õ ¾à°ü µî·Ï");
+		System.out.println("¼±ÅÃ : ");
 		String choice = inputReader.readLine().trim();
 		switch (choice) {
 		case "1":
@@ -208,26 +208,26 @@ public class Main {
 			throws NumberFormatException, IOException {
 		Terms terms = new Terms();
 		System.out.println("--------Terms Info---------");
-		System.out.println("ì•½ê´€ ID : ");
+		System.out.println("¾à°ü ID : ");
 		terms.setTermsID(Integer.valueOf(inputReader.readLine().trim()));
-		System.out.println("ì•½ê´€ëª…  : ");
+		System.out.println("¾à°ü¸í  : ");
 		terms.setTermsName(inputReader.readLine().trim());
-		System.out.println("ì§€ê¸‰ë³´í—˜ê¸ˆ ì‚°ì •ë°©ì‹(,ë¡œ ì´ì–´ì„œ ì‘ì„±) : ");
+		System.out.println("Áö±Şº¸Çè±İ »êÁ¤¹æ½Ä(,·Î ÀÌ¾î¼­ ÀÛ¼º) : ");
 		terms.setCalculatedMoneyMethod(inputReader.readLine().trim());
-		System.out.println("ë³´ì¥ë‚´ìš© : ");
+		System.out.println("º¸Àå³»¿ë : ");
 		terms.setTermsContent(inputReader.readLine().trim());
 		if (termsListImpl.createTerms(terms))
-			System.out.println("ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+			System.out.println("µî·ÏµÇ¾ú½À´Ï´Ù.");
 		else
-			System.out.println("ë“±ë¡ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			System.out.println("µî·ÏµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
 	}
 
 	private static void showDesignedInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
 			throws IOException {
 		showList(insuranceListImpl.getUnregisteredInsuranceList());
 		System.out.println("****************** UnregisteredInsurance MENU *******************");
-		System.out.println("1. ì„ íƒí•œ ë³´í—˜ ìˆ˜ì •/ì‚­ì œí•˜ê¸° 2. íŒë§¤ ì¤‘ìœ¼ë¡œ ë³´í—˜ ë“±ë¡í•˜ê¸° 3. ê¸ˆìœµê°ë…ì›ì— ì¸ê°€ ìš”ì²­ x. ì¢…ë£Œ");
-		System.out.println("ì„ íƒ : ");
+		System.out.println("1. ¼±ÅÃÇÑ º¸Çè ¼öÁ¤/»èÁ¦ÇÏ±â 2. ÆÇ¸Å ÁßÀ¸·Î º¸Çè µî·ÏÇÏ±â 3. ±İÀ¶°¨µ¶¿ø¿¡ ÀÎ°¡ ¿äÃ» x. Á¾·á");
+		System.out.println("¼±ÅÃ : ");
 		String choice = inputReader.readLine().trim();
 		switch (choice) {
 		case "1":
@@ -248,39 +248,39 @@ public class Main {
 
 	private static void requestAuthorization(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
 			throws IOException {
-		System.out.println("ì¸ê°€ë¥¼ ìš”ì²­í•  ë³´í—˜ IDë¥¼ ì…ë ¥í•˜ì„¸ìš”. ì—†ìœ¼ë©´ xë¥¼ ì…ë ¥í•˜ì„¸ìš”");
-		System.out.println("ì„ íƒ : ");
+		System.out.println("ÀÎ°¡¸¦ ¿äÃ»ÇÒ º¸Çè ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ¾øÀ¸¸é x¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		System.out.println("¼±ÅÃ : ");
 		String insuranceID = inputReader.readLine().trim();
 		if (!insuranceID.equals("x")) {
 			if (!insuranceID.equals(null)) {
 				String insuranceName = insuranceListImpl.requestAuthorization(Integer.valueOf(insuranceID));
 				if (!insuranceName.equals(null))
-					System.out.println(insuranceName + "ì¸ê°€ ì‹ ì²­ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤. ì¸ê°€ ì™„ë£Œê¹Œì§€ ìˆ˜ ì¼ì´ ì†Œìš”ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
+					System.out.println(insuranceName + "ÀÎ°¡ ½ÅÃ»ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. ÀÎ°¡ ¿Ï·á±îÁö ¼ö ÀÏÀÌ ¼Ò¿äµÉ ¼ö ÀÖ½À´Ï´Ù.");
 				else
-					System.out.println("ì‹ ì²­ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+					System.out.println("½ÅÃ»¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
 			} else
-				System.out.println("ì•„ë¬´ê²ƒë„ ì…ë ¥ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+				System.out.println("¾Æ¹«°Íµµ ÀÔ·ÂµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
 		}
 	}
 
 	private static void registerInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
 			throws IOException {
-		System.out.println("íŒë§¤ì¤‘ìœ¼ë¡œ ë“±ë¡í•  ë³´í—˜ IDë¥¼ ì…ë ¥í•˜ì„¸ìš”. ì—†ìœ¼ë©´ xë¥¼ ì…ë ¥í•˜ì„¸ìš”");
-		System.out.println("ì„ íƒ : ");
+		System.out.println("ÆÇ¸ÅÁßÀ¸·Î µî·ÏÇÒ º¸Çè ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ¾øÀ¸¸é x¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		System.out.println("¼±ÅÃ : ");
 		String insuranceID = inputReader.readLine().trim();
 		if (!insuranceID.equals("x")) {
 			if (!insuranceID.equals(null)) {
-				System.out.println("ê¸ˆìœµê°ë…ì›ì— ì˜í•´ ì¸ê°€ë°›ì€ ë³´í—˜ì´ í™•ì‹¤í•©ë‹ˆê¹Œ?");
+				System.out.println("±İÀ¶°¨µ¶¿ø¿¡ ÀÇÇØ ÀÎ°¡¹ŞÀº º¸ÇèÀÌ È®½ÇÇÕ´Ï±î?");
 				System.out.println("Y/N : ");
 				String choice = inputReader.readLine().trim();
 				if (choice.equals("Y")) {
 					if (insuranceListImpl.updateAuthorization(Integer.valueOf(insuranceID), true))
-						System.out.println("ì‹ ê·œ ë³´í—˜ ë“±ë¡ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+						System.out.println("½Å±Ô º¸Çè µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
 					else
-						System.out.println("ì‹ ì²­ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+						System.out.println("½ÅÃ»¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
 				}
 			} else
-				System.out.println("ì•„ë¬´ê²ƒë„ ì…ë ¥ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+				System.out.println("¾Æ¹«°Íµµ ÀÔ·ÂµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
 		}
 	}
 
@@ -289,9 +289,9 @@ public class Main {
 		System.out.println("****************** Insurance MENU *******************");
 		String insuranceType = "";
 		while (!insuranceType.equals("x")) {
-			System.out.println("ì¡°íšŒí•˜ì‹¤ ë³´í—˜ ì¢…ë¥˜ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
-			System.out.println("1. ì „ì²´, 2. ìë™ì°¨ë³´í—˜, 3. ìƒí•´/ì§ˆë³‘ë³´í—˜, 4. ì•”ë³´í—˜, 5. í™”ì¬ë³´í—˜ x. ì¢…ë£Œ");
-			System.out.println("ì„ íƒ : ");
+			System.out.println("Á¶È¸ÇÏ½Ç º¸Çè Á¾·ù¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+			System.out.println("1. ÀüÃ¼, 2. ÀÚµ¿Â÷º¸Çè, 3. »óÇØ/Áúº´º¸Çè, 4. ¾Ïº¸Çè, 5. È­Àçº¸Çè x. Á¾·á");
+			System.out.println("¼±ÅÃ : ");
 			insuranceType = inputReader.readLine().trim();
 			if (insuranceType.equals("1"))
 				showList(insuranceListImpl.getOnSaleInsuranceList());
@@ -307,28 +307,28 @@ public class Main {
 				System.out.println("Invalid Choice !!!");
 		}
 		if (who.equals("Customer")) {
-			System.out.println("ë³´í—˜ ì‹ ì²­ ë©”ë‰´ë¡œ ì´ë™í•˜ì‹œê² ìŠµë‹ˆê¹Œ? (Y/N)");
+			System.out.println("º¸Çè ½ÅÃ» ¸Ş´º·Î ÀÌµ¿ÇÏ½Ã°Ú½À´Ï±î? (Y/N)");
 			String choice = inputReader.readLine().trim();
 			if (choice.equals("Y")) {
-				// ë³´í—˜ê°€ì…ì‹ ì²­ë©”ì†Œë“œ();
+				// º¸Çè°¡ÀÔ½ÅÃ»¸Ş¼Òµå();
 			}
 		} else {
-			System.out.println("ì„¤ê³„ ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
+			System.out.println("¼³°è ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
 		}
 	}
 
 	private static void updateInsuranceDetail(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
 			throws IOException {
-		System.out.println("ìˆ˜ì •/ì‚­ì œí•  ì„¤ê³„ì„œì˜ ë³´í—˜ IDë¥¼ ì…ë ¥í•˜ì„¸ìš”. ì—†ìœ¼ë©´ xë¥¼ ì…ë ¥í•˜ì„¸ìš”");
+		System.out.println("¼öÁ¤/»èÁ¦ÇÒ ¼³°è¼­ÀÇ º¸Çè ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ¾øÀ¸¸é x¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
 		String insuranceID = "";
 		Insurance insurance;
 		if (!insuranceID.equals("x")) {
 			if (!insuranceID.equals(null)) {
-				System.out.println("ì„ íƒ : ");
+				System.out.println("¼±ÅÃ : ");
 				insuranceID = inputReader.readLine().trim();
 				insurance = insuranceListImpl.retrieveInsuranceDetail(Integer.valueOf(insuranceID));
 				System.out.println(insurance.toString());
-				System.out.println("1. ìˆ˜ì •í•˜ê¸°, 2. ì‚­ì œí•˜ê¸°");
+				System.out.println("1. ¼öÁ¤ÇÏ±â, 2. »èÁ¦ÇÏ±â");
 				String choice = inputReader.readLine().trim();
 				switch (choice) {
 				case "1":
@@ -348,55 +348,55 @@ public class Main {
 			throws IOException {
 		Insurance insurance = new Insurance();
 		System.out.println("--------Insurance Info---------");
-		System.out.println("ë³´í—˜ ID : ");
+		System.out.println("º¸Çè ID : ");
 		insurance.setInsuranceID(Integer.valueOf(inputReader.readLine().trim()));
-		System.out.println("ë³´í—˜ ì´ë¦„ : ");
+		System.out.println("º¸Çè ÀÌ¸§ : ");
 		insurance.setInsuranceName(inputReader.readLine().trim());
-		System.out.println("ë³´í—˜ ì¢…ë¥˜ : ");
+		System.out.println("º¸Çè Á¾·ù : ");
 		insurance.setType(inputReader.readLine().trim());
-		System.out.println("ë³´í—˜ê°€ì…ê¸ˆì•¡ : ");
+		System.out.println("º¸Çè°¡ÀÔ±İ¾× : ");
 		insurance.setMaxCompensation(Integer.valueOf(inputReader.readLine().trim()));
-		System.out.println("ë³´í—˜ ê¸°ê°„ : ");
+		System.out.println("º¸Çè ±â°£ : ");
 		insurance.setPeriodOfInsurance(inputReader.readLine().trim());
-		System.out.println("ë‚©ì… ì£¼ê¸° : ");
+		System.out.println("³³ÀÔ ÁÖ±â : ");
 		insurance.setPaymentCycle(inputReader.readLine().trim());
-		System.out.println("ë‚©ì… ê¸°ê°„ : ");
+		System.out.println("³³ÀÔ ±â°£ : ");
 		insurance.setPaymentPeriod(inputReader.readLine().trim());
-		System.out.println("ê°€ì… ë‚˜ì´ : ");
+		System.out.println("°¡ÀÔ ³ªÀÌ : ");
 		insurance.setAgeOfTarget(inputReader.readLine().trim());
-		System.out.println("ê¸°ë³¸ ë³´í—˜ë£Œ : ");
+		System.out.println("±âº» º¸Çè·á : ");
 		insurance.setBasicPremium(Integer.valueOf(inputReader.readLine().trim()));
-		System.out.println("ìš”ìœ¨ : ");
+		System.out.println("¿äÀ² : ");
 		insurance.setRate(inputReader.readLine().trim());
-		System.out.println("ë°°ë‹¹ ì—¬ë¶€(False/True) : ");
+		System.out.println("¹è´ç ¿©ºÎ(False/True) : ");
 		insurance.setDistributionStatus(Boolean.parseBoolean(inputReader.readLine().trim()));
 		while (true) {
-			System.out.println("ë³´ì¥ ë‚´ìš©(ì•½ê´€ID, ì½¤ë§ˆë¡œ êµ¬ë¶„í•´ì£¼ì„¸ìš”) : ");
+			System.out.println("º¸Àå ³»¿ë(¾à°üID, ÄŞ¸¶·Î ±¸ºĞÇØÁÖ¼¼¿ä) : ");
 			if (insurance.setTermsIDList(inputReader.readLine().trim()) == false)
-				System.out.println("ì•½ê´€IDê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”");
+				System.out.println("¾à°üID°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä");
 			else
 				break;
 		}
-		System.out.println("ì£¼ì˜ì‚¬í•­ : ");
+		System.out.println("ÁÖÀÇ»çÇ× : ");
 		insurance.setPrecaution(inputReader.readLine().trim());
-		System.out.println("ë³´í—˜ ë©´ì±… ê¸°ê°„ : ");
+		System.out.println("º¸Çè ¸éÃ¥ ±â°£ : ");
 		insurance.setInsuranceClausePeriod(Integer.valueOf(inputReader.readLine().trim()));
 		if (insuranceListImpl.createInsurance(insurance))
-			System.out.println("ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+			System.out.println("µî·ÏµÇ¾ú½À´Ï´Ù.");
 		else
-			System.out.println("ë“±ë¡ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+			System.out.println("µî·ÏµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
 	}
 
 	private static void updateInsurance(Insurance insurance, InsuranceListImpl insuranceListImpl,
 			BufferedReader inputReader) throws IOException {
 		String choice = "";
 
-		System.out.println("ìˆ˜ì •í•  ì •ë³´ë¥¼ ì„ íƒí•˜ì„¸ìš”.");
+		System.out.println("¼öÁ¤ÇÒ Á¤º¸¸¦ ¼±ÅÃÇÏ¼¼¿ä.");
 		System.out.println(
-				"1. ë³´í—˜ ID, 2. ë³´í—˜ ì´ë¦„, 3. ë³´í—˜ ì¢…ë¥˜, 4. ë³´í—˜ê°€ì…ê¸ˆì•¡, 5. ë³´í—˜ ê¸°ê°„, 6. ë‚©ì… ì£¼ê¸°, 7. ë‚©ì… ê¸°ê°„, 8. ê°€ì… ë‚˜ì´, 9. ê¸°ë³¸ ë³´í—˜ë£Œ, 10. ìš”ìœ¨, "
-						+ "11. ë°°ë‹¹ ì—¬ë¶€(False/True), 12. ë³´ì¥ ë‚´ìš©(ì•½ê´€ID, ì½¤ë§ˆë¡œ êµ¬ë¶„í•´ì£¼ì„¸ìš”), 13. ì£¼ì˜ì‚¬í•­, 14. ë³´í—˜ ë©´ì±… ê¸°ê°„");
+				"1. º¸Çè ID, 2. º¸Çè ÀÌ¸§, 3. º¸Çè Á¾·ù, 4. º¸Çè°¡ÀÔ±İ¾×, 5. º¸Çè ±â°£, 6. ³³ÀÔ ÁÖ±â, 7. ³³ÀÔ ±â°£, 8. °¡ÀÔ ³ªÀÌ, 9. ±âº» º¸Çè·á, 10. ¿äÀ², "
+						+ "11. ¹è´ç ¿©ºÎ(False/True), 12. º¸Àå ³»¿ë(¾à°üID, ÄŞ¸¶·Î ±¸ºĞÇØÁÖ¼¼¿ä), 13. ÁÖÀÇ»çÇ×, 14. º¸Çè ¸éÃ¥ ±â°£");
 		choice = inputReader.readLine().trim();
-		System.out.println("ìˆ˜ì •í•  ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”");
+		System.out.println("¼öÁ¤ÇÒ ³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä");
 		String content = inputReader.readLine().trim();
 		switch (choice) {
 		case ("1"):
@@ -434,7 +434,7 @@ public class Main {
 			break;
 		case ("12"):
 			if (insurance.setTermsIDList(content) == false)
-				System.out.println("ì•½ê´€ IDê°€ ì¡´ì¬í•˜ì§€ ì•Šì•„ ì •ë³´ê°€ ì €ì¥ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+				System.out.println("¾à°ü ID°¡ Á¸ÀçÇÏÁö ¾Ê¾Æ Á¤º¸°¡ ÀúÀåµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
 			break;
 		case ("13"):
 			insurance.setPrecaution(content);
@@ -447,22 +447,22 @@ public class Main {
 		}
 
 		if (insuranceListImpl.updateinsurance(insurance))
-			System.out.println("ìˆ˜ì •ì´ ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
+			System.out.println("¼öÁ¤ÀÌ ÀúÀåµÇ¾ú½À´Ï´Ù.");
 		else
-			System.out.println("ìˆ˜ì •ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+			System.out.println("¼öÁ¤¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
 	}
 
 	private static void deleteInsurance(InsuranceListImpl insuranceListImpl, String insuranceID,
 			BufferedReader inputReader) throws IOException {
-		System.out.println("ë³´í—˜ID : " + insuranceID + "ë¥¼ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ? (Y/N)");
+		System.out.println("º¸ÇèID : " + insuranceID + "¸¦ »èÁ¦ÇÏ½Ã°Ú½À´Ï±î? (Y/N)");
 		String choice = inputReader.readLine().trim();
 		if (choice.equals("Y"))
 			if (insuranceListImpl.deleteInsurance(Integer.valueOf(insuranceID)))
-				System.out.println("ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
+				System.out.println("»èÁ¦µÇ¾ú½À´Ï´Ù.");
 			else
-				System.out.println("ì‚­ì œì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
+				System.out.println("»èÁ¦¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
 		else if (choice.equals("N"))
-			System.out.println("ì‚­ì œê°€ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+			System.out.println("»èÁ¦°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
 		else
 			System.out.println("Invalid Choice !!!");
 	}
@@ -477,11 +477,11 @@ public class Main {
 
 	private static void showMenu() {
 		System.out.println("****************** Initial Menu *******************");
-		System.out.println("1. ë³´í—˜ê¸ˆ ì²­êµ¬");
-		System.out.println("2. ë³´í—˜ê¸ˆ ì²­êµ¬ ë‚´ì—­(ì§ì›ìš©)");
-		System.out.println("3. ë³´í—˜ ì¡°íšŒ");
-		System.out.println("4. ë³´í—˜ ì„¤ê³„(ì§ì›ìš©)");
-		System.out.println("5. ê³„ì•½ ê´€ë¦¬");
+		System.out.println("1. º¸Çè±İ Ã»±¸");
+		System.out.println("2. º¸Çè±İ Ã»±¸ ³»¿ª(Á÷¿ø¿ë)");
+		System.out.println("3. º¸Çè Á¶È¸");
+		System.out.println("4. º¸Çè ¼³°è(Á÷¿ø¿ë)");
+		System.out.println("5. °è¾à °ü¸®");
 		System.out.println("x. Exit");
 
 	}
@@ -489,10 +489,10 @@ public class Main {
 	private static void showContractList(ContractListImpl contractListImpl, BufferedReader systemInput)
 			throws Exception {
 		System.out.println("\n\n****************** Contract MENU *******************");
-		System.out.println("1. ë‚©ì… ë‚´ì—­");
-		System.out.println("2. ì¤‘ë„ í•´ì§€");
-		System.out.println("3. ë§Œê¸° ë³´í—˜ í•´ì§€");
-		System.out.println("X. ë©”ë‰´ ë³´ê¸°");
+		System.out.println("1. ³³ÀÔ ³»¿ª");
+		System.out.println("2. Áßµµ ÇØÁö");
+		System.out.println("3. ¸¸±â º¸Çè ÇØÁö");
+		System.out.println("X. ¸Ş´º º¸±â");
 
 		System.out.println("\n--------Contract Info-------------");
 		showList(contractListImpl.retrieve());
@@ -513,7 +513,7 @@ public class Main {
 				try {
 					Integer.parseInt(Choice);
 				} catch (NumberFormatException e) {
-					System.out.println("\n[System] ìœ íš¨í•˜ì§€ ì•Šì€ ê°’ì…ë‹ˆë‹¤.");
+					System.out.println("\n[System] À¯È¿ÇÏÁö ¾ÊÀº °ªÀÔ´Ï´Ù.");
 				}
 
 				break;
@@ -523,20 +523,20 @@ public class Main {
 
 	private static void updateMaturityCancellation(ContractListImpl contractListImpl, BufferedReader systemInput)
 			throws Exception {
-		System.out.println("\n[System] ê³ ê°ë‹˜ì˜ IDë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”. ");
-		System.out.print("ê³ ê° ID : ");
+		System.out.println("\n[System] °í°´´ÔÀÇ ID¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. ");
+		System.out.print("°í°´ ID : ");
 		String customerID = systemInput.readLine().trim();
 
 		if (contractListImpl.retreiveCustomerContract(Integer.parseInt(customerID)).isEmpty()) {
-			System.out.println("\n[System] ë“±ë¡ë˜ì§€ ì•Šì€ ê³ ê°ì˜ ì •ë³´ì…ë‹ˆë‹¤.");
-			showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+			System.out.println("\n[System] µî·ÏµÇÁö ¾ÊÀº °í°´ÀÇ Á¤º¸ÀÔ´Ï´Ù.");
+			showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 			return;
 		}
 
 		System.out.println("\n\n****************** MaturityCancellation MENU *******************");
-		System.out.println("1. ë§Œê¸° ë³´í—˜ í•´ì§€ ì•½ê´€ ì•ˆë‚´");
-		System.out.println("2. ë§Œê¸° ë³´í—˜ í•´ì§€ í•˜ê¸°");
-		System.out.println("X. ë©”ë‰´ ë³´ê¸°");
+		System.out.println("1. ¸¸±â º¸Çè ÇØÁö ¾à°ü ¾È³»");
+		System.out.println("2. ¸¸±â º¸Çè ÇØÁö ÇÏ±â");
+		System.out.println("X. ¸Ş´º º¸±â");
 
 		String choice = systemInput.readLine().trim();
 		switch (choice) {
@@ -553,7 +553,7 @@ public class Main {
 			try {
 				Integer.parseInt(choice);
 			} catch (NumberFormatException e) {
-				System.out.println("\n[System] ìœ íš¨í•˜ì§€ ì•Šì€ ê°’ì…ë‹ˆë‹¤.");
+				System.out.println("\n[System] À¯È¿ÇÏÁö ¾ÊÀº °ªÀÔ´Ï´Ù.");
 			}
 			break;
 		}
@@ -566,43 +566,43 @@ public class Main {
 
 		showList(contractListImpl.retreiveCustomerContract(Integer.parseInt(customerID)));
 
-		System.out.print("\n[System] í•´ì§€í•  ê³„ì•½ ë¦¬ìŠ¤íŠ¸ì˜ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”. ");
+		System.out.print("\n[System] ÇØÁöÇÒ °è¾à ¸®½ºÆ®ÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ");
 		int contractIndex = Integer.parseInt(systemInput.readLine().trim());
 		boolean getCustomerMaturity = contractListImpl.getCustomerMaturity(customerID, contractIndex);
 
-		// ì´ë¯¸ í•´ì§€ëœ ë³´í—˜ì¸ ê²½ìš°
+		// ÀÌ¹Ì ÇØÁöµÈ º¸ÇèÀÎ °æ¿ì
 		if (getCustomerMaturity) {
-			System.out.println("\n[System] ì´ë¯¸ í•´ì§€ëœ ë§Œê¸° ë³´í—™ì…ë‹ˆë‹¤.");
-			showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+			System.out.println("\n[System] ÀÌ¹Ì ÇØÁöµÈ ¸¸±â º¸ÇéÀÔ´Ï´Ù.");
+			showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 		}
 
 		boolean isMatchCustomerContract = contractListImpl.isMatchCustomerContract(contractIndex, customerID);
 		if (isMatchCustomerContract) {
 			boolean isUpdated = contractListImpl.updateMaturity(contractIndex);
 			if (isUpdated) {
-				System.out.println("\n[System] í•´ì§€ ì•½ê´€ì— ë™ì˜í•˜ì‹­ë‹ˆê¹Œ? (Y/N) ");
+				System.out.println("\n[System] ÇØÁö ¾à°ü¿¡ µ¿ÀÇÇÏ½Ê´Ï±î? (Y/N) ");
 				String agree = systemInput.readLine().trim();
 				if (agree.equals("N")) {
-					System.out.println("\n[System] í•´ì§€ ì•½ê´€ì— ë™ì˜í•˜ì§€ ì•Šì„ ê²½ìš° í•´ì§€ê°€ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤.");
-					showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+					System.out.println("\n[System] ÇØÁö ¾à°ü¿¡ µ¿ÀÇÇÏÁö ¾ÊÀ» °æ¿ì ÇØÁö°¡ ºÒ°¡´ÉÇÕ´Ï´Ù.");
+					showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 				} else {
-					System.out.println("\n[System] í•´ì§€ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
-					// í•´ì§€ í™˜ê¸‰ê¸ˆ ìš”ì²­ í™”ë©´ ì—°ê²°
-					System.out.println("\n-------- [ê³ ê° " + customerID + "] ë‚©ì… ë‚´ì—­" + "-------------");
+					System.out.println("\n[System] ÇØÁö°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+					// ÇØÁö È¯±Ş±İ ¿äÃ» È­¸é ¿¬°á
+					System.out.println("\n-------- [°í°´ " + customerID + "] ³³ÀÔ ³»¿ª" + "-------------");
 					System.out.println(contractListImpl.retreiveCustomerContract(Integer.parseInt(customerID)));
-					showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+					showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 
 				}
 				return;
 			} else {
-				System.out.println("\n[System] ì˜ëª»ëœ ì •ë³´ì…ë‹ˆë‹¤.");
-				showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+				System.out.println("\n[System] Àß¸øµÈ Á¤º¸ÀÔ´Ï´Ù.");
+				showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 			}
 		} else {
-			System.out.println("\n[System] ì˜ëª»ëœ ê³„ì•½ ë¦¬ìŠ¤íŠ¸ ë²ˆí˜¸ì…ë‹ˆë‹¤.");
-			showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+			System.out.println("\n[System] Àß¸øµÈ °è¾à ¸®½ºÆ® ¹øÈ£ÀÔ´Ï´Ù.");
+			showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 		}
-		showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+		showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 		return;
 
 	}
@@ -614,20 +614,20 @@ public class Main {
 
 	private static void earlyTerminationInsurance(ContractListImpl contractListImpl, BufferedReader systemInput)
 			throws Exception {
-		System.out.println("\n[System] ê³ ê°ë‹˜ì˜ IDë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”. ");
-		System.out.print("ê³ ê° ID : ");
+		System.out.println("\n[System] °í°´´ÔÀÇ ID¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. ");
+		System.out.print("°í°´ ID : ");
 		String customerID = systemInput.readLine().trim();
 
 		if (contractListImpl.retreiveCustomerContract(Integer.parseInt(customerID)).isEmpty()) {
-			System.out.println("\n[System] ë“±ë¡ë˜ì§€ ì•Šì€ ê³ ê°ì˜ ì •ë³´ì…ë‹ˆë‹¤.");
-			showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+			System.out.println("\n[System] µî·ÏµÇÁö ¾ÊÀº °í°´ÀÇ Á¤º¸ÀÔ´Ï´Ù.");
+			showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 			return;
 		}
 
 		System.out.println("\n\n****************** earlyTermination MENU *******************");
-		System.out.println("1. ì¤‘ë„ í•´ì§€ ì•½ê´€ ì•ˆë‚´");
-		System.out.println("2. ì¤‘ë„ í•´ì§€ í•˜ê¸°");
-		System.out.println("X. ë©”ë‰´ ë³´ê¸°");
+		System.out.println("1. Áßµµ ÇØÁö ¾à°ü ¾È³»");
+		System.out.println("2. Áßµµ ÇØÁö ÇÏ±â");
+		System.out.println("X. ¸Ş´º º¸±â");
 
 		String choice = systemInput.readLine().trim();
 		switch (choice) {
@@ -644,7 +644,7 @@ public class Main {
 			try {
 				Integer.parseInt(choice);
 			} catch (NumberFormatException e) {
-				System.out.println("\n[System] ìœ íš¨í•˜ì§€ ì•Šì€ ê°’ì…ë‹ˆë‹¤.");
+				System.out.println("\n[System] À¯È¿ÇÏÁö ¾ÊÀº °ªÀÔ´Ï´Ù.");
 			}
 			break;
 		}
@@ -662,41 +662,41 @@ public class Main {
 
 		showList(contractListImpl.retreiveCustomerContract(Integer.parseInt(customerID)));
 
-		System.out.print("\n[System] í•´ì§€í•  ê³„ì•½ ë¦¬ìŠ¤íŠ¸ì˜ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”. ");
+		System.out.print("\n[System] ÇØÁöÇÒ °è¾à ¸®½ºÆ®ÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ");
 		int contractIndex = Integer.parseInt(systemInput.readLine().trim());
 		boolean getCustomerCancellation = contractListImpl.getCustomerCancellation(customerID, contractIndex);
-		// ì´ë¯¸ í•´ì§€ëœ ë³´í—˜ì¸ ê²½ìš°
+		// ÀÌ¹Ì ÇØÁöµÈ º¸ÇèÀÎ °æ¿ì
 		if (getCustomerCancellation) {
-			System.out.println("\n[System] ì´ë¯¸ ì¤‘ë„ í•´ì§€ëœ ë³´í—™ì…ë‹ˆë‹¤.");
-			showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+			System.out.println("\n[System] ÀÌ¹Ì Áßµµ ÇØÁöµÈ º¸ÇéÀÔ´Ï´Ù.");
+			showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 		}
 		boolean isMatchCustomerContract = contractListImpl.isMatchCustomerContract(contractIndex, customerID);
 		if (isMatchCustomerContract) {
 			boolean isUpdated = contractListImpl.updateCancellation(contractIndex);
 			if (isUpdated) {
-				System.out.println("\n[System] í•´ì§€ ì•½ê´€ì— ë™ì˜í•˜ì‹­ë‹ˆê¹Œ? (Y/N) ");
+				System.out.println("\n[System] ÇØÁö ¾à°ü¿¡ µ¿ÀÇÇÏ½Ê´Ï±î? (Y/N) ");
 				String agree = systemInput.readLine().trim();
 				if (agree.equals("N")) {
-					System.out.println("\n[System] í•´ì§€ ì•½ê´€ì— ë™ì˜í•˜ì§€ ì•Šì„ ê²½ìš° í•´ì§€ê°€ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤.");
-					showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+					System.out.println("\n[System] ÇØÁö ¾à°ü¿¡ µ¿ÀÇÇÏÁö ¾ÊÀ» °æ¿ì ÇØÁö°¡ ºÒ°¡´ÉÇÕ´Ï´Ù.");
+					showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 				} else {
-					System.out.println("\n[System] í•´ì§€ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
-					// í•´ì§€ í™˜ê¸‰ê¸ˆ ìš”ì²­ í™”ë©´ ì—°ê²°
-					System.out.println("\n-------- [ê³ ê° " + customerID + "] ë‚©ì… ë‚´ì—­" + "-------------");
+					System.out.println("\n[System] ÇØÁö°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+					// ÇØÁö È¯±Ş±İ ¿äÃ» È­¸é ¿¬°á
+					System.out.println("\n-------- [°í°´ " + customerID + "] ³³ÀÔ ³»¿ª" + "-------------");
 					System.out.println(contractListImpl.retreiveCustomerContract(Integer.parseInt(customerID)));
-					showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+					showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 
 				}
 				return;
 			} else {
-				System.out.println("\n[System] ì˜ëª»ëœ ì •ë³´ì…ë‹ˆë‹¤.");
-				showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+				System.out.println("\n[System] Àß¸øµÈ Á¤º¸ÀÔ´Ï´Ù.");
+				showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 			}
 		} else {
-			System.out.println("\n[System] ì˜ëª»ëœ ê³„ì•½ ë¦¬ìŠ¤íŠ¸ ë²ˆí˜¸ì…ë‹ˆë‹¤.");
-			showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+			System.out.println("\n[System] Àß¸øµÈ °è¾à ¸®½ºÆ® ¹øÈ£ÀÔ´Ï´Ù.");
+			showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 		}
-		showContractList(contractListImpl, systemInput); // showContract ë©”ì„œë“œ í˜¸ì¶œ
+		showContractList(contractListImpl, systemInput); // showContract ¸Ş¼­µå È£Ãâ
 		return;
 
 	}
@@ -704,8 +704,8 @@ public class Main {
 	private static String showPaymentList(PaymentListImpl paymentListImpl, BufferedReader systemInput)
 			throws Exception {
 		System.out.println("\n\n****************** Payment MENU *******************");
-		System.out.println("1. ë‚©ì… ìƒíƒœ ë³€ê²½");
-		System.out.println("X. ë©”ë‰´ ë³´ê¸°");
+		System.out.println("1. ³³ÀÔ »óÅÂ º¯°æ");
+		System.out.println("X. ¸Ş´º º¸±â");
 
 		System.out.println("\n--------Payment Info-------------");
 		showList(paymentListImpl.retrieve());
@@ -720,51 +720,51 @@ public class Main {
 				try {
 					Integer.parseInt(Choice);
 				} catch (NumberFormatException e) {
-					System.out.println("\n[System] ìœ íš¨í•˜ì§€ ì•Šì€ ê°’ì…ë‹ˆë‹¤.");
+					System.out.println("\n[System] À¯È¿ÇÏÁö ¾ÊÀº °ªÀÔ´Ï´Ù.");
 				}
 				break;
 			}
 			Choice = systemInput.readLine().trim();
 		}
-		return Choice; // showPaymentListì—ì„œ ë°˜í™˜ê°’ì„ ì‚¬ìš©
+		return Choice; // showPaymentList¿¡¼­ ¹İÈ¯°ªÀ» »ç¿ë
 	}
 
 	private static void updatePayment(PaymentListImpl paymentListImpl, BufferedReader systemInput) throws Exception {
-		// Customer ì—°ë™ í›„ ì´ë¦„ìœ¼ë¡œ ìˆ˜ì •
-		System.out.println("\n[System] ê³„ì•½ ë‚©ì… ë‚´ì—­ì„ í™•ì¸í•  ê³ ê° IDë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
-		System.out.print("ê³ ê° ID : ");
+		// Customer ¿¬µ¿ ÈÄ ÀÌ¸§À¸·Î ¼öÁ¤
+		System.out.println("\n[System] °è¾à ³³ÀÔ ³»¿ªÀ» È®ÀÎÇÒ °í°´ ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+		System.out.print("°í°´ ID : ");
 		String customerID = systemInput.readLine().trim();
 
-		// í™”ë©´ ìƒìœ¼ë¡œëŠ” list ì„ íƒ, TUIë¡œëŠ” ê³ ê°IDì™€ ë³´í—˜IDê°€ ì¤‘ë³µë˜ëŠ” ê²½ìš°ê°€ ìˆì–´ ì´ë¥¼ í†µí•´ match ë¶ˆê°€ëŠ¥í•˜ì—¬ indexë¡œ ì„ì˜ë¡œ
-		// matchí•¨
+		// È­¸é »óÀ¸·Î´Â list ¼±ÅÃ, TUI·Î´Â °í°´ID¿Í º¸ÇèID°¡ Áßº¹µÇ´Â °æ¿ì°¡ ÀÖ¾î ÀÌ¸¦ ÅëÇØ match ºÒ°¡´ÉÇÏ¿© index·Î ÀÓÀÇ·Î
+		// matchÇÔ
 		if (paymentListImpl.retreiveCustomerPayment(Integer.parseInt(customerID)).isEmpty()) {
-			System.out.println("\n[System] ë“±ë¡ë˜ì§€ ì•Šì€ ê³ ê°ì˜ ì •ë³´ì…ë‹ˆë‹¤.");
-			showPaymentList(paymentListImpl, systemInput); // showPaymentList ë©”ì„œë“œ í˜¸ì¶œ
+			System.out.println("\n[System] µî·ÏµÇÁö ¾ÊÀº °í°´ÀÇ Á¤º¸ÀÔ´Ï´Ù.");
+			showPaymentList(paymentListImpl, systemInput); // showPaymentList ¸Ş¼­µå È£Ãâ
 			return;
 		}
-		System.out.println("\n-------- [ê³ ê° " + customerID + "] ë‚©ì… ë‚´ì—­" + "-------------");
+		System.out.println("\n-------- [°í°´ " + customerID + "] ³³ÀÔ ³»¿ª" + "-------------");
 		System.out.println(paymentListImpl.retreiveCustomerPayment(Integer.parseInt(customerID)));
-		System.out.println("\n[System] ë³€ê²½í•  ë‚©ì… ë¦¬ìŠ¤íŠ¸ì˜ ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
-		System.out.print("ë‚©ì… ë¦¬ìŠ¤íŠ¸ ë²ˆí˜¸ : ");
+		System.out.println("\n[System] º¯°æÇÒ ³³ÀÔ ¸®½ºÆ®ÀÇ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+		System.out.print("³³ÀÔ ¸®½ºÆ® ¹øÈ£ : ");
 		int paymentID = Integer.parseInt(systemInput.readLine().trim());
 		boolean isMatchCustomerPayment = paymentListImpl.isMatchCustomerPayment(paymentID, customerID);
 		if (isMatchCustomerPayment) {
 			boolean isUpdated = paymentListImpl.updateWheterPayment(paymentID);
 			if (isUpdated) {
-				System.out.println("\n[System] ë‚©ì… ìƒíƒœë¥¼ ë³€ê²½í–ˆìŠµë‹ˆë‹¤.");
-				System.out.println("\n-------- [ê³ ê° " + customerID + "] ë‚©ì… ë‚´ì—­" + "-------------");
+				System.out.println("\n[System] ³³ÀÔ »óÅÂ¸¦ º¯°æÇß½À´Ï´Ù.");
+				System.out.println("\n-------- [°í°´ " + customerID + "] ³³ÀÔ ³»¿ª" + "-------------");
 				System.out.println(paymentListImpl.retreiveCustomerPayment(Integer.parseInt(customerID)));
-				showPaymentList(paymentListImpl, systemInput); // showPaymentList ë©”ì„œë“œ í˜¸ì¶œ
+				showPaymentList(paymentListImpl, systemInput); // showPaymentList ¸Ş¼­µå È£Ãâ
 				return;
 			} else {
-				System.out.println("\n[System] ì˜ëª»ëœ ì •ë³´ì…ë‹ˆë‹¤.");
-				showPaymentList(paymentListImpl, systemInput); // showPaymentList ë©”ì„œë“œ í˜¸ì¶œ
+				System.out.println("\n[System] Àß¸øµÈ Á¤º¸ÀÔ´Ï´Ù.");
+				showPaymentList(paymentListImpl, systemInput); // showPaymentList ¸Ş¼­µå È£Ãâ
 			}
 		} else {
-			System.out.println("\n[System] ì˜ëª»ëœ ë‚©ì… ë¦¬ìŠ¤íŠ¸ ë²ˆí˜¸ì…ë‹ˆë‹¤.");
-			showPaymentList(paymentListImpl, systemInput); // showPaymentList ë©”ì„œë“œ í˜¸ì¶œ
+			System.out.println("\n[System] Àß¸øµÈ ³³ÀÔ ¸®½ºÆ® ¹øÈ£ÀÔ´Ï´Ù.");
+			showPaymentList(paymentListImpl, systemInput); // showPaymentList ¸Ş¼­µå È£Ãâ
 		}
-		showPaymentList(paymentListImpl, systemInput); // showPaymentList ë©”ì„œë“œ í˜¸ì¶œ
+		showPaymentList(paymentListImpl, systemInput); // showPaymentList ¸Ş¼­µå È£Ãâ
 		return;
 
 	}
