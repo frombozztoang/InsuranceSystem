@@ -1,4 +1,4 @@
-package Customer;
+package customer;
 
 import java.util.StringTokenizer;
 
@@ -13,6 +13,8 @@ public class FamilyHistory {
 		this.relationship = stringTokenizer.nextToken();
 		
 
+	}
+	public FamilyHistory() {
 	}
 	public int getCustomerID() {
 		return customerID;
