@@ -79,4 +79,7 @@ public class Survey {
 	public boolean createSurvey(BufferedReader inputReader) {
 		return false;
 	}
+
+	public void requestBanking() {
+	}
 }
