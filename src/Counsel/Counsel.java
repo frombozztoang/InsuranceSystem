@@ -24,7 +24,7 @@ public class Counsel {
 
 	}
 	public Counsel() {
-		this.counselApplication = new CounselApplication();
+//		this.counselApplication = new CounselApplication();
 	}
 	 public Counsel (String managerName, int customerID, Customer customer, String requirement) {
 		
