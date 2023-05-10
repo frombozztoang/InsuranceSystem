@@ -7,11 +7,11 @@ public class Survey {
 	// private int insuranceID;
 //		private int customerID;
 	private String managerName;
-	private int decisionMoney;
 	private String reportFilePath;
+	private int surveyFee;
+	private int decisionMoney;
 	private boolean responsibility;
 	private String responsibilityReason;
-	private int surveyFee;
 
 	/**
 	 * Getters & Setters

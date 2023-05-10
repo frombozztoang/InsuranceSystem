@@ -22,9 +22,9 @@ import java.util.ArrayList;
 public class Main {
 
 	private static CompensationClaimListImpl compensationClaimList;
+	private static SurveyListImpl surveyList;
 	private static CarAccidentListImpl carAccidentList;
 	private static ContractList contract;
-	private static Survey survey;
 
 	public static void main(String[] args) throws Exception {
 		compensationClaimList = new CompensationClaimListImpl("data/CompensationClaim.txt");
@@ -64,6 +64,7 @@ public class Main {
 	private static void retrieveCompensationClaim(CompensationClaimListImpl compensationClaimList, BufferedReader inputReader) throws IOException {
 		System.out.println("****************** Compensation Claim List *******************");
 		System.out.println("보험ID 고객ID 청구ID 접수자명 접수자전화번호 보험계약자와의 관계 구비서류파일경로 은행 계좌번호 예금주명");
+		showList(compensationClaimList.retrieve());
 		// 원래는 보험금 청구 ID(보험ID+고객ID), 접수자명, 보험명만 출력해야하나 TUI에서는 list전체를 보여줌
 		System.out.println("1. 손해사정");
 		System.out.println("2. 결정보험금 지급 요청");
@@ -71,15 +72,16 @@ public class Main {
 		userChoice = inputReader.readLine().trim();
 		switch (userChoice) {
 		case "1":
-			createSurvey(inputReader);
+			createSurvey(surveyList, inputReader);
 			break;
 		case "2":
-			survey.requestBanking();
+//			survey.requestBanking();
 			break;
 		}
 	}
 
-	private static void createSurvey(BufferedReader inputReader) throws IOException {
+	private static void createSurvey(SurveyListImpl surveyList, BufferedReader inputReader) throws IOException {
+		System.out.println("****************** Survey *******************");
 
 	}
 
