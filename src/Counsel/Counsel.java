@@ -1,10 +1,10 @@
-package counsel;
+package Counsel;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import customer.Customer;
+import Customer.Customer;
 
 public class Counsel {
 	private String content;
@@ -15,12 +15,16 @@ public class Counsel {
 	private String requirement;
 	private ArrayList<Counsel> counselList;
 	private Customer customer;
-   
+	//composition
+	public CounselApplication counselApplication;
 	public Counsel(String inputString) {
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
 		this.content = stringTokenizer.nextToken();
 		this.managerName = stringTokenizer.nextToken();
 
+	}
+	public Counsel() {
+//		this.counselApplication = new CounselApplication();
 	}
 	 public Counsel (String managerName, int customerID, Customer customer, String requirement) {
 		

@@ -41,7 +41,7 @@ public class Guarantee {
 	}
 
 	public boolean isExistTermsID() throws FileNotFoundException, IOException {
-		TermsListImpl termsList = new TermsListImpl("Terms.txt");
+		TermsListImpl termsList = new TermsListImpl("data/Terms.txt");
 		ArrayList<Terms> existTermsList = termsList.retrieveAllTerms();
 		for(int i=0;i<existTermsList.size();i++)
 			if(existTermsList.get(i).matchID(this.termsID)) return true;

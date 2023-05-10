@@ -14,6 +14,8 @@ public class FamilyHistory {
 		
 
 	}
+	public FamilyHistory() {
+	}
 	public int getCustomerID() {
 		return customerID;
 	}

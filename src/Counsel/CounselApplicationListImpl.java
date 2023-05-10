@@ -1,14 +1,14 @@
-package counsel;
+package Counsel;
 import java.util.ArrayList;
 
 
 
-public class CounselApplicationImpl implements CounselApplicationList{
+public class CounselApplicationListImpl implements CounselApplicationList{
 
 	private ArrayList<CounselApplication> CounselApplicationList;
 	private CounselList counselList;
 	private String content;
-	public CounselApplicationImpl(){
+	public CounselApplicationListImpl(){
 		this.CounselApplicationList = new ArrayList<CounselApplication>();
 	}
 

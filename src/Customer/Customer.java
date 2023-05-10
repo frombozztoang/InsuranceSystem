@@ -1,11 +1,16 @@
-package customer;
+package Customer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class Customer extends CounselList implements Serializable {
+import Counsel.Counsel;
+import Counsel.CounselListImpl;
+
+// public class Customer extends CounselList implements Serializable 기존 에러 코드 
+
+public class Customer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String address;
@@ -19,15 +24,23 @@ public class Customer extends CounselList implements Serializable {
 	private ArrayList<Customer> expiredContracts;
 	private ArrayList<Customer> unpaidCustomers;
 	private ArrayList<Customer> resurrectCandidates;
+	// composition
+	public FamilyHistory familyHistory;
 
 	public Customer(String inputString) {
-		super(inputString);
+
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
 		this.address = stringTokenizer.nextToken();
 		this.customerName = stringTokenizer.nextToken();
 		this.job = stringTokenizer.nextToken();
 
 	}
+
+	public Customer() {
+		// 에러 나서 임시 주석 처리 해놨습니다.
+//		this.familyHistory = new FamilyHistory();
+	}
+
 // 1. deleteCustomer
 	public boolean deleteCustomer(int customerID) {
 		Customer customerToRemove = null;
@@ -49,6 +62,7 @@ public class Customer extends CounselList implements Serializable {
 	public enum TargetType {
 		EXPIRED_CONTRACTS, UNPAID_CUSTOMERS, RESURRECT_CANDIDATES
 	}
+
 //2. exceptCustomer
 	public boolean exceptCustomer(TargetType targetType, int customerID) {
 		Customer customerToRemove = null;
@@ -87,6 +101,7 @@ public class Customer extends CounselList implements Serializable {
 			throw new IllegalArgumentException("Invalid target type: " + targetType);
 		}
 	}
+
 //3. retrieveMaturityCustomer
 	public ArrayList<Customer> retrieveMaturityCustomer() {
 		ArrayList<Customer> maturityCustomers = new ArrayList<>();
@@ -122,46 +137,47 @@ public class Customer extends CounselList implements Serializable {
 	}
 //5. retrieveResurrectionCustomer
 
-    public ArrayList<Customer> retrieveResurrectionCustomer() {
-        ArrayList<Customer> resurrectionCustomers = new ArrayList<>();
-     // 목록에 부활 대상 고객 추가
-        for (Customer customer : customerList) {
-            if (customer.isEligibleForResurrection()) {
-                resurrectionCustomers.add(customer);
-            }
-        }
+	public ArrayList<Customer> retrieveResurrectionCustomer() {
+		ArrayList<Customer> resurrectionCustomers = new ArrayList<>();
+		// 목록에 부활 대상 고객 추가
+		for (Customer customer : customerList) {
+			if (customer.isEligibleForResurrection()) {
+				resurrectionCustomers.add(customer);
+			}
+		}
 
-        return resurrectionCustomers;
-    }
+		return resurrectionCustomers;
+	}
 
 	private boolean isEligibleForResurrection() {
 		return false;
 	}
+
 //6. retrieveCustomer
 	public Customer retrieveCustomer(int customerID) {
 		// 지정된 ID를 가진 고객 찾기
 		for (Customer customer : customerList) {
 			if (customer.getCustomerID() == customerID) {
-				return customer; 
+				return customer;
 			}
 		}
 		// Customer가 없을 때
 		return null;
 	}
-	 public boolean updateCustomer(Customer updatedCustomer) {
-	        for (Customer customer : customerList) {
-	            if (customer.getCustomerID() == updatedCustomer.getCustomerID()) {
-	                // customer 정보를 업데이트한다.
-	                customer.setCustomerName(updatedCustomer.getCustomerName());
-	                customer.setPnumber(updatedCustomer.getPnumber());
-	                //성공적으로 업데이트
-	                return true;
-	            }
-	        }
+
+	public boolean updateCustomer(Customer updatedCustomer) {
+		for (Customer customer : customerList) {
+			if (customer.getCustomerID() == updatedCustomer.getCustomerID()) {
+				// customer 정보를 업데이트한다.
+				customer.setCustomerName(updatedCustomer.getCustomerName());
+				customer.setPnumber(updatedCustomer.getPnumber());
+				// 성공적으로 업데이트
+				return true;
+			}
+		}
 //customer가 없거나 update가 성공적이지 않음.
-	        return false; 
-	    }
-	
+		return false;
+	}
 
 	public String getAddress() {
 		return address;

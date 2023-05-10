@@ -1,6 +1,4 @@
 package Insurance;
-import java.util.ArrayList;
-
 
 public class Terms {
 
