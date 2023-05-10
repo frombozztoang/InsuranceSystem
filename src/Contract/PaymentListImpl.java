@@ -116,7 +116,7 @@ public class PaymentListImpl {
 		for (int i = 0; i < this.paymentList.size(); i++) {
 			if (this.paymentList.get(i).matchPaymentID(paymentID)) {
 				this.paymentList.get(i).setWhetherPayment(this.paymentList.get(i).updatePayment());
-				updateFile("Payment.txt");
+				updateFile("data/Payment.txt");
 				return true;
 			}
 		}

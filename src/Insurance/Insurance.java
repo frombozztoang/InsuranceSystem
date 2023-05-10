@@ -180,7 +180,7 @@ public class Insurance {
 	}
 
 	public boolean setTermsIDList(String termsIDList) throws FileNotFoundException, IOException {
-		guaranteeList = new GuaranteeListImpl("Guarantee.txt"); 
+		guaranteeList = new GuaranteeListImpl("data/Guarantee.txt"); 
 		if(guaranteeList.alreadyExistInsurance(this.insuranceID)) guaranteeList.delete(insuranceID);
 		String[] termsIDListSplit = termsIDList.split(",");
 		Guarantee guarantee = new Guarantee();

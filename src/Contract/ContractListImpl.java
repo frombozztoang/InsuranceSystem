@@ -122,7 +122,7 @@ public class ContractListImpl {
 		for (int i = 0; i < this.contractList.size(); i++) {
 			if (this.contractList.get(i).matchContractIndex(contractIndex)) {
 				this.contractList.get(i).setCancellation(!this.contractList.get(i).updateCancellation());
-				updateFile("Contract.txt");
+				updateFile("data/Contract.txt");
 				return true;
 			}
 		}
@@ -160,5 +160,13 @@ public class ContractListImpl {
 		}
 
 		return false; // exception
+	}
+
+	public boolean getCustomerCancellation(String customerID, int contractIndex) {
+		for (int i = 0; i < this.contractList.size(); i++) {
+			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
+				return contractList.get(i).isCancellation();
+		}
+		return false;
 	}
 }// end ContractListImpl
