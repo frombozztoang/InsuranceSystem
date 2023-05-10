@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
 import Counsel.Counsel;
 import Counsel.CounselListImpl;
 
-// public class Customer extends CounselList implements Serializable 기존 에러 코드 
 
 public class Customer implements Serializable {
 
@@ -37,8 +36,7 @@ public class Customer implements Serializable {
 	}
 
 	public Customer() {
-		// 에러 나서 임시 주석 처리 해놨습니다.
-//		this.familyHistory = new FamilyHistory();
+	this.familyHistory = new FamilyHistory();
 	}
 
 // 1. deleteCustomer
