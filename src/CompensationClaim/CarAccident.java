@@ -1,19 +1,15 @@
 package CompensationClaim;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class CarAccident extends CompensationClaim {
 
 	private String type;
-	private Date date;
-	private int time;
+	private LocalDateTime dateTime;
 	private String place;
 	private String carNumber;
 	private String driverName;
-	private int licenseNumber;
+	private String licenseNumber;
 	private String accidentDetail;
 
 	public CarAccident() {
@@ -26,17 +22,11 @@ public class CarAccident extends CompensationClaim {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Date getDate() {
-		return date;
+	public LocalDateTime getDateTime() {
+		return dateTime;
 	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public int getTime() {
-		return time;
-	}
-	public void setTime(int time) {
-		this.time = time;
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 	public String getPlace() {
 		return place;
@@ -56,10 +46,10 @@ public class CarAccident extends CompensationClaim {
 	public void setDriverName(String driverName) {
 		this.driverName = driverName;
 	}
-	public int getLicenseNumber() {
+	public String getLicenseNumber() {
 		return licenseNumber;
 	}
-	public void setLicenseNumber(int licenseNumber) {
+	public void setLicenseNumber(String licenseNumber) {
 		this.licenseNumber = licenseNumber;
 	}
 	public String getAccidentDetail() {

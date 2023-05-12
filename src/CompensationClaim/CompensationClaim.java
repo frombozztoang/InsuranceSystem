@@ -4,15 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 	public class CompensationClaim {
-		private int insuranceID;
-		private int customerID;
-		private int CCID = Integer.parseInt(String.valueOf(insuranceID) + String.valueOf(customerID));
+		private String CCID;
+		private String insuranceID;
+		private String customerID;
 		private String receptionistName;
-		private int receptionistPNumber;
+		private String receptionistPNumber;
 		private String relationshipOfContractor;
 		private String documentFilePath;
 		private String bank;
-		private int accountNumber;
+		private String accountNumber;
 		private String accountHolderName;
 		public Survey m_Survey;
 
@@ -23,27 +23,27 @@ import java.io.IOException;
 		/**
 		 * Getters & Setters
 		 */
-		public int getInsuranceID() {
+		public String getInsuranceID() {
 			return insuranceID;
 		}
 
-		public void setInsuranceID(int insuranceID) {
+		public void setInsuranceID(String insuranceID) {
 			this.insuranceID = insuranceID;
 		}
 
-		public int getCustomerID() {
+		public String getCustomerID() {
 			return customerID;
 		}
 
-		public void setCustomerID(int customerID) {
+		public void setCustomerID(String customerID) {
 			this.customerID = customerID;
 		}
 
-		public int getCCID() {
+		public String getCCID() {
 			return CCID;
 		}
 
-		public void setCCID(int CCID) {
+		public void setCCID(String CCID) {
 			this.CCID = CCID;
 		}
 
@@ -55,11 +55,11 @@ import java.io.IOException;
 			this.receptionistName = receptionistName;
 		}
 
-		public int getReceptionistPNumber() {
+		public String getReceptionistPNumber() {
 			return receptionistPNumber;
 		}
 
-		public void setReceptionistPNumber(int receptionistPNumber) {
+		public void setReceptionistPNumber(String receptionistPNumber) {
 			this.receptionistPNumber = receptionistPNumber;
 		}
 
@@ -87,11 +87,11 @@ import java.io.IOException;
 			this.bank = bank;
 		}
 
-		public int getAccountNumber() {
+		public String getAccountNumber() {
 			return accountNumber;
 		}
 
-		public void setAccountNumber(int accountNumber) {
+		public void setAccountNumber(String accountNumber) {
 			this.accountNumber = accountNumber;
 		}
 
@@ -113,11 +113,4 @@ import java.io.IOException;
 
 		}
 
-		public String createCompensationClaim(BufferedReader inputReader) throws IOException {
-			return "";
-		}
-
-		public CompensationClaim retrieveCompensationClaim() {
-			return null;
-		}
 	}

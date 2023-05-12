@@ -27,8 +27,8 @@ public class GuaranteeListImpl {
 	private Guarantee makeStringToGuarantee(String guaranteeInfo) throws FileNotFoundException, IOException {
 		Guarantee guarantee = new Guarantee();
 		StringTokenizer stringTokenizer = new StringTokenizer(guaranteeInfo);
-		guarantee.setInsuranceID(Integer.valueOf(stringTokenizer.nextToken()));
-		guarantee.setTermsID(Integer.valueOf(stringTokenizer.nextToken()));
+		guarantee.setInsuranceID(stringTokenizer.nextToken());
+		guarantee.setTermsID(stringTokenizer.nextToken());
 		return guarantee;
 	}
 	
@@ -40,7 +40,7 @@ public class GuaranteeListImpl {
 		else return false;
 	}
 	
-	public boolean alreadyExistInsurance(int insuranceId){
+	public boolean alreadyExistInsurance(String insuranceId){
 		for(int i=0;i<this.guaranteeList.size();i++) {
 			if(this.guaranteeList.get(i).matchInsuranceId(insuranceId)) 
 				return true;
@@ -68,7 +68,7 @@ public class GuaranteeListImpl {
 	}
 		
 	
-	public boolean delete(int insuranceId){
+	public boolean delete(String insuranceId){
 		boolean deleteOkay = false;
 		for(int i=0;i<this.guaranteeList.size();i++) {
 			Guarantee guarantee = (Guarantee) this.guaranteeList.get(i);

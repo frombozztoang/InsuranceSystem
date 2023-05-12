@@ -1,7 +1,6 @@
 package UI;
 
 import CompensationClaim.*;
-import Contract.ContractList;
 import Contract.ContractListImpl;
 import Contract.PaymentListImpl;
 import Insurance.Insurance;
@@ -14,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 //import java.rmi.Naming;
 //import java.rmi.NotBoundException;
@@ -21,13 +22,11 @@ import java.util.ArrayList;
 
 public class Main {
 
-	private static CompensationClaimListImpl compensationClaimList;
-	private static SurveyListImpl surveyList;
-	private static CarAccidentListImpl carAccidentList;
-	private static ContractList contract;
-
 	public static void main(String[] args) throws Exception {
-		compensationClaimList = new CompensationClaimListImpl("data/CompensationClaim.txt");
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
+		CompensationClaimListImpl compensationClaimList = new CompensationClaimListImpl("data/CompensationClaim.txt");
+		SurveyListImpl surveyList = new SurveyListImpl("data/Survey.txt");
+		CarAccidentListImpl carAccidentList = new CarAccidentListImpl("data/CarAccident.txt");
 		InsuranceListImpl insuranceList = new InsuranceListImpl("data/Insurance.txt");
 		TermsListImpl termsListImpl = new TermsListImpl("data/Terms.txt");
 		ContractListImpl contractListImpl = new ContractListImpl("data/Contract.txt");
@@ -40,10 +39,10 @@ public class Main {
 			userChoice = inputReader.readLine().trim();
 			switch (userChoice) {
 			case "1":
-				createCompensationClaim(insuranceList, compensationClaimList, inputReader);
+				createCompensationClaim(insuranceList, compensationClaimList, carAccidentList, inputReader);
 				break;
 			case "2":
-				retrieveCompensationClaim(compensationClaimList, inputReader);
+				retrieveCompensationClaim(insuranceList, compensationClaimList, carAccidentList, surveyList, inputReader);
 				break;
 			case "3":
 				showOnSaleInsurance(insuranceList, inputReader, "Customer");
@@ -60,8 +59,46 @@ public class Main {
 			}
 		}
 	}
-
-	private static void retrieveCompensationClaim(CompensationClaimListImpl compensationClaimList, BufferedReader inputReader) throws IOException {
+	private static void createCompensationClaim(InsuranceListImpl insuranceList, CompensationClaimListImpl compensationClaimList,
+												CarAccidentListImpl carAccidentList, BufferedReader inputReader)
+			throws IOException, ParseException {
+		CompensationClaim compensationClaim = new CompensationClaim();
+		System.out.println("****************** Compensation Claim *******************");
+		System.out.println("개인정보 확인을 위해 고객ID를 입력해주세요");
+		compensationClaim.setCustomerID(inputReader.readLine().trim());
+		/* A3. 존재하지 않는 고객ID를 입력한 경우 */
+		System.out.println("고객님이 가입하신 보험 정보는 아래와 같습니다.\n" + "보험금을 청구할 보험ID를 입력하세요.");
+//		고객이 가입한 보험리스트 조회 method (in contract)
+		compensationClaim.setInsuranceID(inputReader.readLine().trim());
+		compensationClaim.setCCID(compensationClaim.getInsuranceID()+compensationClaim.getCustomerID());
+		System.out.println(compensationClaim.getInsuranceID());
+//		Insurance selectedInsurance = insuranceList.retrieveInsuranceDetail(compensationClaim.getInsuranceID());
+		//왜 오류가나지..
+			System.out.println("보험종류: " + /*selectedInsurance.getType() + */"보험명: "/* + selectedInsurance.getType() + "\n"*/
+				+ "보험금 청구를 위한 서류 목록(하나의 압축파일로 업로드)\n" + "1. 보험금 청구서" + "  2. 개인(신용)정보처리동의서" + "  3. 수익자 신분증(앞면) 사본"
+				+ "  4. 수익자 통장 사본\n" + "보험종류가 자동차보험인 경우, 5. 교통사고 사실 확인원  6. 교통사고신속처리협의서 추가 제출");
+		System.out.print("접수자명: ");
+		compensationClaim.setReceptionistName(inputReader.readLine().trim());
+		System.out.print("접수자 전화번호: ");
+		compensationClaim.setReceptionistPNumber(inputReader.readLine().trim());
+		System.out.print("보험계약자와의 관계(예:부): ");
+		compensationClaim.setRelationshipOfContractor(inputReader.readLine().trim());
+		System.out.print("구비서류 업로드란: ");
+		compensationClaim.setDocumentFilePath(inputReader.readLine().trim());
+		System.out.print("은행: ");
+		compensationClaim.setBank(inputReader.readLine().trim());
+		System.out.print("계좌번호: ");
+		compensationClaim.setAccountNumber(inputReader.readLine().trim());
+		System.out.print("예금주명: ");
+		compensationClaim.setAccountHolderName(inputReader.readLine().trim());
+		if (compensationClaimList.createCompensationClaim(compensationClaim)) {
+			if (insuranceList.getInsuranceTypebyId(compensationClaim.getInsuranceID()) == "Car")
+				createCarAccident(compensationClaim, carAccidentList, inputReader);
+			System.out.println(compensationClaim.getCCID() + "신청이 완료되었습니다. 심사 결과에 따라 보상이 제한되거나 거절될 수 있습니다.");
+		} else
+			System.out.println("신청에 실패하였습니다. 다시 시도해주십시오.");
+	}
+	private static void retrieveCompensationClaim(InsuranceListImpl insuranceList, CompensationClaimListImpl compensationClaimList, CarAccidentListImpl carAccidentList, SurveyListImpl surveyList, BufferedReader inputReader) throws IOException {
 		System.out.println("****************** Compensation Claim List *******************");
 		System.out.println("보험ID 고객ID 청구ID 접수자명 접수자전화번호 보험계약자와의 관계 구비서류파일경로 은행 계좌번호 예금주명");
 		showList(compensationClaimList.retrieve());
@@ -72,7 +109,7 @@ public class Main {
 		userChoice = inputReader.readLine().trim();
 		switch (userChoice) {
 		case "1":
-			createSurvey(surveyList, inputReader);
+			createSurvey(compensationClaimList, surveyList, inputReader);
 			break;
 		case "2":
 //			survey.requestBanking();
@@ -80,60 +117,42 @@ public class Main {
 		}
 	}
 
-	private static void createSurvey(SurveyListImpl surveyList, BufferedReader inputReader) throws IOException {
+	private static void createSurvey(CompensationClaimListImpl compensationClaimList, SurveyListImpl surveyList, BufferedReader inputReader) throws IOException {
+		Survey survey = new Survey();
 		System.out.println("****************** Survey *******************");
-
-	}
-
-	private static void createCompensationClaim(InsuranceListImpl insuranceList,
-			CompensationClaimListImpl compensationClaimList, BufferedReader inputReader)
-			throws IOException, ParseException {
-		CompensationClaim compensationClaim = new CompensationClaim();
-		System.out.println("****************** Compensation Claim *******************");
-		System.out.println("개인정보 확인을 위해 고객ID를 입력해주세요");
-		compensationClaim.setCustomerID(Integer.parseInt(inputReader.readLine().trim()));
-		// 고객 ID가 없을 경우 Alter 추가해야함
-		System.out.println("고객님이 가입하신 보험 정보는 아래와 같습니다.\n" + "보험금을 청구할 보험ID를 입력하세요.");
-//		고객이 가입한 보험리스트 조회 method (in contract)
-		compensationClaim.setInsuranceID(Integer.parseInt(inputReader.readLine().trim()));
-		compensationClaim.setCCID(Integer.parseInt(Integer.toString(compensationClaim.getInsuranceID())
-				+ Integer.toString(compensationClaim.getCustomerID())));
-		// id로 insurance 객체 찾아오기
-		System.out.println("보험종류: {insurance.type}\n" + "보험명: {insurance.insuranceName}\n"
-				+ "보험금 청구를 위한 서류 목록(하나의 압축파일로 업로드)\n" + "1. 보험금 청구서" + "  2. 개인(신용)정보처리동의서" + "  3. 수익자 신분증(앞면) 사본"
-				+ "  4. 수익자 통장 사본\n" + "보험종류가 자동차보험인 경우, 5. 교통사고 사실 확인원  6. 교통사고신속처리협의서 추가 제출");
-		System.out.print("접수자명: ");
-		compensationClaim.setReceptionistName(inputReader.readLine().trim());
-		System.out.print("접수자 전화번호: ");
-		compensationClaim.setReceptionistPNumber(Integer.parseInt(inputReader.readLine().trim()));
-		System.out.print("보험계약자와의 관계(예:부): ");
-		compensationClaim.setRelationshipOfContractor(inputReader.readLine().trim());
-		System.out.print("구비서류 업로드란: ");
-		compensationClaim.setDocumentFilePath(inputReader.readLine().trim());
-		System.out.print("은행: ");
-		compensationClaim.setBank(inputReader.readLine().trim());
-		System.out.print("계좌번호: ");
-		compensationClaim.setAccountNumber(Integer.parseInt(inputReader.readLine().trim()));
-		System.out.print("예금주명: ");
-		compensationClaim.setAccountHolderName(inputReader.readLine().trim());
-		if (compensationClaimList.createCompensationClaim(compensationClaim)) {
-			if (insuranceList.getInsuranceTypebyId(compensationClaim.getInsuranceID()) == "Car")
-				createCarAccident(compensationClaim, inputReader);
-			System.out.println(compensationClaim.getCCID() + "신청이 완료되었습니다. 심사 결과에 따라 보상이 제한되거나 거절될 수 있습니다.");		} else
+		System.out.println("손해사정할 청구ID를 입력하세요: ");
+		survey.setCCID(inputReader.readLine().trim());
+//		if(survey.getCCID() == compensationClaimList.match()getCCID())
+//			System.out.println(carAccidentList);
+		System.out.print("담당자명: ");
+		survey.setManagerName(inputReader.readLine().trim());
+		System.out.print("조사보고서 업로드: ");
+		survey.setReportFilePath(inputReader.readLine().trim());
+		System.out.print("손해사정료: ");
+		survey.setSurveyFee(Integer.parseInt(inputReader.readLine().trim()));
+		System.out.print("결정보험금: ");
+		survey.setDecisionMoney(Integer.parseInt(inputReader.readLine().trim()));
+		System.out.print("면/부책 (면책은 false, 부책은 true를 입력하세요) : ");
+		survey.setResponsibility(Boolean.parseBoolean(inputReader.readLine().trim()));
+		System.out.print("면/부책 사유 : ");
+		survey.setResponsibilityReason(inputReader.readLine().trim());
+		if (surveyList.createSurvey(survey)) {
+			System.out.println("수정이 완료되었습니다.");
+		} else
 			System.out.println("신청에 실패하였습니다. 다시 시도해주십시오.");
 	}
 
-	private static void createCarAccident(CompensationClaim compensationClaim, BufferedReader inputReader)
+
+
+	private static void createCarAccident(CompensationClaim compensationClaim, CarAccidentListImpl carAccidentList, BufferedReader inputReader)
 			throws IOException, ParseException {
 		CarAccident carAccident = new CarAccident();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		System.out.println("****************** Compensation Claim - Car Accident*******************");
 		System.out.print("사고유형: ");
 		carAccident.setType(inputReader.readLine().trim());
-		System.out.print("사고날짜: ");
-		carAccident.setDate(formatter.parse(inputReader.readLine().trim()));
-		System.out.print("사고시간: ");
-		carAccident.setTime(Integer.parseInt(inputReader.readLine().trim()));
+		System.out.print("사고일시 (형식 예시-2023년 01월 01일 17시 30분): ");
+		carAccident.setDateTime(LocalDateTime.parse(inputReader.readLine().trim()));
 		System.out.print("사고장소: ");
 		carAccident.setPlace(inputReader.readLine().trim());
 		System.out.print("차량번호: ");
@@ -141,7 +160,7 @@ public class Main {
 		System.out.print("운전자 성명: ");
 		carAccident.setDriverName(inputReader.readLine().trim());
 		System.out.print("면허번호: ");
-		carAccident.setLicenseNumber(Integer.parseInt(inputReader.readLine().trim()));
+		carAccident.setLicenseNumber(inputReader.readLine().trim());
 		System.out.print("사고 내용: ");
 		carAccident.setAccidentDetail(inputReader.readLine().trim());
 		if (carAccidentList.createCarAccident(carAccident))
@@ -194,7 +213,7 @@ public class Main {
 		Terms terms = new Terms();
 		System.out.println("--------Terms Info---------");
 		System.out.println("약관 ID : ");
-		terms.setTermsID(Integer.valueOf(inputReader.readLine().trim()));
+		terms.setTermsID(inputReader.readLine().trim());
 		System.out.println("약관명  : ");
 		terms.setTermsName(inputReader.readLine().trim());
 		System.out.println("지급보험금 산정방식(,로 이어서 작성) : ");
@@ -238,7 +257,7 @@ public class Main {
 		String insuranceID = inputReader.readLine().trim();
 		if (!insuranceID.equals("x")) {
 			if (!insuranceID.equals(null)) {
-				String insuranceName = insuranceListImpl.requestAuthorization(Integer.valueOf(insuranceID));
+				String insuranceName = insuranceListImpl.requestAuthorization(insuranceID);
 				if (!insuranceName.equals(null))
 					System.out.println(insuranceName + "인가 신청이 완료되었습니다. 인가 완료까지 수 일이 소요될 수 있습니다.");
 				else
@@ -259,7 +278,7 @@ public class Main {
 				System.out.println("Y/N : ");
 				String choice = inputReader.readLine().trim();
 				if (choice.equals("Y")) {
-					if (insuranceListImpl.updateAuthorization(Integer.valueOf(insuranceID), true))
+					if (insuranceListImpl.updateAuthorization(insuranceID, true))
 						System.out.println("신규 보험 등록이 완료되었습니다.");
 					else
 						System.out.println("신청에 실패했습니다.");
@@ -311,7 +330,7 @@ public class Main {
 			if (!insuranceID.equals(null)) {
 				System.out.println("선택 : ");
 				insuranceID = inputReader.readLine().trim();
-				insurance = insuranceListImpl.retrieveInsuranceDetail(Integer.valueOf(insuranceID));
+				insurance = insuranceListImpl.retrieveInsuranceDetail(insuranceID);
 				System.out.println(insurance.toString());
 				System.out.println("1. 수정하기, 2. 삭제하기");
 				String choice = inputReader.readLine().trim();
@@ -334,7 +353,7 @@ public class Main {
 		Insurance insurance = new Insurance();
 		System.out.println("--------Insurance Info---------");
 		System.out.println("보험 ID : ");
-		insurance.setInsuranceID(Integer.valueOf(inputReader.readLine().trim()));
+		insurance.setInsuranceID(inputReader.readLine().trim());
 		System.out.println("보험 이름 : ");
 		insurance.setInsuranceName(inputReader.readLine().trim());
 		System.out.println("보험 종류 : ");
@@ -384,7 +403,7 @@ public class Main {
 		String content = inputReader.readLine().trim();
 		switch (choice) {
 		case ("1"):
-			insurance.setInsuranceID(Integer.valueOf(content));
+			insurance.setInsuranceID(content);
 			break;
 		case ("2"):
 			insurance.setInsuranceName(content);
@@ -441,7 +460,7 @@ public class Main {
 		System.out.println("보험ID : " + insuranceID + "를 삭제하시겠습니까? (Y/N)");
 		String choice = inputReader.readLine().trim();
 		if (choice.equals("Y"))
-			if (insuranceListImpl.deleteInsurance(Integer.valueOf(insuranceID)))
+			if (insuranceListImpl.deleteInsurance(insuranceID))
 				System.out.println("삭제되었습니다.");
 			else
 				System.out.println("삭제에 실패하였습니다.");
