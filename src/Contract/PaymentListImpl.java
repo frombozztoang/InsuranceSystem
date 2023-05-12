@@ -27,18 +27,25 @@ public class PaymentListImpl {
 		paymentFile.close();
 	}
 
-	public class DateConverter {
-		public static LocalDate stringToDate(String dateString) {
+//	public class DateConverter {
+//		public static LocalDate stringToDate(String dateString) {
+//
+//			String[] dateParts = dateString.split("-");
+//			int year = Integer.parseInt(dateParts[0]);
+//			int month = Integer.parseInt(dateParts[1]);
+//			int day = Integer.parseInt(dateParts[2]);
+//			return LocalDate.of(year, month, day);
+//
+//		}
+//	}
+public static LocalDate stringToDate(String dateString) {
+	String[] dateParts = dateString.split("-");
+	int year = Integer.parseInt(dateParts[0]);
+	int month = Integer.parseInt(dateParts[1]);
+	int day = Integer.parseInt(dateParts[2]);
+	return LocalDate.of(year, month, day);
 
-			String[] dateParts = dateString.split("-");
-			int year = Integer.parseInt(dateParts[0]);
-			int month = Integer.parseInt(dateParts[1]);
-			int day = Integer.parseInt(dateParts[2]);
-			return LocalDate.of(year, month, day);
-
-		}
-	}
-
+}
 	public Payment makePayment(String paymentInfo) throws ParseException {
 		Payment payment = new Payment();
 
@@ -47,7 +54,7 @@ public class PaymentListImpl {
 		payment.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
 		payment.setInsuranceID(Integer.parseInt(stringTokenizer.nextToken()));
 		payment.setStringDateOfPayment(stringTokenizer.nextToken());
-		LocalDate date = DateConverter.stringToDate(payment.getStringDateOfPayment());
+		LocalDate date = stringToDate(payment.getStringDateOfPayment());
 		payment.setDateOfPayment(date);
 		payment.setWhetherPayment(Boolean.parseBoolean(stringTokenizer.nextToken()));
 		return payment;

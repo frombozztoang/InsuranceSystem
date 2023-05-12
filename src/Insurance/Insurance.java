@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Insurance {
 
-	private int insuranceID;
+	private String insuranceID;
 	private String insuranceName;
 	private String type;
 	private int maxCompensation;
@@ -30,7 +30,7 @@ public class Insurance {
     	authorization = false;
     }  
 	
-    public boolean matchId(int insuranceID) {
+    public boolean matchId(String insuranceID) {
         return this.insuranceID == insuranceID;
     }
   
@@ -175,7 +175,7 @@ public class Insurance {
 		this.m_InsuranceApplication = m_InsuranceApplication;
 	}
 
-	public void setInsuranceID(int insuranceID) {
+	public void setInsuranceID(String insuranceID) {
 		this.insuranceID = insuranceID;
 	}
 
@@ -186,7 +186,7 @@ public class Insurance {
 		Guarantee guarantee = new Guarantee();
 		for(int i=0; i<termsIDListSplit.length; i++) {		
 			guarantee.setInsuranceID(this.insuranceID);
-			guarantee.setTermsID(Integer.valueOf(termsIDListSplit[i]));
+			guarantee.setTermsID(termsIDListSplit[i]);
 			if(!guarantee.isExistTermsID()) return false;
 			}
 		guaranteeList.create(guarantee);

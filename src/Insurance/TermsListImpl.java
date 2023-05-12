@@ -27,7 +27,7 @@ public class TermsListImpl {
 	private Terms makeStringToTerms(String termsInfo) {
 		Terms terms = new Terms();
 		StringTokenizer stringTokenizer = new StringTokenizer(termsInfo,"/");
-		terms.setTermsID(Integer.valueOf(stringTokenizer.nextToken()));
+		terms.setTermsID(stringTokenizer.nextToken());
 		terms.setTermsName(stringTokenizer.nextToken());	
 		terms.setCalculatedMoneyMethod(stringTokenizer.nextToken());
 		terms.setTermsContent(stringTokenizer.nextToken());

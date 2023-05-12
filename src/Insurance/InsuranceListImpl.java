@@ -27,7 +27,7 @@ public class InsuranceListImpl {
 	private Insurance makeStringToInsurance(String insuranceInfo) throws FileNotFoundException, IOException {
 		Insurance insurance = new Insurance();
 		StringTokenizer stringTokenizer = new StringTokenizer(insuranceInfo);
-		insurance.setInsuranceID(Integer.valueOf(stringTokenizer.nextToken()));
+		insurance.setInsuranceID(stringTokenizer.nextToken());
 		insurance.setInsuranceName(stringTokenizer.nextToken()); 
 		insurance.setType(stringTokenizer.nextToken());
 		insurance.setMaxCompensation(Integer.valueOf(stringTokenizer.nextToken()));
@@ -48,7 +48,7 @@ public class InsuranceListImpl {
 		return insurance;
 	}
 
-	public String requestAuthorization(int insuranceID){
+	public String requestAuthorization(String insuranceID){
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if(insurance.matchId(insuranceID)) return insurance.getInsuranceName();
@@ -59,7 +59,7 @@ public class InsuranceListImpl {
 	}
 
 
-	public boolean updateAuthorization(int insuranceID, boolean authorization){
+	public boolean updateAuthorization(String insuranceID, boolean authorization){
 		for(int i=0;i<this.insuranceList.size();i++) {
 			if(this.insuranceList.get(i).matchId(insuranceID)) { 
 				this.insuranceList.get(i).setAuthorization(authorization); 
@@ -109,7 +109,7 @@ public class InsuranceListImpl {
 		return correctinsuranceList;
 	}
 	
-	public Insurance retrieveInsuranceDetail(int insuranceID){
+	public Insurance retrieveInsuranceDetail(String insuranceID){
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if(insurance.matchId(insuranceID)) return insurance;			
@@ -117,7 +117,7 @@ public class InsuranceListImpl {
 		return null;
 	}
 	
-	public boolean deleteInsurance(int insuranceId) {
+	public boolean deleteInsurance(String insuranceId) {
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if(insurance.matchId(insuranceId))
@@ -151,14 +151,14 @@ public class InsuranceListImpl {
 	public boolean updateinsurance(Insurance updateInsurance) {
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
-			if(insurance.matchId(Integer.valueOf(updateInsurance.getInsuranceID()))) 
+			if(insurance.matchId(updateInsurance.getInsuranceID()))
 				this.insuranceList.set(i, updateInsurance);
 				updateFile("Insurance.txt");
 				return true;			
 		}
 		return false;
 	}
-	public String getInsuranceTypebyId(int insuranceID) {
+	public String getInsuranceTypebyId(String insuranceID) {
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if(insurance.matchId(insuranceID))

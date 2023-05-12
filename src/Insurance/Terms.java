@@ -2,7 +2,7 @@ package Insurance;
 
 public class Terms {
 
-	private int termsID;
+	private String termsID;
 	private String termsName;
 	private String calculatedMoneyMethod;
 	private String termsContent;
@@ -31,12 +31,12 @@ public class Terms {
 	}
 
 
-	public int getTermsID() {
+	public String getTermsID() {
 		return termsID;
 	}
 
 
-	public void setTermsID(int termsID) {
+	public void setTermsID(String termsID) {
 		this.termsID = termsID;
 	}
 
@@ -54,7 +54,7 @@ public class Terms {
 	        return stringReturn;
 	    }
 
-	public boolean matchID(int termsID) {
+	public boolean matchID(String termsID) {
 		return this.termsID == termsID;
 	}
 

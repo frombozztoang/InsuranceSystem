@@ -13,11 +13,11 @@ public class Customer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String address;
-	private int customerID;
+	private String customerID;
 	private String customerName;
 	private String job;
-	private int pnumber;
-	private int SSN;
+	private String pnumber;
+	private String SSN;
 	private ArrayList<Customer> customerList;
 	// 만기계약대상자/미납대상자/부활대상자 리스트
 	private ArrayList<Customer> expiredContracts;
@@ -40,7 +40,7 @@ public class Customer implements Serializable {
 	}
 
 // 1. deleteCustomer
-	public boolean deleteCustomer(int customerID) {
+	public boolean deleteCustomer(String customerID) {
 		Customer customerToRemove = null;
 		for (Customer customer : customerList) {
 			if (customer.getCustomerID() == customerID) {
@@ -62,7 +62,7 @@ public class Customer implements Serializable {
 	}
 
 //2. exceptCustomer
-	public boolean exceptCustomer(TargetType targetType, int customerID) {
+	public boolean exceptCustomer(TargetType targetType, String customerID) {
 		Customer customerToRemove = null;
 		List<Customer> targetList = getTargetList(targetType);
 
@@ -152,7 +152,7 @@ public class Customer implements Serializable {
 	}
 
 //6. retrieveCustomer
-	public Customer retrieveCustomer(int customerID) {
+	public Customer retrieveCustomer(String customerID) {
 		// 지정된 ID를 가진 고객 찾기
 		for (Customer customer : customerList) {
 			if (customer.getCustomerID() == customerID) {
@@ -185,11 +185,11 @@ public class Customer implements Serializable {
 		this.address = address;
 	}
 
-	public int getCustomerID() {
+	public String getCustomerID() {
 		return customerID;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 
@@ -209,19 +209,19 @@ public class Customer implements Serializable {
 		this.job = job;
 	}
 
-	public int getPnumber() {
+	public String getPnumber() {
 		return pnumber;
 	}
 
-	public void setPnumber(int pnumber) {
+	public void setPnumber(String pnumber) {
 		this.pnumber = pnumber;
 	}
 
-	public int getSSN() {
+	public String getSSN() {
 		return SSN;
 	}
 
-	public void setSSN(int sSN) {
+	public void setSSN(String sSN) {
 		SSN = sSN;
 	}
 

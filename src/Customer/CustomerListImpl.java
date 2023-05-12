@@ -15,7 +15,7 @@ public class CustomerListImpl implements CustomerList{
 		else return false;
 	}
 
-	public boolean delete(int customerID){
+	public boolean delete(String customerID){
 		for(Customer customer : this.customerList) {
 			if(customer.getCustomerID() == customerID) {
 				if(this.customerList.remove(customer)) return true;
@@ -26,7 +26,7 @@ public class CustomerListImpl implements CustomerList{
 	}
 
 
-	public boolean update(Customer customer, int customerID){
+	public boolean update(Customer customer, String customerID){
 		for(Customer uCustomer : this.customerList) {
 			if(uCustomer.getCustomerID() == customerID) {
 				uCustomer.setCustomerName(customer.getCustomerName());
