@@ -55,7 +55,7 @@ public static LocalDate stringToDate(String dateString) {
 		StringTokenizer stringTokenizer = new StringTokenizer(contractInfo);
 		contract.setContractIndex(Integer.parseInt(stringTokenizer.nextToken()));
 		contract.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
-		contract.setInsuranceID(Integer.parseInt(stringTokenizer.nextToken()));
+		contract.setInsuranceID(stringTokenizer.nextToken());
 		contract.setInsurancePeriod(stringTokenizer.nextToken());
 		contract.setPremium(Integer.parseInt(stringTokenizer.nextToken()));
 		contract.setPaymentCycle(stringTokenizer.nextToken());

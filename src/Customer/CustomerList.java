@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public interface CustomerList {
 
 	public boolean add(Customer customer);
-	public boolean delete(String customerID);
-	public boolean update(Customer customer, String customerID);
+	public boolean delete(int customerID);
+	public boolean update(Customer customer, int customerID);
 	public ArrayList<Customer> retrieve();
 
 }

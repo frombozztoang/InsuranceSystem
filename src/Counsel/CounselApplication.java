@@ -1,8 +1,8 @@
 package Counsel;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.StringTokenizer;
 
 import Customer.Customer;
 
@@ -12,17 +12,20 @@ public class CounselApplication implements Serializable {
 	private String category;
 	private int counselID;
 	private int customerID;
-	private Date dateOfFirst;
-	private Date dateOfSecond;
+//	private Date dateOfFirst;
+//	private Date dateOfSecond;
+	private LocalDate dateOfFirst;
+	private LocalDate dateOfSecond;
 	private String requirement;
+	private String managerName;
 	private ArrayList<Counsel> counselList;
-	public CounselApplication(String inputString){
-  
-		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
-		this.category = stringTokenizer.nextToken();
-		this.requirement = stringTokenizer.nextToken();
-
-	}
+//	public CounselApplication(String inputString){
+//  
+//		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
+//		this.category = stringTokenizer.nextToken();
+//		this.requirement = stringTokenizer.nextToken();
+//
+//	}
 	public CounselApplication() {
 		
 	}
@@ -64,19 +67,19 @@ public class CounselApplication implements Serializable {
 		this.customerID = customerID;
 	}
 
-	public Date getDateOfFirst() {
+	public LocalDate getDateOfFirst() {
 		return dateOfFirst;
 	}
 
-	public void setDateOfFirst(Date dateOfFirst) {
+	public void setDateOfFirst(LocalDate dateOfFirst) {
 		this.dateOfFirst = dateOfFirst;
 	}
 
-	public Date getDateOfSecond() {
+	public LocalDate getDateOfSecond() {
 		return dateOfSecond;
 	}
 
-	public void setDateOfSecond(Date dateOfSecond) {
+	public void setDateOfSecond(LocalDate dateOfSecond) {
 		this.dateOfSecond = dateOfSecond;
 	}
 
@@ -87,7 +90,12 @@ public class CounselApplication implements Serializable {
 	public void setRequirement(String requirement) {
 		this.requirement = requirement;
 	}
-
-
-
+	
+	public String getManagerName() {
+		return managerName;
+	}
+	
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
 }
