@@ -8,7 +8,7 @@ import CompensationClaim.CompensationClaim;
 public class Contract {
 
 	private int customerID;
-	private int insuranceID;
+	private String insuranceID;
 	private String insurancePeriod;
 	private int premium;
 	private String paymentCycle;
@@ -55,7 +55,7 @@ public class Contract {
 		this.stringDateOfMaturity = stringDateOfMaturity;
 	}
 
-	public boolean match(int customerID, int insuranceID) {
+	public boolean match(int customerID, String insuranceID) {
 		return (this.customerID == customerID) && (this.insuranceID == insuranceID);
 	}
 
@@ -75,11 +75,11 @@ public class Contract {
 		this.customerID = customerID;
 	}
 
-	public int getInsuranceID() {
+	public String getInsuranceID() {
 		return insuranceID;
 	}
 
-	public void setInsuranceID(int insuranceID) {
+	public void setInsuranceID(String insuranceID) {
 		this.insuranceID = insuranceID;
 	}
 
