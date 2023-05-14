@@ -5,15 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer implements Serializable {
-
-   private static final long serialVersionUID = 1L;
-   private String address;
-   private int customerID;
-   private String customerName;
-   private String job;
-   private String pnumber;
-   private String SSN;
-   private ArrayList<Customer> customerList;
+	
+	public enum EGender {
+		male("남"), female("여");
+		private String genderStr;
+		private EGender(String genderStr) {
+			this.genderStr = genderStr;
+		}
+		public String getGenderStr() {
+			return genderStr;
+		}
+		public void setGenderStr(String genderStr) {
+			this.genderStr = genderStr;
+		}
+	}
+	
+	private static final long serialVersionUID = 1L;
+	private String address;
+	private int customerID;
+	private String customerName;
+	private String job;
+	private String pnumber;
+	private String birth; // 생년월일(yyyy-mm-dd, String)
+	private EGender eGender; // 성별
+	private ArrayList<Customer> customerList;
    
    // composition
    public FamilyHistory familyHistory;
@@ -192,11 +207,20 @@ public class Customer implements Serializable {
       this.pnumber = pnumber;
    }
 
-   public String getSSN() {
-      return SSN;
+   public String getBirth() {
+      return birth;
    }
 
-   public void setSSN(String SSN) {
-      this.SSN = SSN;
+   public void setBirth(String birth) {
+      this.birth = birth;
    }
+
+	public EGender getEGender() {
+		return eGender;
+	}
+	
+	public void setEGender(EGender eGender) {
+		this.eGender = eGender;
+	}
+   
 }
