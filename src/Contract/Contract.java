@@ -17,16 +17,16 @@ public class Contract {
 	private LocalDate dateOfMaturity;
 	private boolean maturity;
 	private boolean resurrection;
-	private boolean cancellation;
+	private boolean cancellation; // 해지 여부
 
 	private String stringDateOfSubscription;
 	private String stringDateOfMaturity;
 
-	public Payment m_Payment;
+	public Payment m_Payment; // 납입
 	public CompensationClaim m_CompensationClaim;
 
 	public Contract() {
-
+		
 	}
 
 	private int contractIndex;
