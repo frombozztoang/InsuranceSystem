@@ -40,9 +40,9 @@ public class GuaranteeListImpl {
 		else return false;
 	}
 	
-	public boolean alreadyExistInsurance(String insuranceId){
+	public boolean alreadyExistInsurance(String insuranceID){
 		for(int i=0;i<this.guaranteeList.size();i++) {
-			if(this.guaranteeList.get(i).matchInsuranceId(insuranceId)) 
+			if(this.guaranteeList.get(i).matchInsuranceId(insuranceID)) 
 				return true;
 		}
 		return false;
@@ -68,11 +68,11 @@ public class GuaranteeListImpl {
 	}
 		
 	
-	public boolean delete(String insuranceId){
+	public boolean delete(String insuranceID){
 		boolean deleteOkay = false;
 		for(int i=0;i<this.guaranteeList.size();i++) {
 			Guarantee guarantee = (Guarantee) this.guaranteeList.get(i);
-			if(guarantee.matchInsuranceId(insuranceId)) {
+			if(guarantee.matchInsuranceId(insuranceID)) {
 				this.guaranteeList.remove(guarantee);			
 				deleteOkay = true;
 			}}
