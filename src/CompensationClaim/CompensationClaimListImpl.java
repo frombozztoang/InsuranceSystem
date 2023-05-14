@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 public class CompensationClaimListImpl {
 
 	private ArrayList<CompensationClaim> compensationClaimList;
-	public CompensationClaim m_CompensationClaim;
+	public CompensationClaim compensationClaim;
 
 	public CompensationClaimListImpl(String compensationClaimFileName) throws IOException {
 		BufferedReader compensationClaimFile = new BufferedReader(new FileReader(compensationClaimFileName));
@@ -29,15 +29,15 @@ public class CompensationClaimListImpl {
 	private CompensationClaim stringToCompensationClaim(String compensationClaimInfo) {
 		CompensationClaim compensationClaim = new CompensationClaim();
 		StringTokenizer stringTokenizer = new StringTokenizer(compensationClaimInfo);
-		compensationClaim.setInsuranceID(Integer.valueOf(stringTokenizer.nextToken()));
-		compensationClaim.setCustomerID(Integer.valueOf(stringTokenizer.nextToken()));
-		compensationClaim.setCCID(Integer.valueOf(stringTokenizer.nextToken()));
+		compensationClaim.setInsuranceID(stringTokenizer.nextToken());
+		compensationClaim.setCustomerID(stringTokenizer.nextToken());
+		compensationClaim.setCCID(stringTokenizer.nextToken());
 		compensationClaim.setReceptionistName(stringTokenizer.nextToken());
-		compensationClaim.setReceptionistPNumber(Integer.valueOf(stringTokenizer.nextToken()));
+		compensationClaim.setReceptionistPNumber(stringTokenizer.nextToken());
 		compensationClaim.setRelationshipOfContractor(stringTokenizer.nextToken());
 		compensationClaim.setDocumentFilePath(stringTokenizer.nextToken());
 		compensationClaim.setBank(stringTokenizer.nextToken());
-		compensationClaim.setAccountNumber(Integer.valueOf(stringTokenizer.nextToken()));
+		compensationClaim.setAccountNumber(stringTokenizer.nextToken());
 		compensationClaim.setAccountHolderName(stringTokenizer.nextToken());
 		return compensationClaim;
 	}
