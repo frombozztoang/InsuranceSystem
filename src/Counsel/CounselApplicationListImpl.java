@@ -27,7 +27,6 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 	}
 	
 	private CounselApplication makeCouncel(String councelInfo) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 		CounselApplication councelApplication = new CounselApplication();
 
 		StringTokenizer stringTokenizer = new StringTokenizer(councelInfo);
@@ -47,7 +46,9 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 	    LocalDate date2 = LocalDate.of(year, month, day);
 		councelApplication.setDateOfSecond(date2);
 		councelApplication.setRequirement(stringTokenizer.nextToken());
-		councelApplication.setManagerName(stringTokenizer.nextToken());
+		Counsel counsel = councelApplication.getCounsel();
+		counsel.setManagerName(stringTokenizer.nextToken());
+		counsel.setContent(null);
 		return councelApplication;
 	}
 

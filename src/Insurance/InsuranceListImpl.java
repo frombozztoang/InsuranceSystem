@@ -39,7 +39,7 @@ public class InsuranceListImpl {
 		insurance.setRate(stringTokenizer.nextToken());
 		insurance.setDistributionStatus(Boolean.parseBoolean(stringTokenizer.nextToken()));
 		insurance.setTermsIDList(stringTokenizer.nextToken());
-		insurance.setInsuranceClausePeriod(stringTokenizer.nextToken());
+		insurance.setInsuranceClausePeriod(Integer.valueOf(stringTokenizer.nextToken()));
 		insurance.setAuthorization(Boolean.parseBoolean(stringTokenizer.nextToken()));
 		String precaution = "";
 		while(stringTokenizer.hasMoreTokens())
@@ -52,8 +52,8 @@ public class InsuranceListImpl {
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if(insurance.matchId(insuranceID)) return insurance.getInsuranceName();
-				//보험 인가 요청 (금감원)
-				//if(금감원.requestAuthorization(insurance)) return true; 
+				//insurance�� �ݰ����� ������ �ڵ�� �̱���
+				//if(�ݰ���.requestAuthorization(insurance)) return true; 
 		}
 		return "";
 	}
@@ -111,7 +111,8 @@ public class InsuranceListImpl {
 	
 	public Insurance retrieveInsuranceDetail(String insuranceID){
 		for(int i=0;i<this.insuranceList.size();i++) {
-			if(this.insuranceList.get(i).matchId(insuranceID)) return this.insuranceList.get(i);			
+			Insurance insurance = (Insurance) this.insuranceList.get(i);
+			if(insurance.matchId(insuranceID)) return insurance;			
 		}
 		return null;
 	}
@@ -127,7 +128,8 @@ public class InsuranceListImpl {
 				else return false;			
 		}
 		return false;
-	}		
+	}	
+	
 	public ArrayList<Insurance> getOnSaleInsuranceList() {
 		ArrayList<Insurance> onSaleInsurance = new ArrayList<Insurance>();
 		for(int i=0;i<this.insuranceList.size();i++) {
@@ -136,6 +138,7 @@ public class InsuranceListImpl {
 		}
 		return onSaleInsurance;
 	}
+	
 	public ArrayList<Insurance> getUnregisteredInsuranceList() {
 		ArrayList<Insurance> unregisteredInsurance = new ArrayList<Insurance>();
 		for(int i=0;i<this.insuranceList.size();i++) {
@@ -144,6 +147,7 @@ public class InsuranceListImpl {
 		}
 		return unregisteredInsurance;
 	}
+
 	public boolean updateinsurance(Insurance updateInsurance) {
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);

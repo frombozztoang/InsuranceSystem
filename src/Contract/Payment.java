@@ -8,11 +8,11 @@ public class Payment {
 	private int customerID;
 	private int insuranceID;
 	private LocalDate dateOfPayment;
-	private boolean whetherPayment;
+	private boolean whetherPayment; // 미납 여부
 	private String stringDateOfPayment;
 
 	public Payment() {
-
+		whetherPayment = false;
 	}
 
 	public boolean match(int customerID, int insuranceID) {
