@@ -3,24 +3,22 @@ package CompensationClaim;
 import java.io.BufferedReader;
 
 public class Survey {
-	private int CCID;
-	// private int insuranceID;
-//		private int customerID;
+	private String CCID;
 	private String managerName;
-	private int decisionMoney;
 	private String reportFilePath;
+	private int surveyFee;
+	private int decisionMoney;
 	private boolean responsibility;
 	private String responsibilityReason;
-	private int surveyFee;
 
 	/**
 	 * Getters & Setters
 	 */
-	public int getCCID() {
+	public String getCCID() {
 		return CCID;
 	}
 
-	public void setCCID(int CCID) {
+	public void setCCID(String CCID) {
 		this.CCID = CCID;
 	}
 
@@ -76,7 +74,12 @@ public class Survey {
 
 	}
 
-	public boolean createSurvey(BufferedReader inputReader) {
-		return false;
+	public String toString() {
+		String stringReturn = this.CCID + " " + this.managerName + " " + this.reportFilePath + " " + this.surveyFee
+				+ " " + this.decisionMoney + " " + this.responsibility + " " + this.responsibilityReason;
+		return stringReturn;
+	}
+
+	public void requestBanking() {
 	}
 }

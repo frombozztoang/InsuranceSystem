@@ -1,6 +1,8 @@
 package CompensationClaim;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -9,8 +11,28 @@ public class CarAccidentListImpl {
 	private ArrayList<CarAccident> carAccidentList;
 	public CarAccident carAccident;
 
-	public CarAccidentListImpl() {
+	public CarAccidentListImpl(String carAccidentFileName) throws IOException {
+		BufferedReader carAccidentFile = new BufferedReader(new FileReader(carAccidentFileName));
+		this.carAccidentList = new ArrayList<CarAccident>();
+		while (carAccidentFile.ready()) {
+			CarAccident carAccident = stringToCarAccident(carAccidentFile.readLine());
+			if (carAccident!=null) this.carAccidentList.add(carAccident);
+		}
+		carAccidentFile.close();
+	}
 
+	private CarAccident stringToCarAccident(String carAccidentInfo) {
+		CarAccident carAccident = new CarAccident();
+		StringTokenizer stringTokenizer = new StringTokenizer(carAccidentInfo);
+		carAccident.setCCID(stringTokenizer.nextToken());
+		carAccident.setType(stringTokenizer.nextToken());
+		carAccident.setDateTime(LocalDateTime.parse(stringTokenizer.nextToken()));
+		carAccident.setPlace(stringTokenizer.nextToken());
+		carAccident.setCarNumber(stringTokenizer.nextToken());
+		carAccident.setDriverName(stringTokenizer.nextToken());
+		carAccident.setLicenseNumber(stringTokenizer.nextToken());
+		carAccident.setAccidentDetail(stringTokenizer.nextToken());
+		return carAccident;
 	}
 
 	public void finalize() throws Throwable {

@@ -1,17 +1,35 @@
 package CompensationClaim;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class SurveyListImpl {
 
     private ArrayList<Survey> surveyList;
     public Survey survey;
 
-    public SurveyListImpl() {
+    public SurveyListImpl(String surveyFileName) throws IOException {
+        BufferedReader surveyFile = new BufferedReader(new FileReader(surveyFileName));
+        this.surveyList = new ArrayList<Survey>();
+        while (surveyFile.ready()) {
+            Survey survey = stringToSurvey(surveyFile.readLine());
+            if (survey!=null) this.surveyList.add(survey);
+        }
+        surveyFile.close();
+    }
 
+    private Survey stringToSurvey(String surveyInfo) {
+        Survey survey = new Survey();
+        StringTokenizer stringTokenizer = new StringTokenizer(surveyInfo);
+        survey.setCCID(stringTokenizer.nextToken());
+        survey.setManagerName(stringTokenizer.nextToken());
+        survey.setReportFilePath(stringTokenizer.nextToken());
+        survey.setSurveyFee(Integer.parseInt(stringTokenizer.nextToken()));
+        survey.setDecisionMoney(Integer.parseInt(stringTokenizer.nextToken()));
+        survey.setResponsibility(Boolean.parseBoolean(stringTokenizer.nextToken()));
+        survey.setResponsibilityReason(stringTokenizer.nextToken());
+        return survey;
     }
 
     public void finalize() throws Throwable {

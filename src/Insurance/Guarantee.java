@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Guarantee {
 
-	private int insuranceID;
-	private int termsID;
+	private String insuranceID;
+	private String termsID;
 
 	public Guarantee(){
 	}
@@ -17,26 +17,26 @@ public class Guarantee {
 	        return stringReturn;
 	    }
 
-	public boolean matchInsuranceId(int insuranceId) {
+	public boolean matchInsuranceId(String insuranceId) {
 		return this.insuranceID == insuranceId;
 	}
 	
-	public int getInsuranceID() {
+	public String getInsuranceID() {
 		return insuranceID;
 	}
 
 
-	public void setInsuranceID(int insuranceID) {
+	public void setInsuranceID(String insuranceID) {
 		this.insuranceID = insuranceID;
 	}
 
 
-	public int getTermsID() {
+	public String getTermsID() {
 		return termsID;
 	}
 
 
-	public void setTermsID(int termsID) {
+	public void setTermsID(String termsID) {
 		this.termsID = termsID;
 	}
 

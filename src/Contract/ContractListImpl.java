@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import Contract.PaymentListImpl.DateConverter;
+import Customer.Customer;
+
 
 public class ContractListImpl {
 
@@ -31,17 +32,24 @@ public class ContractListImpl {
 		contractFile.close();
 	}
 
-	public class DateConverter {
-		public static LocalDate stringToDate(String dateString) {
-			String[] dateParts = dateString.split("-");
-			int year = Integer.parseInt(dateParts[0]);
-			int month = Integer.parseInt(dateParts[1]);
-			int day = Integer.parseInt(dateParts[2]);
-			return LocalDate.of(year, month, day);
+//	public class DateConverter {
+//		public static LocalDate stringToDate(String dateString) {
+//			String[] dateParts = dateString.split("-");
+//			int year = Integer.parseInt(dateParts[0]);
+//			int month = Integer.parseInt(dateParts[1]);
+//			int day = Integer.parseInt(dateParts[2]);
+//			return LocalDate.of(year, month, day);
+//
+//		}
+//	}
+public static LocalDate stringToDate(String dateString) {
+	String[] dateParts = dateString.split("-");
+	int year = Integer.parseInt(dateParts[0]);
+	int month = Integer.parseInt(dateParts[1]);
+	int day = Integer.parseInt(dateParts[2]);
+	return LocalDate.of(year, month, day);
 
-		}
-	}
-
+}
 	private Contract makeContract(String contractInfo) throws ParseException {
 		Contract contract = new Contract();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
@@ -49,20 +57,21 @@ public class ContractListImpl {
 		StringTokenizer stringTokenizer = new StringTokenizer(contractInfo);
 		contract.setContractIndex(Integer.parseInt(stringTokenizer.nextToken()));
 		contract.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
-		contract.setInsuranceID(Integer.parseInt(stringTokenizer.nextToken()));
+		contract.setInsuranceID(stringTokenizer.nextToken());
 		contract.setInsurancePeriod(stringTokenizer.nextToken());
 		contract.setPremium(Integer.parseInt(stringTokenizer.nextToken()));
 		contract.setPaymentCycle(stringTokenizer.nextToken());
 		contract.setMaxCompensation(Integer.parseInt(stringTokenizer.nextToken()));
 		contract.setStringDateOfSubscription(stringTokenizer.nextToken());
-		LocalDate dateOfSubscription = DateConverter.stringToDate(contract.getStringDateOfSubscription());
+		LocalDate dateOfSubscription = stringToDate(contract.getStringDateOfSubscription());
 		contract.setDateOfSubscription(dateOfSubscription);
 		contract.setStringDateOfMaturity(stringTokenizer.nextToken());
-		LocalDate dateOfMaturity = DateConverter.stringToDate(contract.getStringDateOfMaturity());
+		LocalDate dateOfMaturity = stringToDate(contract.getStringDateOfMaturity());
 		contract.setDateOfMaturity(dateOfMaturity);
 		contract.setMaturity(Boolean.parseBoolean(stringTokenizer.nextToken()));
 		contract.setResurrection(Boolean.parseBoolean(stringTokenizer.nextToken()));
 		contract.setCancellation(Boolean.parseBoolean(stringTokenizer.nextToken()));
+		contract.setM_Payment(new Payment());
 
 		return contract;
 	}
@@ -168,5 +177,24 @@ public class ContractListImpl {
 				return contractList.get(i).isCancellation();
 		}
 		return false;
+	}
+	public void setResurrectFromCustomer(Customer customer) {
+		for(Contract contract : contractList) {
+			if(contract.getCustomerID() == customer.getCustomerID()) 
+				contract.setResurrection(false);
+		}
+	}
+	public void setMaturityFromCustomer(Customer customer) {
+		for(Contract contract : contractList) {
+			if(contract.getCustomerID() == customer.getCustomerID()) 
+				contract.setMaturity(false);
+		}
+	}
+
+	public void setWheaterPaymentFromCustomer(Customer customer) {
+		for(Contract contract : contractList) {
+			if(contract.getCustomerID() == customer.getCustomerID()) 
+				contract.m_Payment.setWhetherPayment(true);
+		}
 	}
 }// end ContractListImpl

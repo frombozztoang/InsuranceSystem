@@ -8,7 +8,7 @@ public class InsuranceApplication {
 	private boolean approval;
 	private Date createdAt;
 	private int customerID;
-	private int insuranceID;
+	private String insuranceID;
 	private String insurancePeriod;
 	private int maxCompensation;
 	private String paymentCycle;

@@ -5,14 +5,15 @@ import java.util.StringTokenizer;
 public class FamilyHistory {
 
 	private int customerID;
-	private String diseaseName;
-	private String relationship;
+	private String diseaseName; // 가족 질환
+	private String relationship; // 가족 관계
 	public FamilyHistory(String inputString){
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
 		this.diseaseName = stringTokenizer.nextToken();
 		this.relationship = stringTokenizer.nextToken();
+	}
+	public FamilyHistory() {
 		
-
 	}
 	public int getCustomerID() {
 		return customerID;
@@ -32,6 +33,4 @@ public class FamilyHistory {
 	public void setRelationship(String relationship) {
 		this.relationship = relationship;
 	}
-
-
 }

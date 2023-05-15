@@ -1,3 +1,4 @@
+
 package Counsel;
 
 import java.util.ArrayList;
@@ -8,16 +9,16 @@ import Customer.Customer;
 
 public class Counsel {
 	private String content;
+	private String managerName;
+	private Date dateOfCounsel;
+
 	private int counselID;
 	private int customerID;
-	private Date dateOfCounsel;
-	private String managerName;
 	private String requirement;
 	private ArrayList<Counsel> counselList;
 	private Customer customer;
-	// composition
-	public CounselApplication counselApplication;
 
+	// composition
 	public Counsel(String inputString) {
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
 		this.content = stringTokenizer.nextToken();
@@ -26,7 +27,7 @@ public class Counsel {
 	}
 
 	public Counsel() {
-//		this.counselApplication = new CounselApplication();
+
 	}
 
 	public Counsel(String managerName, int customerID, Customer customer, String requirement) {
