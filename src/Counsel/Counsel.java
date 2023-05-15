@@ -15,25 +15,29 @@ public class Counsel {
 	private String requirement;
 	private ArrayList<Counsel> counselList;
 	private Customer customer;
-	//composition
+	// composition
 	public CounselApplication counselApplication;
+
 	public Counsel(String inputString) {
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
 		this.content = stringTokenizer.nextToken();
 		this.managerName = stringTokenizer.nextToken();
 
 	}
+
 	public Counsel() {
 //		this.counselApplication = new CounselApplication();
 	}
-	 public Counsel (String managerName, int customerID, Customer customer, String requirement) {
-		
-	    	this.managerName = managerName;
-	    	this.customerID=customerID;
-	    	this.customer= customer;
-	    	this.requirement=requirement;
-	    	
-	    }
+
+	public Counsel(String managerName, int customerID, Customer customer, String requirement) {
+
+		this.managerName = managerName;
+		this.customerID = customerID;
+		this.customer = customer;
+		this.requirement = requirement;
+
+	}
+
 	public ArrayList<Counsel> retrieveCounselList(int customerID) {
 		ArrayList<Counsel> customerCounselList = new ArrayList<>();
 		// 지정된 고객에 대한 상담 일정 검색
@@ -54,7 +58,7 @@ public class Counsel {
 			}
 		}
 		// 상담일정을 찾을 수 없음.
-		return null; 
+		return null;
 	}
 
 	public String retrieveCounselContent(int counselID) {
@@ -66,7 +70,7 @@ public class Counsel {
 		}
 
 		// 상담일정을 찾을 수 없음.
-		return null; 
+		return null;
 	}
 
 	public boolean deleteCounsel(int counselID) {
@@ -74,11 +78,11 @@ public class Counsel {
 		for (Counsel counsel : counselList) {
 			if (counsel.getCounselID() == counselID) {
 				counselList.remove(counsel);
-				return true; 
+				return true;
 			}
 		}
 		// 상담 일정을 찾을 수 없거나 삭제하지 못함.
-		return false; 
+		return false;
 	}
 
 	public boolean createCounsel(String managerName, int customerID, Customer customer, String requirement) {
@@ -86,7 +90,7 @@ public class Counsel {
 		Counsel newCounsel = new Counsel(managerName, customerID, customer, requirement);
 
 		if (counselList.add(newCounsel)) {
-			//더한 것 성공
+			// 더한 것 성공
 			return true;
 		}
 
@@ -153,9 +157,11 @@ public class Counsel {
 	public void setRequirement(String requirement) {
 		this.requirement = requirement;
 	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
+
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
