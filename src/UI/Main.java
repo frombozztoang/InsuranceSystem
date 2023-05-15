@@ -68,7 +68,7 @@ public class Main {
 				showContractList(contractListImpl, inputReader);
 				break;
 			case "6":
-	            showCustomerList(customerListImpl, inputReader, 
+	                        showCustomerList(customerListImpl, inputReader, 
 	            		familyHistoryListImpl, contractListImpl, insuranceList);
 	            break;
 	         case "7":
