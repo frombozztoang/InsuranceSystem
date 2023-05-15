@@ -1,8 +1,8 @@
 package Counsel;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import Customer.Customer;
 
@@ -15,24 +15,26 @@ public class CounselApplication implements Serializable {
 	private LocalDate dateOfFirst;
 	private LocalDate dateOfSecond;
 	private String requirement;
-	private String managerName;
-	private ArrayList<Counsel> counselList;
-	public CounselApplication() {
-		
-	}
-	    public boolean requireCounsel(String managerName, int customerID, Customer customer, String requirement) {
-	        // Check if the customer already has an existing counseling schedule
-	        for (Counsel counsel : counselList) {
-	            if (counsel.getCustomerID() == customerID) {
-	                return false; // Application unsuccessful - customer already has a counseling schedule
-	            }
-	        }
-
-	        // Create a new counseling schedule and add it to the list
-	        Counsel newCounsel = new Counsel(managerName, customerID, customer, requirement);
-	        return counselList.add(newCounsel);
-	    }
 	
+	private Counsel counsel;
+	private ArrayList<Counsel> counselList;
+
+	public CounselApplication() {
+		counsel = new Counsel();
+	}
+
+	public boolean requireCounsel(String managerName, int customerID, Customer customer, String requirement) {
+		// Check if the customer already has an existing counseling schedule
+		for (Counsel counsel : counselList) {
+			if (counsel.getCustomerID() == customerID) {
+				return false; // Application unsuccessful - customer already has a counseling schedule
+			}
+		}
+
+		// Create a new counseling schedule and add it to the list
+		Counsel newCounsel = new Counsel(managerName, customerID, customer, requirement);
+		return counselList.add(newCounsel);
+	}
 
 	public String getCategory() {
 		return category;
@@ -81,12 +83,13 @@ public class CounselApplication implements Serializable {
 	public void setRequirement(String requirement) {
 		this.requirement = requirement;
 	}
-	
-	public String getManagerName() {
-		return managerName;
+
+	public Counsel getCounsel() {
+		return counsel;
+	}
+
+	public void setCounsel(Counsel counsel) {
+		this.counsel = counsel;
 	}
 	
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
-	}
 }
