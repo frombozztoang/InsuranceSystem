@@ -5,12 +5,6 @@ import java.io.IOException;
 public class Insurance {
 
 	private String insuranceID;
-	public void setInsuranceID(String insuranceID) {
-		this.insuranceID = insuranceID;
-	}
-
-
-
 	private String insuranceName;
 	private String type;
 	private int maxCompensation;
@@ -22,7 +16,7 @@ public class Insurance {
 	private String rate;
 	private boolean distributionStatus;
 	private String TermsIDList;
-	private String insuranceClausePeriod;	
+	private int insuranceClausePeriod;	
 	private String precaution;
 	private boolean authorization;
 	
@@ -37,8 +31,7 @@ public class Insurance {
     }  
 	
     public boolean matchId(String insuranceID) {
-
-return this.insuranceID.equals(insuranceID);
+    	return this.insuranceID.equals(insuranceID);
     }
   
     public String toString() {
@@ -93,11 +86,11 @@ return this.insuranceID.equals(insuranceID);
 		this.distributionStatus = distributionStatus;
 	}
 
-	public String getInsuranceClausePeriod() {
+	public int getInsuranceClausePeriod() {
 		return insuranceClausePeriod;
 	}
 
-	public void setInsuranceClausePeriod(String insuranceClausePeriod) {
+	public void setInsuranceClausePeriod(int insuranceClausePeriod) {
 		this.insuranceClausePeriod = insuranceClausePeriod;
 	}
 
@@ -182,7 +175,9 @@ return this.insuranceID.equals(insuranceID);
 		this.m_InsuranceApplication = m_InsuranceApplication;
 	}
 
-
+	public void setInsuranceID(String insuranceID) {
+		this.insuranceID = insuranceID;
+	}
 
 	public boolean setTermsIDList(String termsIDList) throws FileNotFoundException, IOException {
 		guaranteeList = new GuaranteeListImpl("data/Guarantee.txt"); 
@@ -196,6 +191,6 @@ return this.insuranceID.equals(insuranceID);
 			}
 		guaranteeList.create(guarantee);
 		TermsIDList = termsIDList;
-		return true;
+		return false;
 	}
 }
