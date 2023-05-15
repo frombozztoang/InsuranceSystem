@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import Customer.Customer;
-
 
 public class ContractListImpl {
 
@@ -71,7 +69,6 @@ public static LocalDate stringToDate(String dateString) {
 		contract.setMaturity(Boolean.parseBoolean(stringTokenizer.nextToken()));
 		contract.setResurrection(Boolean.parseBoolean(stringTokenizer.nextToken()));
 		contract.setCancellation(Boolean.parseBoolean(stringTokenizer.nextToken()));
-		contract.setM_Payment(new Payment());
 
 		return contract;
 	}
@@ -177,24 +174,5 @@ public static LocalDate stringToDate(String dateString) {
 				return contractList.get(i).isCancellation();
 		}
 		return false;
-	}
-	public void setResurrectFromCustomer(Customer customer) {
-		for(Contract contract : contractList) {
-			if(contract.getCustomerID() == customer.getCustomerID()) 
-				contract.setResurrection(false);
-		}
-	}
-	public void setMaturityFromCustomer(Customer customer) {
-		for(Contract contract : contractList) {
-			if(contract.getCustomerID() == customer.getCustomerID()) 
-				contract.setMaturity(false);
-		}
-	}
-
-	public void setWheaterPaymentFromCustomer(Customer customer) {
-		for(Contract contract : contractList) {
-			if(contract.getCustomerID() == customer.getCustomerID()) 
-				contract.m_Payment.setWhetherPayment(true);
-		}
 	}
 }// end ContractListImpl

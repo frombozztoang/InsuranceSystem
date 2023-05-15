@@ -9,7 +9,6 @@ import java.util.StringTokenizer;
 
 import Contract.Contract;
 import Contract.ContractListImpl;
-import Customer.Customer.EGender;
 
 public class CustomerListImpl implements CustomerList{
 	
@@ -33,29 +32,9 @@ public class CustomerListImpl implements CustomerList{
 		}
 		customerFile.close();
 	}
-	public ArrayList<Customer> getResurrectCandidates(ContractListImpl contractListImpl) throws Exception {
-		resurrectCandidates = new ArrayList<Customer>(); 
-	    HashMap<Integer, Boolean> customerMap = new HashMap<Integer, Boolean>(); // 중복 호출 방지를 위한 맵
+	
 
-	    for (Customer customer : customerList) {
-	       if (customerMap.containsKey(customer.getCustomerID())) {
-	          continue; 
-	       }
-
-	       for (Contract contract : contractListImpl.retrieve()) {
-	          if (customer.getCustomerID() == contract.getCustomerID()) {
-	             if (contract.isResurrection()) {
-	            	resurrectCandidates.add(customer);
-	                customerMap.put(customer.getCustomerID(), true);
-	                break;
-	             }
-	          }
-	       }
-	    }
-	    return resurrectCandidates;
-	}
 	public ArrayList<Customer> getExpiredContracts(ContractListImpl contractListImpl) throws Exception {
-		// 1 3 4 -> 새로 만듬
 		expiredContracts = new ArrayList<Customer>(); // 만기계약 리스트
 	    HashMap<Integer, Boolean> customerMap = new HashMap<Integer, Boolean>(); // 중복 호출 방지를 위한 맵
 
@@ -67,8 +46,6 @@ public class CustomerListImpl implements CustomerList{
 	       for (Contract contract : contractListImpl.retrieve()) {
 	          if (customer.getCustomerID() == contract.getCustomerID()) {
 	             if (contract.isMaturity()) {
-	            	// 새로 만듬 -> 1 3 4
-	            	// 1 3 4 -> 1 2 3 4
 	                expiredContracts.add(customer);
 	                customerMap.put(customer.getCustomerID(), true); // 고객 ID를 맵에 추가
 	                break; // 해당 고객의 계약이 만기되었으므로 다음 고객으로 넘어감
@@ -83,8 +60,10 @@ public class CustomerListImpl implements CustomerList{
 		HashMap<Integer, Boolean> customerMap = new HashMap<Integer, Boolean>(); // 중복 호출 방지를 위한 맵
 
 	    for (Customer customer : customerList) {
-	       if (customerMap.containsKey(customer.getCustomerID())) 
+	       if (customerMap.containsKey(customer.getCustomerID())) {
 	          continue; // 이미 출력된 고객이므로 중복 호출 방지
+	       }
+
 	       for (Contract contract : contractListImpl.retrieve()) {
 	          if (customer.getCustomerID() == contract.getCustomerID()) {
 	             if (!contract.m_Payment.isWhetherPayment()) {
@@ -103,8 +82,7 @@ public class CustomerListImpl implements CustomerList{
 		StringTokenizer stringTokenizer = new StringTokenizer(customerInfo);
 		customer.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
 		customer.setCustomerName(stringTokenizer.nextToken());
-		customer.setBirth(stringTokenizer.nextToken());
-		customer.setEGender(stringTokenizer.nextToken().equals("남") ? EGender.male : EGender.female);
+		customer.setSSN(stringTokenizer.nextToken());
 		customer.setPnumber(stringTokenizer.nextToken());
 		customer.setJob(stringTokenizer.nextToken());
 		
@@ -117,9 +95,6 @@ public class CustomerListImpl implements CustomerList{
 		return customer;
 	}
 
-	/**
-	 * 안쓰임
-	 */
 	public boolean add(Customer customer){
 		if(this.customerList.add(customer)) return true;	
 		else return false;
@@ -134,10 +109,15 @@ public class CustomerListImpl implements CustomerList{
 		}
 		return false;
 	}
+
+
 	public boolean update(Customer customer, int customerID){
-		for(int i = 0; i < customerList.size(); i++) {
-			if(customerList.get(i).getCustomerID() == customerID)
-				customerList.set(i, customer);
+		for(Customer uCustomer : this.customerList) {
+			if(uCustomer.getCustomerID() == customerID) {
+				uCustomer.setCustomerName(customer.getCustomerName());
+//				uCustomer.setAddress(customer.getAddress());
+				uCustomer.setPnumber(customer.getPnumber());
+			}
 		}
 		// DB UPDATE 쿼리 써야되유
 		return false;
@@ -145,10 +125,7 @@ public class CustomerListImpl implements CustomerList{
 	public ArrayList<Customer> retrieve() {
 		return customerList;
 	}
-	/**
-	 *  안쓰임
-	 */
-	public void setRetrieve(ArrayList<Customer> customerList) { 
+	public void setRetrieve(ArrayList<Customer> customerList) {
 		this.customerList = customerList;
 	}
 	//6. retrieveCustomer
@@ -162,14 +139,6 @@ public class CustomerListImpl implements CustomerList{
        // Customer가 없을 때
        return null;
     }
-    public Customer retrieveCustomerFromResurrect(int customerID) {
-		for (Customer customer : resurrectCandidates) {
-           if (customer.getCustomerID() == customerID) {
-              return customer;
-           }
-        }
-        return null;
-	}
     public Customer retrieveCustomerFromExpired(int customerID) {
         for (Customer customer : expiredContracts) {
            if (customer.getCustomerID() == customerID) {
@@ -186,14 +155,5 @@ public class CustomerListImpl implements CustomerList{
            }
         }
         return null;
-	}
-	public boolean deleteResurrectCandidatesCustomer(Customer customer) { // 부활 대상자에서 제외
-		return resurrectCandidates.remove(customer);
-	}
-	public boolean deleteExpiredCustomer(Customer customer) { // 만기계약 대상자에서 제외
-		return expiredContracts.remove(customer);
-	}
-	public boolean deleteUnpaidCustomer(Customer customer) { // 미납 대상자에서 제외
-		return unpaidCustomers.remove(customer);
 	}
 }

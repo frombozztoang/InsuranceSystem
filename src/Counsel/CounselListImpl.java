@@ -16,23 +16,13 @@ public class CounselListImpl {
 	}
 
 	public boolean delete(int counselID){
-//		for(CounselList counselList : this.counselList) {
-//			if(counselList.getCounselID() == counselID) {
-//				if(this.counselList.remove(counselID)) return true;
-//				break;
-//			}
-//		}
+
 		return false;
 	}
 
 
 	public boolean update(CounselList counselList, int counselID){
-//		for(CounselList ucounselList : this.counselList) {
-//			if(ucounselList.getCustomerID() == customerID) {
-//				ucounselList.setDiseaseName(counselList.getDiseaseName());
-//				ucounselList.setRelationship(counselList.getRelationship());
-//			}
-//		}
+
 		return false;
 	}
 	public ArrayList<CounselList> retrieve() {
