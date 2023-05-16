@@ -340,6 +340,13 @@ public class Main {
 		   month = Integer.parseInt(dateStr.substring(4, 6));
 		   day = Integer.parseInt(dateStr.substring(6, 8));
 		   LocalDate date2 = LocalDate.of(year, month, day);
+		   System.out.println("상담 유형 :");
+		   String category = inputReader.readLine().trim();
+		   System.out.println("상세 내용 입력 :");
+		   String content = inputReader.readLine().trim();
+//			boolean allInput = false;
+//		   allInput = isAllInput(dateStr, dateStr, category, category);
+//			if(!allInput) System.out.println("항목을 모두 입력해주세요.");
 		   System.out.println("제출하겠습니까?");
 		   System.out.print("1. 예, 2. 아니오 : ");
 		   if(!inputReader.readLine().trim().equals("1")) return null;
@@ -347,6 +354,8 @@ public class Main {
 		   counselApplication.setCustomerID(id);
 		   counselApplication.setDateOfFirst(date1);
 		   counselApplication.setDateOfSecond(date2);
+		   counselApplication.setCategory(category);
+		   counselApplication.getCounsel().setContent(content);
 		   return counselApplication;
 	 }
 	 private static void showfMaturityList(BufferedReader inputReader, 
@@ -1004,7 +1013,7 @@ public class Main {
 		System.out.println("3. 보험 조회");
 		System.out.println("4. 보험 설계(직원용)");
 		System.out.println("5. 계약 관리");
-		System.out.println("6. 고객 정보 조회");
+		System.out.println("6. 고객 조회");
 		System.out.println("7. 고객 상담 신청");
 		System.out.println("8. 상담 정보 관리");
 		System.out.println("x. Exit");
