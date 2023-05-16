@@ -31,8 +31,8 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 
 		StringTokenizer stringTokenizer = new StringTokenizer(councelInfo);
 		councelApplication.setCategory(stringTokenizer.nextToken());
-		councelApplication.setCounselID(Integer.parseInt(stringTokenizer.nextToken()));
-		councelApplication.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
+		councelApplication.setCounselID(stringTokenizer.nextToken());
+		councelApplication.setCustomerID(stringTokenizer.nextToken());
 		String dateStr = stringTokenizer.nextToken(); // yyyy-mm-dd
 		int year = Integer.parseInt(dateStr.substring(0, 4)); // yyyy
 		int month = Integer.parseInt(dateStr.substring(5, 7)); // mm
@@ -59,9 +59,9 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 	}
 
 	@Override
-	public boolean delete(int counselID) {
+	public boolean delete(String counselID) {
 		for(CounselApplication counselApplication : this.CounselApplicationList) {
-			if(counselApplication.getCounselID() == counselID) {
+			if(counselApplication.getCounselID().equals(counselID)) {
 				if(CounselApplicationList.remove(counselApplication)) return true;
 			}
 		}
@@ -69,9 +69,9 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 	}
 
 	@Override
-	public boolean update(CounselApplication counselApplication, int counselID) {
+	public boolean update(CounselApplication counselApplication, String counselID) {
 		for(CounselApplication ucounselApplication : this.CounselApplicationList) {
-			if(ucounselApplication.getCounselID() == counselID) {
+			if(ucounselApplication.getCounselID().equals(counselID)) {
 				ucounselApplication.setCategory(counselApplication.getCategory());
 				ucounselApplication.setRequirement(counselApplication.getRequirement());
 			}

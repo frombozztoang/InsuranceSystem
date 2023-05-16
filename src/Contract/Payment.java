@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class Payment {
 
 	private int paymentIndex;
-	private int customerID;
-	private int insuranceID;
+	private String customerID;
+	private String insuranceID;
 	private LocalDate dateOfPayment;
 	private boolean whetherPayment; // 미납 여부
 	private String stringDateOfPayment;
@@ -15,7 +15,7 @@ public class Payment {
 		whetherPayment = false;
 	}
 
-	public boolean match(int customerID, int insuranceID) {
+	public boolean match(String customerID, String insuranceID) {
 		return (this.customerID == customerID) && (this.insuranceID == insuranceID);
 	}
 
@@ -41,11 +41,11 @@ public class Payment {
 		return !this.whetherPayment;
 	}
 
-	public int getCustomerID() {
+	public String getCustomerID() {
 		return customerID;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 
@@ -65,11 +65,11 @@ public class Payment {
 		this.dateOfPayment = date;
 	}
 
-	public int getInsuranceID() {
+	public String getInsuranceID() {
 		return insuranceID;
 	}
 
-	public void setInsuranceID(int insuranceID) {
+	public void setInsuranceID(String insuranceID) {
 		this.insuranceID = insuranceID;
 	}
 
@@ -81,7 +81,7 @@ public class Payment {
 		this.whetherPayment = whetherPayment;
 	}
 
-	public boolean matchCustomerID(int customerID) {
+	public boolean matchCustomerID(String customerID) {
 		return this.customerID == customerID;
 	}
 
@@ -91,6 +91,6 @@ public class Payment {
 
 	public boolean matchCustomerPayment(int paymentIndex, String customerID) {
 		// TODO Auto-generated method stub
-		return (this.paymentIndex == paymentIndex) && (this.customerID == Integer.parseInt(customerID));
+		return (this.paymentIndex == paymentIndex) && (this.customerID == customerID);
 	}
 }// end Payment
