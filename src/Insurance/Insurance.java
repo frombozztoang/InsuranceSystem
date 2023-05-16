@@ -19,7 +19,7 @@ public class Insurance {
 	private String rate;
 	private boolean distributionStatus;
 	private String TermsIDList;
-	private int insuranceClausePeriod;	
+	private String insuranceClausePeriod;	
 	private String precaution;
 	private boolean authorization;
 	
@@ -53,9 +53,6 @@ public class Insurance {
 		return insuranceID;
 	}
 
-	public void setInsuranceID(String insuranceID) {
-		this.insuranceID = insuranceID;
-	}
 
 	public String getInsuranceName() {
 		return insuranceName;
