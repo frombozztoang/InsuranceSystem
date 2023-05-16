@@ -51,8 +51,8 @@ public static LocalDate stringToDate(String dateString) {
 
 		StringTokenizer stringTokenizer = new StringTokenizer(paymentInfo);
 		payment.setPaymentID(Integer.parseInt(stringTokenizer.nextToken()));
-		payment.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
-		payment.setInsuranceID(Integer.parseInt(stringTokenizer.nextToken()));
+		payment.setCustomerID(stringTokenizer.nextToken());
+		payment.setInsuranceID(stringTokenizer.nextToken());
 		payment.setStringDateOfPayment(stringTokenizer.nextToken());
 		LocalDate date = stringToDate(payment.getStringDateOfPayment());
 		payment.setDateOfPayment(date);
@@ -103,7 +103,7 @@ public static LocalDate stringToDate(String dateString) {
 		return this.paymentList;
 	}
 
-	public ArrayList<Payment> retreiveCustomerPayment(int customerID) {
+	public ArrayList<Payment> retreiveCustomerPayment(String customerID) {
 		ArrayList<Payment> customerPayment = new ArrayList<Payment>();
 		for (int i = 0; i < this.paymentList.size(); i++) {
 			Payment payment = (Payment) paymentList.get(i);

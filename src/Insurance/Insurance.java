@@ -45,54 +45,13 @@ public class Insurance {
 	public boolean matchType(String type) {
 		return this.type.equals(type);
 	}
-	
-	
+
 	public String getInsuranceID() {
-        return String.valueOf(this.insuranceID);
-    }
-	
-	public String getTermsIDList() {
-        return this.TermsIDList;
-    }	
-
-	public String getAgeOfTarget() {
-		return ageOfTarget;
+		return insuranceID;
 	}
 
-	public void setAgeOfTarget(String ageOfTarget) {
-		this.ageOfTarget = ageOfTarget;
-	}
-
-	public boolean isAuthorization() {
-		return authorization;
-	}
-
-	public void setAuthorization(boolean authorization) {
-		this.authorization = authorization;
-	}
-
-	public int getBasicPremium() {
-		return basicPremium;
-	}
-
-	public void setBasicPremium(int basicPremium) {
-		this.basicPremium = basicPremium;
-	}
-
-	public boolean isDistributionStatus() {
-		return distributionStatus;
-	}
-
-	public void setDistributionStatus(boolean distributionStatus) {
-		this.distributionStatus = distributionStatus;
-	}
-
-	public int getInsuranceClausePeriod() {
-		return insuranceClausePeriod;
-	}
-
-	public void setInsuranceClausePeriod(int insuranceClausePeriod) {
-		this.insuranceClausePeriod = insuranceClausePeriod;
+	public void setInsuranceID(String insuranceID) {
+		this.insuranceID = insuranceID;
 	}
 
 	public String getInsuranceName() {
@@ -103,12 +62,28 @@ public class Insurance {
 		this.insuranceName = insuranceName;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public int getMaxCompensation() {
 		return maxCompensation;
 	}
 
 	public void setMaxCompensation(int maxCompensation) {
 		this.maxCompensation = maxCompensation;
+	}
+
+	public String getPeriodOfInsurance() {
+		return periodOfInsurance;
+	}
+
+	public void setPeriodOfInsurance(String periodOfInsurance) {
+		this.periodOfInsurance = periodOfInsurance;
 	}
 
 	public String getPaymentCycle() {
@@ -127,20 +102,20 @@ public class Insurance {
 		this.paymentPeriod = paymentPeriod;
 	}
 
-	public String getPeriodOfInsurance() {
-		return periodOfInsurance;
+	public String getAgeOfTarget() {
+		return ageOfTarget;
 	}
 
-	public void setPeriodOfInsurance(String periodOfInsurance) {
-		this.periodOfInsurance = periodOfInsurance;
+	public void setAgeOfTarget(String ageOfTarget) {
+		this.ageOfTarget = ageOfTarget;
 	}
 
-	public String getPrecaution() {
-		return precaution;
+	public int getBasicPremium() {
+		return basicPremium;
 	}
 
-	public void setPrecaution(String precaution) {
-		this.precaution = precaution;
+	public void setBasicPremium(int basicPremium) {
+		this.basicPremium = basicPremium;
 	}
 
 	public String getRate() {
@@ -151,14 +126,41 @@ public class Insurance {
 		this.rate = rate;
 	}
 
-	public String getType() {
-		return type;
+	public boolean isDistributionStatus() {
+		return distributionStatus;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setDistributionStatus(boolean distributionStatus) {
+		this.distributionStatus = distributionStatus;
 	}
 
+	public String getTermsIDList() {
+		return TermsIDList;
+	}
+
+	public int getInsuranceClausePeriod() {
+		return insuranceClausePeriod;
+	}
+
+	public void setInsuranceClausePeriod(int insuranceClausePeriod) {
+		this.insuranceClausePeriod = insuranceClausePeriod;
+	}
+
+	public String getPrecaution() {
+		return precaution;
+	}
+
+	public void setPrecaution(String precaution) {
+		this.precaution = precaution;
+	}
+
+	public boolean isAuthorization() {
+		return authorization;
+	}
+
+	public void setAuthorization(boolean authorization) {
+		this.authorization = authorization;
+	}
 
 	public GuaranteeListImpl getGuaranteeList() {
 		return guaranteeList;
@@ -174,10 +176,6 @@ public class Insurance {
 
 	public void setM_InsuranceApplication(InsuranceApplication m_InsuranceApplication) {
 		this.m_InsuranceApplication = m_InsuranceApplication;
-	}
-
-	public void setInsuranceID(String insuranceID) {
-		this.insuranceID = insuranceID;
 	}
 
 	public boolean setTermsIDList(String termsIDList) throws FileNotFoundException, IOException {

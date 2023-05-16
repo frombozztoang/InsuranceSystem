@@ -22,7 +22,7 @@ public class Customer implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String address;
-	private int customerID;
+	private String customerID;
 	private String customerName;
 	private String job;
 	private String pnumber;
@@ -50,7 +50,7 @@ public class Customer implements Serializable {
    public boolean deleteCustomer(int customerID) {
       Customer customerToRemove = null;
       for (Customer customer : customerList) {
-         if (customer.getCustomerID() == customerID) {
+         if (customer.getCustomerID().equals(customerID)) {
             customerToRemove = customer;
             break;
          }
@@ -175,11 +175,11 @@ public class Customer implements Serializable {
       this.address = address;
    }
 
-   public int getCustomerID() {
+   public String getCustomerID() {
       return customerID;
    }
 
-   public void setCustomerID(int customerID) {
+   public void setCustomerID(String customerID) {
       this.customerID = customerID;
    }
 

@@ -11,8 +11,8 @@ public class Counsel {
 	private String managerName;
 	private Date dateOfCounsel;
 	
-	private int counselID;
-	private int customerID;
+	private String counselID;
+	private String customerID;
 	private String requirement;
 	private ArrayList<Counsel> counselList;
 	private Customer customer;
@@ -26,7 +26,7 @@ public class Counsel {
 	public Counsel() {
 		
 	}
-	 public Counsel (String managerName, int customerID, Customer customer, String requirement) {
+	 public Counsel (String managerName, String customerID, Customer customer, String requirement) {
 		
 	    	this.managerName = managerName;
 	    	this.customerID=customerID;
@@ -34,11 +34,11 @@ public class Counsel {
 	    	this.requirement=requirement;
 	    	
 	    }
-	public ArrayList<Counsel> retrieveCounselList(int customerID) {
+	public ArrayList<Counsel> retrieveCounselList(String customerID) {
 		ArrayList<Counsel> customerCounselList = new ArrayList<>();
 		// 지정된 고객에 대한 상담 일정 검색
 		for (Counsel counsel : counselList) {
-			if (counsel.getCustomerID() == customerID) {
+			if (counsel.getCustomerID().equals(customerID)) {
 				customerCounselList.add(counsel);
 			}
 		}
@@ -46,10 +46,10 @@ public class Counsel {
 		return customerCounselList;
 	}
 
-	public Counsel retrieveCounselDetail(int counselID) {
+	public Counsel retrieveCounselDetail(String counselID) {
 		// 지정된 ID로 상담 일정 찾음
 		for (Counsel counsel : counselList) {
-			if (counsel.getCounselID() == counselID) {
+			if (counsel.getCounselID().equals(counselID)) {
 				return counsel;
 			}
 		}
@@ -57,7 +57,7 @@ public class Counsel {
 		return null; 
 	}
 
-	public String retrieveCounselContent(int counselID) {
+	public String retrieveCounselContent(String counselID) {
 		// 지정된 ID로 상담 일정 찾기
 		for (Counsel counsel : counselList) {
 			if (counsel.getCounselID() == counselID) {
@@ -69,10 +69,10 @@ public class Counsel {
 		return null; 
 	}
 
-	public boolean deleteCounsel(int counselID) {
+	public boolean deleteCounsel(String counselID) {
 		// 지정된 ID로 상담 일정 찾기
 		for (Counsel counsel : counselList) {
-			if (counsel.getCounselID() == counselID) {
+			if (counsel.getCounselID().equals(counselID)) {
 				counselList.remove(counsel);
 				return true; 
 			}
@@ -81,7 +81,7 @@ public class Counsel {
 		return false; 
 	}
 
-	public boolean createCounsel(String managerName, int customerID, Customer customer, String requirement) {
+	public boolean createCounsel(String managerName, String customerID, Customer customer, String requirement) {
 		// 새 상담 일정 만들기
 		Counsel newCounsel = new Counsel(managerName, customerID, customer, requirement);
 
@@ -93,10 +93,10 @@ public class Counsel {
 		return false;
 	}
 
-	public boolean createCounselContent(int counselID, String content) {
+	public boolean createCounselContent(String counselID, String content) {
 		// 지정된 ID로 상담 일정 찾기
 		for (Counsel counsel : counselList) {
-			if (counsel.getCounselID() == counselID) {
+			if (counsel.getCounselID().equals(counselID)) {
 				// Set the content of the counseling schedule
 				counsel.setContent(content);
 				return true; // Addition successful
@@ -114,19 +114,19 @@ public class Counsel {
 		this.content = content;
 	}
 
-	public int getCounselID() {
+	public String getCounselID() {
 		return counselID;
 	}
 
-	public void setCounselID(int counselID) {
+	public void setCounselID(String counselID) {
 		this.counselID = counselID;
 	}
 
-	public int getCustomerID() {
+	public String getCustomerID() {
 		return customerID;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 

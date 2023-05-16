@@ -7,7 +7,8 @@ import CompensationClaim.CompensationClaim;
 
 public class Contract {
 
-	private int customerID;
+	public String getCustomerID;
+	private String customerID;
 	private String insuranceID;
 	private String insurancePeriod;
 	private int premium;
@@ -55,8 +56,8 @@ public class Contract {
 		this.stringDateOfMaturity = stringDateOfMaturity;
 	}
 
-	public boolean match(int customerID, String insuranceID) {
-		return (this.customerID == customerID) && (this.insuranceID == insuranceID);
+	public boolean match(String customerID, String insuranceID) {
+		return (this.customerID.equals(customerID)) && (this.insuranceID == insuranceID);
 	}
 
 	public String toString() {
@@ -67,11 +68,11 @@ public class Contract {
 		return stringReturn;
 	}
 
-	public int getCustomerID() {
+	public String getCustomerID() {
 		return customerID;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 
@@ -179,8 +180,8 @@ public class Contract {
 		return !this.cancellation;
 	}
 
-	public boolean matchCustomerID(int customerID) {
-		return this.customerID == customerID;
+	public boolean matchCustomerID(String customerID) {
+		return this.customerID.equals(customerID);
 	}
 
 	public boolean matchContractIndex(int contractIndex) {
@@ -188,7 +189,7 @@ public class Contract {
 	}
 
 	public boolean matchCustomerContract(int contractIndex, String customerID) {
-		return (this.contractIndex == contractIndex) && (this.customerID == Integer.parseInt(customerID));
+		return (this.contractIndex == contractIndex) && (this.customerID.equals(customerID));
 	}
 
 	public boolean updateMaturity() {

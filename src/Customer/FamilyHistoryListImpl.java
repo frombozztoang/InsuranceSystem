@@ -26,7 +26,7 @@ public class FamilyHistoryListImpl {
 		FamilyHistory familyHistory = new FamilyHistory();
 
 		StringTokenizer stringTokenizer = new StringTokenizer(familyInfo);
-		familyHistory.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
+		familyHistory.setCustomerID(stringTokenizer.nextToken());
 		familyHistory.setDiseaseName(stringTokenizer.nextToken());
 		familyHistory.setRelationship(stringTokenizer.nextToken());
 		return familyHistory;
@@ -37,9 +37,9 @@ public class FamilyHistoryListImpl {
 		else return false;
 	}
 
-	public boolean delete(int customerID){
+	public boolean delete(String customerID){
 		for(FamilyHistory familyHistory : this.familyHistoryList) {
-			if(familyHistory.getCustomerID() == customerID) {
+			if(familyHistory.getCustomerID().equals(customerID)) {
 				if(this.familyHistoryList.remove(familyHistory)) return true;
 				break;
 			}
@@ -48,9 +48,9 @@ public class FamilyHistoryListImpl {
 	}
 
 
-	public boolean update(FamilyHistory familyHistory, int customerID){
+	public boolean update(FamilyHistory familyHistory, String customerID){
 		for(FamilyHistory ufamilyHistory : this.familyHistoryList) {
-			if(ufamilyHistory.getCustomerID() == customerID) {
+			if(ufamilyHistory.getCustomerID() .equals(customerID)) {
 				ufamilyHistory.setDiseaseName(familyHistory.getDiseaseName());
 				ufamilyHistory.setRelationship(familyHistory.getRelationship());
 			}
