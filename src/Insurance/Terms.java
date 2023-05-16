@@ -55,7 +55,7 @@ public class Terms {
 	    }
 
 	public boolean matchID(String termsID) {
-		return this.termsID == termsID;
+		return this.termsID.equals(termsID);
 	}
 
 	
