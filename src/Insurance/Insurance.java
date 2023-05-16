@@ -5,6 +5,9 @@ import java.io.IOException;
 public class Insurance {
 
 	private String insuranceID;
+	public void setInsuranceID(String insuranceID) {
+		this.insuranceID = insuranceID;
+	}
 	private String insuranceName;
 	private String type;
 	private int maxCompensation;
@@ -138,11 +141,11 @@ public class Insurance {
 		return TermsIDList;
 	}
 
-	public int getInsuranceClausePeriod() {
+	public String getInsuranceClausePeriod() {
 		return insuranceClausePeriod;
 	}
 
-	public void setInsuranceClausePeriod(int insuranceClausePeriod) {
+	public void setInsuranceClausePeriod(String insuranceClausePeriod) {
 		this.insuranceClausePeriod = insuranceClausePeriod;
 	}
 
@@ -190,6 +193,6 @@ public class Insurance {
 			}
 		guaranteeList.create(guarantee);
 		TermsIDList = termsIDList;
-		return false;
+		return true;
 	}
 }
