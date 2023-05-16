@@ -27,7 +27,7 @@ public class Contract {
 	public CompensationClaim m_CompensationClaim;
 
 	public Contract() {
-
+		
 	}
 
 	private int contractIndex;

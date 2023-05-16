@@ -752,6 +752,7 @@ public class Main {
 
 	private static void termsManagement(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl,
 			BufferedReader inputReader) throws IOException {
+		while (true) {
 		System.out.println("****************** 약관 관리 화면 *******************");
 		System.out.println("1. 약관 조회 2. 새 약관 등록 x. 종료");
 		System.out.println("선택 : ");
@@ -795,7 +796,7 @@ public class Main {
 			else if(choice.equals("x")) break;
 			else System.out.println("잘못된 선택지입니다.");}
 		}
-	}
+	
 
 	private static void requestAuthorization(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
 			throws IOException {
@@ -970,7 +971,7 @@ public class Main {
 		case ("12"):if (insurance.setTermsIDList(content) == false)
 			    System.out.println("약관 ID가 존재하지 않아 정보가 저장되지 않았습니다.");break;
 		case ("13"):insurance.setPrecaution(content);break;
-		case ("14"):insurance.setInsuranceClausePeriod(Integer.valueOf(content));break;
+		case ("14"):insurance.setInsuranceClausePeriod(content);break;
 		default:System.out.println("Invalid Choice !!!");}
 		if (insuranceListImpl.updateinsurance(insurance))
 			System.out.println("수정이 저장되었습니다.");
