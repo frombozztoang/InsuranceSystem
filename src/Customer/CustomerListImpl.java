@@ -35,7 +35,7 @@ public class CustomerListImpl implements CustomerList{
 	}
 	public ArrayList<Customer> getResurrectCandidates(ContractListImpl contractListImpl) throws Exception {
 		resurrectCandidates = new ArrayList<Customer>(); 
-	    HashMap<Integer, Boolean> customerMap = new HashMap<Integer, Boolean>(); // 중복 호출 방지를 위한 맵
+	    HashMap<String, Boolean> customerMap = new HashMap<String, Boolean>(); // 중복 호출 방지를 위한 맵
 
 	    for (Customer customer : customerList) {
 	       if (customerMap.containsKey(customer.getCustomerID())) {
@@ -43,7 +43,7 @@ public class CustomerListImpl implements CustomerList{
 	       }
 
 	       for (Contract contract : contractListImpl.retrieve()) {
-	          if (customer.getCustomerID() == contract.getCustomerID()) {
+	          if (customer.getCustomerID().equals(contract.getCustomerID)) {
 	             if (contract.isResurrection()) {
 	            	resurrectCandidates.add(customer);
 	                customerMap.put(customer.getCustomerID(), true);
@@ -57,7 +57,7 @@ public class CustomerListImpl implements CustomerList{
 	public ArrayList<Customer> getExpiredContracts(ContractListImpl contractListImpl) throws Exception {
 		// 1 3 4 -> 새로 만듬
 		expiredContracts = new ArrayList<Customer>(); // 만기계약 리스트
-	    HashMap<Integer, Boolean> customerMap = new HashMap<Integer, Boolean>(); // 중복 호출 방지를 위한 맵
+	    HashMap<String, Boolean> customerMap = new HashMap<String, Boolean>(); // 중복 호출 방지를 위한 맵
 
 	    for (Customer customer : customerList) {
 	       if (customerMap.containsKey(customer.getCustomerID())) {
@@ -80,7 +80,7 @@ public class CustomerListImpl implements CustomerList{
 	}
 	public ArrayList<Customer> getUnpaidContracts(ContractListImpl contractListImpl) throws Exception {
 		unpaidCustomers = new ArrayList<Customer>();
-		HashMap<Integer, Boolean> customerMap = new HashMap<Integer, Boolean>(); // 중복 호출 방지를 위한 맵
+		HashMap<String, Boolean> customerMap = new HashMap<String, Boolean>(); // 중복 호출 방지를 위한 맵
 
 	    for (Customer customer : customerList) {
 	       if (customerMap.containsKey(customer.getCustomerID())) 
@@ -101,7 +101,7 @@ public class CustomerListImpl implements CustomerList{
 		Customer customer = new Customer();
 
 		StringTokenizer stringTokenizer = new StringTokenizer(customerInfo);
-		customer.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
+		customer.setCustomerID(stringTokenizer.nextToken());
 		customer.setCustomerName(stringTokenizer.nextToken());
 		customer.setBirth(stringTokenizer.nextToken());
 		customer.setEGender(stringTokenizer.nextToken().equals("남") ? EGender.male : EGender.female);
@@ -125,18 +125,18 @@ public class CustomerListImpl implements CustomerList{
 		else return false;
 	}
 
-	public boolean delete(int customerID){
+	public boolean delete(String customerID){
 		for(Customer customer : this.customerList) {
-			if(customer.getCustomerID() == customerID) {
+			if(customer.getCustomerID().equals(customerID)) {
 				if(this.customerList.remove(customer)) return true;
 				break;
 			}
 		}
 		return false;
 	}
-	public boolean update(Customer customer, int customerID){
+	public boolean update(Customer customer, String customerID){
 		for(int i = 0; i < customerList.size(); i++) {
-			if(customerList.get(i).getCustomerID() == customerID)
+			if(customerList.get(i).getCustomerID().equals(customerID))
 				customerList.set(i, customer);
 		}
 		// DB UPDATE 쿼리 써야되유
@@ -152,36 +152,36 @@ public class CustomerListImpl implements CustomerList{
 		this.customerList = customerList;
 	}
 	//6. retrieveCustomer
-    public Customer retrieveCustomer(int customerID) {
+    public Customer retrieveCustomer(String customerID) {
        // 지정된 ID를 가진 고객 찾기
        for (Customer customer : customerList) {
-          if (customer.getCustomerID() == customerID) {
+          if (customer.getCustomerID().equals(customerID)) {
              return customer;
           }
        }
        // Customer가 없을 때
        return null;
     }
-    public Customer retrieveCustomerFromResurrect(int customerID) {
+    public Customer retrieveCustomerFromResurrect(String customerID) {
 		for (Customer customer : resurrectCandidates) {
-           if (customer.getCustomerID() == customerID) {
+			if (customer.getCustomerID().equals(customerID)) {
               return customer;
            }
         }
         return null;
 	}
-    public Customer retrieveCustomerFromExpired(int customerID) {
+    public Customer retrieveCustomerFromExpired(String customerID) {
         for (Customer customer : expiredContracts) {
-           if (customer.getCustomerID() == customerID) {
+			if (customer.getCustomerID().equals(customerID)) {
               return customer;
            }
         }
         return null;
     }
 
-	public Customer retrieveCustomerFromUnpaid(int customerID) {
+	public Customer retrieveCustomerFromUnpaid(String customerID) {
 		for (Customer customer : unpaidCustomers) {
-           if (customer.getCustomerID() == customerID) {
+			if (customer.getCustomerID().equals(customerID)) {
               return customer;
            }
         }

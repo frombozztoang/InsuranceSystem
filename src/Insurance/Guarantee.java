@@ -17,9 +17,10 @@ public class Guarantee {
 	        return stringReturn;
 	    }
 
-	public boolean matchInsuranceId(String insuranceId) {
-		return this.insuranceID == insuranceId;
+	public boolean matchInsuranceId(String insuranceID) {
+		return this.insuranceID.equals(insuranceID);
 	}
+
 	
 	public String getInsuranceID() {
 		return insuranceID;

@@ -56,7 +56,7 @@ public static LocalDate stringToDate(String dateString) {
 
 		StringTokenizer stringTokenizer = new StringTokenizer(contractInfo);
 		contract.setContractIndex(Integer.parseInt(stringTokenizer.nextToken()));
-		contract.setCustomerID(Integer.parseInt(stringTokenizer.nextToken()));
+		contract.setCustomerID(stringTokenizer.nextToken());
 		contract.setInsuranceID(stringTokenizer.nextToken());
 		contract.setInsurancePeriod(stringTokenizer.nextToken());
 		contract.setPremium(Integer.parseInt(stringTokenizer.nextToken()));
@@ -116,7 +116,7 @@ public static LocalDate stringToDate(String dateString) {
 		return this.contractList;
 	}
 
-	public ArrayList<Contract> retreiveCustomerContract(int customerID) {
+	public ArrayList<Contract> retreiveCustomerContract(String customerID) {
 		ArrayList<Contract> customerContracts = new ArrayList<Contract>();
 		for (Contract contract : this.contractList) {
 			if (contract.matchCustomerID(customerID)) {
@@ -180,20 +180,20 @@ public static LocalDate stringToDate(String dateString) {
 	}
 	public void setResurrectFromCustomer(Customer customer) {
 		for(Contract contract : contractList) {
-			if(contract.getCustomerID() == customer.getCustomerID()) 
+			if(contract.getCustomerID().equals(customer.getCustomerID()))
 				contract.setResurrection(false);
 		}
 	}
 	public void setMaturityFromCustomer(Customer customer) {
 		for(Contract contract : contractList) {
-			if(contract.getCustomerID() == customer.getCustomerID()) 
+			if(contract.getCustomerID().equals(customer.getCustomerID()))
 				contract.setMaturity(false);
 		}
 	}
 
 	public void setWheaterPaymentFromCustomer(Customer customer) {
 		for(Contract contract : contractList) {
-			if(contract.getCustomerID() == customer.getCustomerID()) 
+			if(contract.getCustomerID().equals(customer.getCustomerID()))
 				contract.m_Payment.setWhetherPayment(true);
 		}
 	}

@@ -10,8 +10,8 @@ public class CounselApplication implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String category;
-	private int counselID;
-	private int customerID;
+	private String counselID;
+	private String customerID;
 	private LocalDate dateOfFirst;
 	private LocalDate dateOfSecond;
 	private String requirement;
@@ -23,10 +23,10 @@ public class CounselApplication implements Serializable {
 		counsel = new Counsel();
 	}
 
-	public boolean requireCounsel(String managerName, int customerID, Customer customer, String requirement) {
+	public boolean requireCounsel(String managerName, String customerID, Customer customer, String requirement) {
 		// Check if the customer already has an existing counseling schedule
 		for (Counsel counsel : counselList) {
-			if (counsel.getCustomerID() == customerID) {
+			if (counsel.getCustomerID().equals(customerID)) {
 				return false; // Application unsuccessful - customer already has a counseling schedule
 			}
 		}
@@ -44,19 +44,19 @@ public class CounselApplication implements Serializable {
 		this.category = category;
 	}
 
-	public int getCounselID() {
+	public String getCounselID() {
 		return counselID;
 	}
 
-	public void setCounselID(int counselID) {
+	public void setCounselID(String counselID) {
 		this.counselID = counselID;
 	}
 
-	public int getCustomerID() {
+	public String getCustomerID() {
 		return customerID;
 	}
 
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 
