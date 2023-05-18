@@ -99,7 +99,7 @@ public class Main {
 				System.out.print("고객 아이디 : ");
 				id = inputReader.readLine().trim();
 			}while(!checkInputId(id));
-	   
+
 			System.out.print("날짜 : "); // yyyymmdd
 			String dateStr = inputReader.readLine().trim();
 			int year = Integer.parseInt(dateStr.substring(0, 4));
@@ -107,8 +107,8 @@ public class Main {
 			int day = Integer.parseInt(dateStr.substring(6, 8));
 			LocalDate date = LocalDate.of(year, month, day);
 			CounselApplication counselApplication = 
-					getConsuleInfo(Integer.parseInt(id), date, counselApplicationListImpl);
-	   
+					getConsuleInfo(id, date, counselApplicationListImpl);
+
 			if(counselApplication == null) {
 				System.out.println("일치하는 data가 하나도 없습니다.");
 				return;
@@ -282,12 +282,12 @@ public class Main {
 			   CounselApplication counselApplication, CustomerListImpl customerListImpl) {
 		Customer selectedCustomer = null;
 		for(Customer customer : customerListImpl.retrieve()) {
-			if(customer.getCustomerID() == counselApplication.getCustomerID())
+			if(customer.getCustomerID().equals(counselApplication.getCustomerID()))
 				selectedCustomer = customer;
 		}
 		return selectedCustomer;
 	}
-	private static CounselApplication getConsuleInfo(int id, LocalDate date, 
+	private static CounselApplication getConsuleInfo(String id, LocalDate date, 
 			   CounselApplicationListImpl counselApplicationListImpl) {
 		   ArrayList<CounselApplication> counselApplications = counselApplicationListImpl.retrieve();
 		   for(CounselApplication counselApplication : counselApplications) {
@@ -296,7 +296,7 @@ public class Main {
 			   if(counselApplication.getDateOfSecond().equals(date)) return counselApplication;
 		   }
 		   return null;
-	   }
+	}
 	private static boolean checkInputId(String id) {
 		   if(id.equals("")) {
 			   System.out.println("조건을 기입 주세요");
@@ -326,27 +326,56 @@ public class Main {
 	   }
 	 private static CounselApplication getNewCouncel(BufferedReader inputReader) throws IOException, ParseException {
 		   System.out.println("상담 신청 입력");
-		   System.out.print("고객 ID : ");
-		   String id = inputReader.readLine().trim();
-		   System.out.print("1지망 일시 : ");
-		   String dateStr = inputReader.readLine().trim();
+		   String id = null;
+		   String dateStr = null;
+		   String category = null;
+		   String content = null;
+		   
+		   do {
+			   System.out.print("고객 ID : ");
+			   id = inputReader.readLine().trim();
+			   if (id.length() == 0)
+				   System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해주세요.");
+		   }while(id.length() == 0);
+		   
+		   do {
+			   System.out.print("1지망 일시 : ");
+			   dateStr = inputReader.readLine().trim();
+			   if (dateStr.length() == 0)
+				   System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해주세요.");
+		   }while(dateStr.length() == 0);
+		   
 		   int year = Integer.parseInt(dateStr.substring(0, 4));
 		   int month = Integer.parseInt(dateStr.substring(4, 6));
 		   int day = Integer.parseInt(dateStr.substring(6, 8));
 		   LocalDate date1 = LocalDate.of(year, month, day);
-		   System.out.print("2지망 일시 : ");
-		   dateStr = inputReader.readLine().trim();
+		   
+		   do {
+			   System.out.print("2지망 일시 : ");
+			   dateStr = inputReader.readLine().trim();
+			   if (dateStr.length() == 0)
+				   System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해주세요.");
+		   }while(dateStr.length() == 0);
+		   
 		   year = Integer.parseInt(dateStr.substring(0, 4));
 		   month = Integer.parseInt(dateStr.substring(4, 6));
 		   day = Integer.parseInt(dateStr.substring(6, 8));
 		   LocalDate date2 = LocalDate.of(year, month, day);
-		   System.out.println("상담 유형 :");
-		   String category = inputReader.readLine().trim();
-		   System.out.println("상세 내용 입력 :");
-		   String content = inputReader.readLine().trim();
-//			boolean allInput = false;
-//		   allInput = isAllInput(dateStr, dateStr, category, category);
-//			if(!allInput) System.out.println("항목을 모두 입력해주세요.");
+		   
+		   do {
+			   System.out.print("상담 유형 : ");
+			   category = inputReader.readLine().trim();
+			   if (category.length() == 0)
+				   System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해주세요.");
+		   }while(category.length() == 0);
+		   
+		   do {
+			   System.out.print("상세 내용 입력 : ");
+			   content = inputReader.readLine().trim();
+			   if (content.length() == 0)
+				   System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해주세요.");
+		   }while(content.length() == 0);
+		   
 		   System.out.println("제출하겠습니까?");
 		   System.out.print("1. 예, 2. 아니오 : ");
 		   if(!inputReader.readLine().trim().equals("1")) return null;
@@ -574,7 +603,7 @@ public class Main {
 	private static FamilyHistory getFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) { // 고객 아이디에 맞는 가족력 반환
 		   ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
 		   for(FamilyHistory familyHistory : familyHistories) {
-			   if (familyHistory.getCustomerID() == id) {
+			   if (familyHistory.getCustomerID().equals(id)) {
 				   return familyHistory;
 			   }
 		   }
