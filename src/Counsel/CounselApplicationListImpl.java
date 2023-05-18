@@ -3,18 +3,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import Customer.Customer;
 
 public class CounselApplicationListImpl implements CounselApplicationList{
 
 	private ArrayList<CounselApplication> CounselApplicationList;
-	private CounselList counselList;
-	private String content;
+
 	public CounselApplicationListImpl(String councelFileName) throws IOException, ParseException {
 		BufferedReader customerFile = new BufferedReader(new FileReader(councelFileName));
 		this.CounselApplicationList = new ArrayList<CounselApplication>();
