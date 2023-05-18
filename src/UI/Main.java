@@ -75,13 +75,15 @@ public class Main {
 				showCustomerList(customerListImpl, inputReader,
 	            		familyHistoryListImpl, contractListImpl, insuranceList);
 	            break;
-	         case "7":
+	        case "7":
 	        	 showCouncel(inputReader, counselApplicationListImpl);
 	        	break;
-	         case "8":
-	        	 showManageConsultation(inputReader, counselApplicationListImpl,
-		        			customerListImpl);
+	        case "8":
+	        	 showManageConsultation(inputReader, counselApplicationListImpl, customerListImpl);
 	        	break;
+			case "9":
+				showInsuranceApplicationList(insuranceApplicationList, inputReader);
+				break;
 		case "x":
 	        	 break;
 			default:
@@ -89,6 +91,38 @@ public class Main {
 
 			}
 		}
+	}
+
+	private static void showInsuranceApplicationList(InsuranceApplicationListImpl insuranceApplicationList, BufferedReader inputReader) throws IOException {
+		System.out.println("****************** 보험 가입 신청 내역 *******************");
+		System.out.println("신청ID 보험ID 고객ID 신청일자");
+		for(InsuranceApplication insuranceApplication : insuranceApplicationList.retrieve()){
+			System.out.println("신청ID: " + insuranceApplication.getApplicationID() + "  보험ID: " + insuranceApplication.getInsuranceID()
+					+ "  고객ID: " + insuranceApplication.getCustomerID() + "  신청일자: " + insuranceApplication.getCreatedAt());
+		}
+		System.out.println();
+		System.out.println("1. 상세보기");
+		System.out.println("2. 청약서 조회");
+		System.out.println("3. 보험료 산정");
+		String userChoice = "";
+		userChoice = inputReader.readLine().trim();
+		switch (userChoice) {
+			case "1":
+				System.out.println("상세내용을 조회할 신청건의 신청ID를 입력하세요");
+				System.out.println(insuranceApplicationList.getApplicationbyId(inputReader.readLine().trim()));
+				break;
+			case "2":
+				System.out.println("청약서를 조회할 신청건의 신청ID를 입력하세요");
+				System.out.println(insuranceApplicationList.getApplicationbyId(inputReader.readLine().trim()).getSubscriptionFilePath());
+				break;
+			case "3":
+				System.out.println("보험료를 산정할 신청건의 신청ID를 입력하세요");
+				ratePremium();
+
+		}
+	}
+	private static void ratePremium() {
+
 	}
 	private static void showManageConsultation(BufferedReader inputReader,
 			   CounselApplicationListImpl counselApplicationListImpl, CustomerListImpl customerListImpl) 
@@ -854,23 +888,23 @@ public class Main {
 			else if (insuranceType.equals("5")) showList(insuranceListImpl.retrieveInsurance("Fire"));
 			else if (!insuranceType.equals("x")) System.out.println("잘못된 선택지입니다.");
 			else if (insuranceType.equals("x")) break;
-			}
 			if (who.equals("Customer")) {
-			System.out.println("보험 신청 메뉴로 이동하시겠습니까? (Y/N)");
-			String choice = inputReader.readLine().trim();
-			if (choice.equals("Y")) {
-				System.out.println("가입 신청할 보험ID를 입력하세요");
-				Insurance insurance = insuranceListImpl.retrieveInsuranceDetail(inputReader.readLine().trim());
-				System.out.println("********** 보험 정보 **********");
-				System.out.println("보험종류: " + insurance.getType() + "\n보험명" + insurance.getInsuranceName() + "\n최대보장한도"
-				+ insurance.getMaxCompensation() + "\n보험기간" + insurance.getPeriodOfInsurance() + "\n납입기간"
-				+ insurance.getPaymentPeriod() + "\n가입나이" + insurance.getAgeOfTarget() + "\n납입주기" + insurance.getPaymentCycle()
-				+ "\n배당여부" + insurance.isDistributionStatus() + "\n주의사항" + insurance.getPrecaution() );
-				//보장내용 안내(조회)
-				createInsuranceApplication(insurance, insuranceApplicationList, inputReader);
+				System.out.println("보험 신청 메뉴로 이동하시겠습니까? (Y/N)");
+				String choice = inputReader.readLine().trim();
+				if (choice.equals("Y")||choice.equals("y")) {
+					System.out.println("가입 신청할 보험ID를 입력하세요");
+					Insurance insurance = insuranceListImpl.retrieveInsuranceDetail(inputReader.readLine().trim());
+					System.out.println("********** 보험 정보 **********");
+					System.out.println("보험종류: " + insurance.getType() + "\n보험명: " + insurance.getInsuranceName() + "\n최대보장한도: "
+							+ insurance.getMaxCompensation() + "\n보험기간: " + insurance.getPeriodOfInsurance() + "\n납입기간: "
+							+ insurance.getPaymentPeriod() + "\n가입나이: " + insurance.getAgeOfTarget() + "\n납입주기: " + insurance.getPaymentCycle()
+							+ "\n배당여부: " + insurance.isDistributionStatus() + "\n주의사항: " + insurance.getPrecaution());
+					//보장내용 안내(조회)
+					createInsuranceApplication(insurance, insuranceApplicationList, inputReader);
+				}
+			} else {
+				System.out.println("이전 화면으로 돌아갑니다.");
 			}
-		} else {
-			System.out.println("이전 화면으로 돌아갑니다.");	
 		}
 	}
 
@@ -881,6 +915,7 @@ public class Main {
 		System.out.println("****************** Insurance Application *******************");
 		System.out.println("고객ID를 입력해주세요");
 		insuranceApplication.setCustomerID(inputReader.readLine().trim());
+		insuranceApplication.setApplicationID(insuranceApplication.getInsuranceID()+insuranceApplication.getCustomerID());
 		System.out.print("보험 기간: ");
 		insuranceApplication.setInsurancePeriod(inputReader.readLine().trim());
 		System.out.print("납입 주기: ");
@@ -946,7 +981,7 @@ public class Main {
 		System.out.println("주의사항 : ");
 		insurance.setPrecaution(inputReader.readLine().trim());
 		System.out.println("보험 면책 기간 : ");
-		insurance.setInsuranceClausePeriod(inputReader.readLine().trim());	
+		insurance.setInsuranceClausePeriod(inputReader.readLine().trim());
 		System.out.println("입력한 내용을 저장하시겠습니까? (Y/N)");
 		String save = inputReader.readLine().trim();
 		if (save.equals("Y"))
@@ -959,11 +994,11 @@ public class Main {
 		String choice = "";
                 System.out.println("수정할 정보를 선택하고 내용을 입력하세요.");
 		System.out.println("1. 보험 ID, 2. 보험 이름, 3. 보험 종류, 4. 보험가입금액, 5. 보험 기간, 6. 납입 주기, 7. 납입 기간, 8. 가입 나이, 9. 기본 보험료, 10. 요율, "
-						+ "11. 배당 여부(False/True), 12. 보장 내용(약관ID, 콤마로 구분해주세요), 13. 주의사항, 14. 보험 면책 기간");		
+						+ "11. 배당 여부(False/True), 12. 보장 내용(약관ID, 콤마로 구분해주세요), 13. 주의사항, 14. 보험 면책 기간");
 		System.out.println("수정할 정보 : ");
 		choice = inputReader.readLine().trim();
 		System.out.println("수정할 내용 :");
-		
+
 		String content = inputReader.readLine().trim();
 		switch (choice) {
 		case ("1"):insurance.setInsuranceID(content);break;
@@ -1016,6 +1051,7 @@ public class Main {
 		System.out.println("6. 고객 조회");
 		System.out.println("7. 고객 상담 신청");
 		System.out.println("8. 상담 정보 관리");
+		System.out.println("9. 보험 가입 신청 내역");
 		System.out.println("x. Exit");
 	}
 	private static void showContractList(ContractListImpl contractListImpl, BufferedReader systemInput)
