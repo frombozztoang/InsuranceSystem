@@ -7,7 +7,6 @@ import CompensationClaim.CompensationClaim;
 
 public class Contract {
 
-	public String getCustomerID;
 	private String customerID;
 	private String insuranceID;
 	private String insurancePeriod;

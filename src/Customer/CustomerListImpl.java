@@ -43,7 +43,7 @@ public class CustomerListImpl implements CustomerList{
 	       }
 
 	       for (Contract contract : contractListImpl.retrieve()) {
-	          if (customer.getCustomerID().equals(contract.getCustomerID)) {
+	          if (customer.getCustomerID().equals(contract.getCustomerID())) {
 	             if (contract.isResurrection()) {
 	            	resurrectCandidates.add(customer);
 	                customerMap.put(customer.getCustomerID(), true);
@@ -65,7 +65,7 @@ public class CustomerListImpl implements CustomerList{
 	       }
 
 	       for (Contract contract : contractListImpl.retrieve()) {
-	          if (customer.getCustomerID() == contract.getCustomerID()) {
+	          if (customer.getCustomerID().equals(contract.getCustomerID())) {
 	             if (contract.isMaturity()) {
 	            	// 새로 만듬 -> 1 3 4
 	            	// 1 3 4 -> 1 2 3 4
