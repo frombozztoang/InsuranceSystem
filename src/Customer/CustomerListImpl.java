@@ -12,10 +12,13 @@ import Contract.Contract;
 import Contract.ContractListImpl;
 import Counsel.CounselApplication;
 import Customer.Customer.EGender;
+import Insurance.Insurance;
 
 public class CustomerListImpl implements CustomerList{
-	
-	// 만기계약대상자/미납대상자/부활대상자 enum
+
+
+
+    // 만기계약대상자/미납대상자/부활대상자 enum
     public enum TargetType {
        EXPIRED_CONTRACTS, UNPAID_CUSTOMERS, RESURRECT_CANDIDATES
     }
@@ -220,4 +223,13 @@ public class CustomerListImpl implements CustomerList{
 		   // 여기서 한 사람당 계약 정보가 둘 이상일 때 첫 번째 계약만 값을 받아옴
 		   return selectedContracts;
 	   }
+
+	public Customer getCustomerByID(String customerID) {
+		for(int i=0;i<this.customerList.size();i++) {
+			Customer customer = (Customer) this.customerList.get(i);
+			if(customer.matchId(customerID))
+				return customer;
+		}
+		return null;
+	}
 }
