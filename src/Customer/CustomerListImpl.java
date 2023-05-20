@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import Contract.Contract;
 import Contract.ContractListImpl;
+import Counsel.CounselApplication;
 import Customer.Customer.EGender;
 
 public class CustomerListImpl implements CustomerList{
@@ -196,4 +198,26 @@ public class CustomerListImpl implements CustomerList{
 	public boolean deleteUnpaidCustomer(Customer customer) { // 미납 대상자에서 제외
 		return unpaidCustomers.remove(customer);
 	}
+
+	public Customer getCustomerFromCouncels(
+			   CounselApplication counselApplication, CustomerListImpl customerListImpl) {
+		Customer selectedCustomer = null;
+		for(Customer customer : customerListImpl.retrieve()) {
+			if(customer.getCustomerID().equals(counselApplication.getCustomerID()))
+				selectedCustomer = customer;
+		}
+		return selectedCustomer;
+	}
+
+	public static List<Contract> getContractFromCustomerId(String id, ContractListImpl contractListImpl) throws Exception {
+		   List<Contract> selectedContracts = new ArrayList<Contract>();
+		   ArrayList<Contract> contracts = contractListImpl.retrieve();
+		   for(Contract contract : contracts) {
+			   if (contract.getCustomerID().equals(id)) {
+				   selectedContracts.add(contract);
+			   }
+		   }
+		   // 여기서 한 사람당 계약 정보가 둘 이상일 때 첫 번째 계약만 값을 받아옴
+		   return selectedContracts;
+	   }
 }

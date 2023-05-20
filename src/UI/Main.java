@@ -145,13 +145,13 @@ public class Main {
 			int day = Integer.parseInt(dateStr.substring(6, 8));
 			LocalDate date = LocalDate.of(year, month, day);
 			CounselApplication counselApplication = 
-					getConsuleInfo(id, date, counselApplicationListImpl);
+					counselApplicationListImpl.getConsuleInfo(id, date, counselApplicationListImpl);
 
 			if(counselApplication == null) {
 				System.out.println("일치하는 data가 하나도 없습니다.");
 				return;
 			}
-			Customer customer = getCustomerFromCouncels(counselApplication, customerListImpl);
+			Customer customer = customerListImpl.getCustomerFromCouncels(counselApplication, customerListImpl);
 			showCounselSchedule(counselApplication, customer);
 			if(!getCustomerDetails(inputReader)) return;
 			if(counselApplication.getCounsel().getContent() == null) {
@@ -188,7 +188,7 @@ public class Main {
 					return;
 				}
 				List<CounselApplication> selectedCouncels = 
-						getCounselList(customer, counselApplicationListImpl);
+						CounselApplicationListImpl.getCounselList(customer, counselApplicationListImpl);
 				showCounseList(customer, selectedCouncels);
 				if(!selectContentAcquire(inputReader)) return;
 				String content = inputContent(inputReader); // 상담내용
@@ -279,16 +279,6 @@ public class Main {
 		   System.out.print("입력 : ");
 		   return inputReader.readLine().trim().equals("1");
 	   }
-	private static List<CounselApplication> getCounselList(Customer customer, 
-			   CounselApplicationListImpl counselApplicationListImpl) {
-		List<CounselApplication> selectedCouncels = new ArrayList<CounselApplication>();
-		ArrayList<CounselApplication> counsels = counselApplicationListImpl.retrieve();
-		for(CounselApplication counselApplication : counsels) {
-			if(counselApplication.getCustomerID().equals(customer.getCustomerID()) )
-				selectedCouncels.add(counselApplication);
-		}
-		return selectedCouncels;
-	}
 	private static boolean selectScheduleOrContent(BufferedReader inputReader) throws IOException {
 		System.out.println("\n[상담 정보 등록]");
 		System.out.println("1. 상담 일정 등록");
@@ -315,25 +305,6 @@ public class Main {
 		System.out.println("둘째날 : " + counselApplication.getDateOfSecond());
 		System.out.println("이름 : " + customer.getCustomerName());
 		System.out.println("담당자명 : " + counselApplication.getCounsel().getManagerName());
-	}
-	private static Customer getCustomerFromCouncels(
-			   CounselApplication counselApplication, CustomerListImpl customerListImpl) {
-		Customer selectedCustomer = null;
-		for(Customer customer : customerListImpl.retrieve()) {
-			if(customer.getCustomerID().equals(counselApplication.getCustomerID()))
-				selectedCustomer = customer;
-		}
-		return selectedCustomer;
-	}
-	private static CounselApplication getConsuleInfo(String id, LocalDate date, 
-			   CounselApplicationListImpl counselApplicationListImpl) {
-		   ArrayList<CounselApplication> counselApplications = counselApplicationListImpl.retrieve();
-		   for(CounselApplication counselApplication : counselApplications) {
-			   if(!counselApplication.getCustomerID().equals(id)) continue;
-			   if(counselApplication.getDateOfFirst().equals(date)) return counselApplication;
-			   if(counselApplication.getDateOfSecond().equals(date)) return counselApplication;
-		   }
-		   return null;
 	}
 	private static boolean checkInputId(String id) {
 		   if(id.equals("")) {
@@ -617,10 +588,10 @@ public class Main {
 		 System.out.println("\n[고객 세부 정보]");
 		 showCustomerInfo(customer); // 고객 ID, 이름, 생일, 성별
 		 showCustomerInfoDetail(customer); // 전번 주소 직업
-		 showFamilyHistory(getFamilyHistoryFromId(customer.getCustomerID(), familyHistoryListImpl));
+		 showFamilyHistory(familyHistoryListImpl.getFamilyHistoryFromId(customer.getCustomerID(), familyHistoryListImpl));
 		 // 가족력 리스트(질환명,가족관계)
-		 List<Contract> contracts = getContractFromId(customer.getCustomerID(), contractListImpl);
-		 List<Insurance> insurances = getInsuranceFromId(contracts, insuranceList);
+		 List<Contract> contracts = CustomerListImpl.getContractFromCustomerId(customer.getCustomerID(), contractListImpl);
+		 List<Insurance> insurances = InsuranceListImpl.getInsuranceFromId(contracts, insuranceList);
 		 showInsuranceList(contracts, insurances);
 		 // 보유 계약 리스트(보험명/만기 여부/해지여부/납입 여부)
 	}
@@ -636,35 +607,6 @@ public class Main {
 			   System.out.println("부활 여부 : " + contract.isResurrection() + "\n");
 		   }
 		   
-	   }
-		
-	private static FamilyHistory getFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) { // 고객 아이디에 맞는 가족력 반환
-		   ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
-		   for(FamilyHistory familyHistory : familyHistories) {
-			   if (familyHistory.getCustomerID().equals(id)) {
-				   return familyHistory;
-			   }
-		   }
-		   return null;
-	   }
-	 private static List<Insurance> getInsuranceFromId(List<Contract> contracts, InsuranceListImpl insuranceList) {
-		   ArrayList<Insurance> selectedInsurances = new ArrayList<Insurance>();
-		   for(Contract contract : contracts) { // 계약된 보험 아이디가 여기 있음
-			   Insurance insurance = insuranceList.retrieveInsuranceDetail(contract.getInsuranceID());
-			   selectedInsurances.add(insurance);
-		   }
-		   return selectedInsurances;
-	   }
-	private static List<Contract> getContractFromId(String id, ContractListImpl contractListImpl) throws Exception {
-		   List<Contract> selectedContracts = new ArrayList<Contract>();
-		   ArrayList<Contract> contracts = contractListImpl.retrieve();
-		   for(Contract contract : contracts) {
-			   if (contract.getCustomerID().equals(id)) {
-				   selectedContracts.add(contract);
-			   }
-		   }
-		   // 여기서 한 사람당 계약 정보가 둘 이상일 때 첫 번째 계약만 값을 받아옴
-		   return selectedContracts;
 	   }
 	 private static void showFamilyHistory(FamilyHistory familyHistory) {
 		   System.out.println("질환명 : " + familyHistory.getDiseaseName());
