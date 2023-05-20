@@ -156,12 +156,16 @@ public class InsuranceListImpl {
 		}
 		return false;
 	}
-	public String getInsuranceTypebyId(String insuranceID) {
+	public Insurance getInsurancebyId(String insuranceID) {
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if(insurance.matchId(insuranceID))
-				return insurance.getType();
+				return insurance;
 		}
 		return null;
+	}
+
+	public ArrayList<Insurance> retrieve(){
+		return insuranceList;
 	}
 }

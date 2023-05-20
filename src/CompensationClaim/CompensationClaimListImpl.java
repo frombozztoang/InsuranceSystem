@@ -29,9 +29,9 @@ public class CompensationClaimListImpl {
 	private CompensationClaim stringToCompensationClaim(String compensationClaimInfo) {
 		CompensationClaim compensationClaim = new CompensationClaim();
 		StringTokenizer stringTokenizer = new StringTokenizer(compensationClaimInfo);
+		compensationClaim.setCCID(stringTokenizer.nextToken());
 		compensationClaim.setInsuranceID(stringTokenizer.nextToken());
 		compensationClaim.setCustomerID(stringTokenizer.nextToken());
-		compensationClaim.setCCID(stringTokenizer.nextToken());
 		compensationClaim.setReceptionistName(stringTokenizer.nextToken());
 		compensationClaim.setReceptionistPNumber(stringTokenizer.nextToken());
 		compensationClaim.setRelationshipOfContractor(stringTokenizer.nextToken());
