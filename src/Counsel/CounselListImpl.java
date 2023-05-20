@@ -1,6 +1,9 @@
 package Counsel;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import Customer.Customer;
 
 public class CounselListImpl {
 
@@ -41,4 +44,7 @@ public class CounselListImpl {
 	public void setRetrieve(ArrayList<CounselList> familyHistoryList) {
 		this.counselList = familyHistoryList;
 	}
+
+	
+	
 }

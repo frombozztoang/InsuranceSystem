@@ -90,4 +90,5 @@ public class InsuranceApplicationListImpl {
 			e.printStackTrace();
 		}
 	}
+	
 }//end InsuranceApplicationListImpl

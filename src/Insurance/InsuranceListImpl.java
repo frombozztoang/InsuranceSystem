@@ -8,7 +8,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
+
+import Contract.Contract;
 
 public class InsuranceListImpl {
 
@@ -164,4 +167,15 @@ public class InsuranceListImpl {
 		}
 		return null;
 	}
+
+	public static List<Insurance> getInsuranceFromId(List<Contract> contracts, InsuranceListImpl insuranceList) {
+		   ArrayList<Insurance> selectedInsurances = new ArrayList<Insurance>();
+		   for(Contract contract : contracts) { // 계약된 보험 아이디가 여기 있음
+			   Insurance insurance = insuranceList.retrieveInsuranceDetail(contract.getInsuranceID());
+			   selectedInsurances.add(insurance);
+		   }
+		   return selectedInsurances;
+	   }
+
+	 
 }
