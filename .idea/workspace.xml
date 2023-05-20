@@ -3,9 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="76272c56-46e5-414e-8018-c71372182699" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/InsuranceApplication.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/InsuranceApplication.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Guarantee.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Guarantee.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/CarAccident.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/CarAccident.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/CompensationClaim.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/CompensationClaim.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Guarantee.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Guarantee.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Survey.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Survey.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CarAccident.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CarAccident.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CarAccidentListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CarAccidentListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Contract/Contract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/Contract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +52,7 @@
       <workItem from="1684171550228" duration="2356000" />
       <workItem from="1684212794910" duration="10915000" />
       <workItem from="1684377166883" duration="6226000" />
-      <workItem from="1684402022673" duration="10300000" />
+      <workItem from="1684402022673" duration="31118000" />
     </task>
     <servers />
   </component>
@@ -60,5 +69,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="inputReader" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -159,16 +159,15 @@ public class InsuranceListImpl {
 		}
 		return false;
 	}
-	public String getInsuranceTypebyId(String insuranceID) {
+	public Insurance getInsurancebyId(String insuranceID) {
 		for(int i=0;i<this.insuranceList.size();i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if(insurance.matchId(insuranceID))
-				return insurance.getType();
+				return insurance;
 		}
 		return null;
 	}
-
-	public static List<Insurance> getInsuranceFromId(List<Contract> contracts, InsuranceListImpl insuranceList) {
+public static List<Insurance> getInsuranceFromId(List<Contract> contracts, InsuranceListImpl insuranceList) {
 		   ArrayList<Insurance> selectedInsurances = new ArrayList<Insurance>();
 		   for(Contract contract : contracts) { // 계약된 보험 아이디가 여기 있음
 			   Insurance insurance = insuranceList.retrieveInsuranceDetail(contract.getInsuranceID());
@@ -176,6 +175,7 @@ public class InsuranceListImpl {
 		   }
 		   return selectedInsurances;
 	   }
-
-	 
+  public ArrayList<Insurance> retrieve(){
+		return insuranceList;
+	}
 }

@@ -62,5 +62,10 @@ public class CarAccident extends CompensationClaim {
 	public void finalize() throws Throwable {
 		super.finalize();
 	}
-
+	public String toString() {
+		String stringReturn =  this.CCID + " " + this.insuranceID + " " + this.customerID + " " + this.receptionistName + " " + this.receptionistPNumber + " "
+				+ this.relationshipOfContractor + " " + this.documentFilePath + " " + this.bank + " " + this.accountNumber + " " + this.accountHolderName + " "
+				+ this.type + " " + this.dateTime + " " + this.place + " " + this.carNumber + " " + this.driverName + " " + this.licenseNumber + " " + this.accidentDetail;
+		return stringReturn;
+	}
 }// end CarAccident
