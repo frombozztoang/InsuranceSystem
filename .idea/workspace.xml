@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="76272c56-46e5-414e-8018-c71372182699" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/FamilyHistory.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/FamilyHistory.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer/CustomerListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/CustomerListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +46,7 @@
       <workItem from="1684377166883" duration="6226000" />
       <workItem from="1684402022673" duration="31449000" />
       <workItem from="1684601244951" duration="200000" />
-      <workItem from="1684601475225" duration="5133000" />
+      <workItem from="1684601475225" duration="7248000" />
     </task>
     <servers />
   </component>

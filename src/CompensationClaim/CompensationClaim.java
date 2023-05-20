@@ -110,4 +110,7 @@ import java.io.IOException;
 
 		}
 
-	}
+        public boolean matchId(String ccid) {
+			return this.CCID.equals(ccid);
+        }
+    }

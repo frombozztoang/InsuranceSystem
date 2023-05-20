@@ -1,5 +1,7 @@
 package CompensationClaim;
 
+import Insurance.InsuranceApplication;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -66,4 +68,13 @@ public class CompensationClaimListImpl {
 			e.printStackTrace();
 		}
 	}
+
+    public CompensationClaim getCompensationClaimbyID(String inputCCID) {
+		for(int i=0;i<this.compensationClaimList.size();i++) {
+			CompensationClaim compensationClaim = (CompensationClaim) this.compensationClaimList.get(i);
+			if(compensationClaim.matchId(inputCCID))
+				return compensationClaim;
+		}
+		return null;
+    }
 }//end CompensationClaimListImpl

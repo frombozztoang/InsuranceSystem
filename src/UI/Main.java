@@ -734,20 +734,19 @@ public class Main {
 		}
 		showList(compensationClaimList.retrieve());
 		System.out.println("1. 손해사정");
-		System.out.println("2. 결정보험금 지급 요청");
 		String userChoice = "";
 		userChoice = inputReader.readLine().trim();
 		switch (userChoice) {
 		case "1":
-			createSurvey(compensationClaimList, surveyList, inputReader);
+			System.out.println("손해사정할 청구건의 청구ID를 입력하세요");
+			CompensationClaim compensationClaim = compensationClaimList.getCompensationClaimbyID(inputReader.readLine().trim());
+			createSurvey(compensationClaimList, compensationClaim, surveyList, insuranceList, inputReader);
 			break;
-		case "2":
-//			survey.requestBanking();
-			break;
+
 		}
 	}
 
-	private static void createSurvey(CompensationClaimListImpl compensationClaimList, SurveyListImpl surveyList, BufferedReader inputReader) throws IOException {
+	private static void createSurvey(CompensationClaimListImpl compensationClaimList, CompensationClaim compensationClaim, SurveyListImpl surveyList, InsuranceListImpl insuranceList, BufferedReader inputReader) throws IOException {
 		Survey survey = new Survey();
 		System.out.println("****************** Survey *******************");
 		System.out.println("손해사정할 청구ID를 입력하세요: ");
@@ -768,10 +767,24 @@ public class Main {
 		survey.setResponsibilityReason(inputReader.readLine().trim());
 		if (surveyList.createSurvey(survey)) {
 			System.out.println("수정이 완료되었습니다.");
+			System.out.println("결정보험금("+survey.getDecisionMoney()+"원)을 지급요청하려면 Y를 누르십시오");
+			if(inputReader.readLine().trim().equals("Y"))
+				requestBanking(survey, compensationClaim, insuranceList,inputReader);
 		} else
 			System.out.println("신청에 실패하였습니다. 다시 시도해주십시오.");
 	}
 
+	private static void requestBanking(Survey survey, CompensationClaim compensationClaim, InsuranceListImpl insuranceList, BufferedReader inputReader) throws IOException {
+		System.out.println(compensationClaim.getReceptionistName() + " " + compensationClaim.getReceptionistPNumber() + " "
+		+ insuranceList.getInsurancebyId(compensationClaim.getInsuranceID()).getInsuranceName() + " " + compensationClaim.getBank() + " "
+		+ compensationClaim.getAccountHolderName() + " " + survey.getDecisionMoney());
+		System.out.println("지급 요청을 하려면 Y키를 누르십시오.");
+		if (inputReader.readLine().trim().equals("Y")) {
+			//보험사 시스템은 결정보험금 지급 내용(접수자명, 접수자 전화번호, 보험명, 은행, 계좌번호, 예금주명, 결정보험금액)과 이체 요청 메시지를 은행에 전달한다.
+			System.out.println("이체 요청을 완료했습니다. 보험금이 입금되기까지는 수일이 소요될 수 있습니다.");
+			//보상처리팀 직원은 접수자의 전화번호로 ‘보험금 이체 신청이 완료되었습니다. 보험금이 입금되기까지는 수일이 소요될 수 있습니다.’ 라는 메시지를 보낸다
+		}
+	}
 
 
 	private static void createCarAccident(CompensationClaimListImpl compensationClaimList, CompensationClaim compensationClaim, CarAccidentListImpl carAccidentList, Insurance selectedInsurance, BufferedReader inputReader)
