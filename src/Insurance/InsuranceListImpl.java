@@ -178,4 +178,5 @@ public static List<Insurance> getInsuranceFromId(List<Contract> contracts, Insur
   public ArrayList<Insurance> retrieve(){
 		return insuranceList;
 	}
+
 }
