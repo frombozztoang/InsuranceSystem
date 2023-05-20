@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer implements Serializable {
-	
-	public enum EGender {
+
+
+
+    public enum EGender {
 		male("남"), female("여");
 		private String genderStr;
 		private EGender(String genderStr) {
@@ -173,5 +175,7 @@ public class Customer implements Serializable {
 	public void setEGender(EGender eGender) {
 		this.eGender = eGender;
 	}
-   
+    public boolean matchId(String customerID) {
+        return this.customerID.equals(customerID);
+    }
 }
