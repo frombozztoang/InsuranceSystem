@@ -15,7 +15,6 @@ import java.util.StringTokenizer;
 
 import Customer.Customer;
 
-
 public class ContractListImpl {
 
 	private ArrayList<Contract> contractList;
@@ -32,30 +31,21 @@ public class ContractListImpl {
 		contractFile.close();
 	}
 
-//	public class DateConverter {
-//		public static LocalDate stringToDate(String dateString) {
-//			String[] dateParts = dateString.split("-");
-//			int year = Integer.parseInt(dateParts[0]);
-//			int month = Integer.parseInt(dateParts[1]);
-//			int day = Integer.parseInt(dateParts[2]);
-//			return LocalDate.of(year, month, day);
-//
-//		}
-//	}
-public static LocalDate stringToDate(String dateString) {
-	String[] dateParts = dateString.split("-");
-	int year = Integer.parseInt(dateParts[0]);
-	int month = Integer.parseInt(dateParts[1]);
-	int day = Integer.parseInt(dateParts[2]);
-	return LocalDate.of(year, month, day);
+	public static LocalDate stringToDate(String dateString) {
+		String[] dateParts = dateString.split("-");
+		int year = Integer.parseInt(dateParts[0]);
+		int month = Integer.parseInt(dateParts[1]);
+		int day = Integer.parseInt(dateParts[2]);
+		return LocalDate.of(year, month, day);
 
-}
+	}
+
 	private Contract makeContract(String contractInfo) throws ParseException {
 		Contract contract = new Contract();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
 
 		StringTokenizer stringTokenizer = new StringTokenizer(contractInfo);
-		contract.setContractIndex(Integer.parseInt(stringTokenizer.nextToken()));
+//		contract.setContractIndex(Integer.parseInt(stringTokenizer.nextToken()));
 		contract.setCustomerID(stringTokenizer.nextToken());
 		contract.setInsuranceID(stringTokenizer.nextToken());
 		contract.setInsurancePeriod(stringTokenizer.nextToken());
@@ -127,74 +117,87 @@ public static LocalDate stringToDate(String dateString) {
 		return customerContracts;
 	}
 
-	public Boolean updateCancellation(int contractIndex) throws IOException {
-		for (int i = 0; i < this.contractList.size(); i++) {
-			if (this.contractList.get(i).matchContractIndex(contractIndex)) {
-				this.contractList.get(i).setCancellation(!this.contractList.get(i).updateCancellation());
-				updateFile("data/Contract.txt");
-				return true;
-			}
-		}
+//	public Boolean updateCancellation(int contractIndex) throws IOException {
+//		for (int i = 0; i < this.contractList.size(); i++) {
+//			if (this.contractList.get(i).matchContractIndex(contractIndex)) {
+//				this.contractList.get(i).setCancellation(!this.contractList.get(i).updateCancellation());
+//				updateFile("data/Contract.txt");
+//				return true;
+//			}
+//		}
+//
+//		return false; // exception
+//	}
 
-		return false; // exception
-	}
-
-	public boolean isMatchCustomerContract(int contractIndex, String customerID) {
-		for (int i = 0; i < this.contractList.size(); i++) {
-			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
-				return true;
-		}
-		return false;
-	}
-
-	public boolean update() {
-		return false;
-	}
-
-	public boolean getCustomerMaturity(String customerID, int contractIndex) {
-		for (int i = 0; i < this.contractList.size(); i++) {
-			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
-				return contractList.get(i).isMaturity();
-		}
-		return false;
-	}
-
-	public boolean updateMaturity(int contractIndex) throws IOException {
-		for (int i = 0; i < this.contractList.size(); i++) {
-			if (this.contractList.get(i).matchContractIndex(contractIndex)) {
-				this.contractList.get(i).setMaturity(!this.contractList.get(i).updateMaturity());
-				updateFile("Contract.txt");
-				return true;
-			}
-		}
-
-		return false; // exception
-	}
-
-	public boolean getCustomerCancellation(String customerID, int contractIndex) {
-		for (int i = 0; i < this.contractList.size(); i++) {
-			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
-				return contractList.get(i).isCancellation();
-		}
-		return false;
-	}
+//	public boolean isMatchCustomerContract(int contractIndex, String customerID) {
+//		for (int i = 0; i < this.contractList.size(); i++) {
+//			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
+//				return true;
+//		}
+//		return false;
+//	}
+//
+//	public boolean update() {
+//		return false;
+//	}
+//
+//	public boolean getCustomerMaturity(String customerID, int contractIndex) {
+//		for (int i = 0; i < this.contractList.size(); i++) {
+//			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
+//				return contractList.get(i).isMaturity();
+//		}
+//		return false;
+//	}
+//
+//	public boolean updateMaturity(int contractIndex) throws IOException {
+//		for (int i = 0; i < this.contractList.size(); i++) {
+//			if (this.contractList.get(i).matchContractIndex(contractIndex)) {
+//				this.contractList.get(i).setMaturity(!this.contractList.get(i).updateMaturity());
+//				updateFile("Contract.txt");
+//				return true;
+//			}
+//		}
+//
+//		return false; // exception
+//	}
+//
+//	public boolean getCustomerCancellation(String customerID, int contractIndex) {
+//		for (int i = 0; i < this.contractList.size(); i++) {
+//			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
+//				return contractList.get(i).isCancellation();
+//		}
+//		return false;
+//	}
 	public void setResurrectFromCustomer(Customer customer) {
-		for(Contract contract : contractList) {
-			if(contract.getCustomerID().equals(customer.getCustomerID()))
+		for (Contract contract : contractList) {
+			if (contract.getCustomerID().equals(customer.getCustomerID()))
 				contract.setResurrection(false);
 		}
 	}
+
 	public void setMaturityFromCustomer(Customer customer) {
-		for(Contract contract : contractList) {
-			if(contract.getCustomerID().equals(customer.getCustomerID()))
+		for (Contract contract : contractList) {
+			if (contract.getCustomerID().equals(customer.getCustomerID()))
 				contract.setMaturity(false);
 		}
 	}
 
 	public void setWheaterPaymentFromCustomer(Customer customer) {
-		for(Contract contract : contractList) {
-			if(contract.getCustomerID().equals(customer.getCustomerID()))
+		for (Contract contract : contractList) {
+			if (contract.getCustomerID().equals(customer.getCustomerID()))
 				contract.m_Payment.setWhetherPayment(true);
 		}
 	}
+
+	public ArrayList<String> getInsuranceIdFromCustomerId(String customerId) {
+		ArrayList<String> insuranceIdFromCustomerId = new ArrayList<String>();
+		for (Contract contract : contractList) {
+			if (contract.getCustomerID().equals(customerId)) {
+				insuranceIdFromCustomerId.add(contract.getInsuranceID());
+			}
+		}
+		return insuranceIdFromCustomerId;
+
+	}
+
 }// end ContractListImpl

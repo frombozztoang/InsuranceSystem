@@ -1,49 +1,51 @@
 package Insurance;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Insurance {
 
 	private String insuranceID;
+
 	public void setInsuranceID(String insuranceID) {
 		this.insuranceID = insuranceID;
 	}
-	private String insuranceName;
-	private String type;
-	private int maxCompensation;
-	private String periodOfInsurance;
-	private String paymentCycle;
-	private String paymentPeriod;
-	private String ageOfTarget;
-	private int basicPremium;
-	private String rate;
-	private boolean distributionStatus;
+
+	private String insuranceName; // 보험명
+	private String type; // 보험 종류
+	private int maxCompensation; // 최대보장한도
+	private String periodOfInsurance; // 보험기간
+	private String paymentCycle; // 납입주기
+	private String paymentPeriod; // 납입기간
+	private String ageOfTarget; // 가입나이
+	private int basicPremium; // 기본보험료
+	private String rate; // 요율
+	private boolean distributionStatus; // 배당여부
 	private String TermsIDList;
-	private String insuranceClausePeriod;	
-	private String precaution;
-	private boolean authorization;
-	
+	private String insuranceClausePeriod; // 보험면책기간 (단위:월)
+	private String precaution; // 주의사항
+	private boolean authorization; // 인가여부
 
 	public GuaranteeListImpl guaranteeList;
 	public InsuranceApplication m_InsuranceApplication;
 
+	public Insurance() throws FileNotFoundException, IOException {
+		authorization = false;
+	}
 
-	
-	public Insurance() throws FileNotFoundException, IOException {      
-    	authorization = false;
-    }  
-	
-    public boolean matchId(String insuranceID) {
+	public boolean matchId(String insuranceID) {
 
-      return this.insuranceID.equals(insuranceID);
-    }
-  
-    public String toString() {
-        String stringReturn = this.insuranceID + " " + this.insuranceName + " " + this.type + " " + this.maxCompensation + " " + this.periodOfInsurance
-        		+ " " + this.paymentCycle + " " + this.paymentPeriod + " " + this.ageOfTarget + " " + this.basicPremium
-        		+ " " + this.rate + " " + this.distributionStatus + " " + this.TermsIDList + " " + this.insuranceClausePeriod + " "  + this.authorization + " "+ this.precaution;
-        return stringReturn;
-    }
+		return this.insuranceID.equals(insuranceID);
+	}
+
+	public String toString() {
+		String stringReturn = this.insuranceID + " " + this.insuranceName + " " + this.type + " " + this.maxCompensation
+				+ " " + this.periodOfInsurance + " " + this.paymentCycle + " " + this.paymentPeriod + " "
+				+ this.ageOfTarget + " " + this.basicPremium + " " + this.rate + " " + this.distributionStatus + " "
+				+ this.TermsIDList + " " + this.insuranceClausePeriod + " " + this.authorization + " "
+				+ this.precaution;
+		return stringReturn;
+	}
 
 	public boolean matchType(String type) {
 		return this.type.equals(type);
@@ -52,7 +54,6 @@ public class Insurance {
 	public String getInsuranceID() {
 		return insuranceID;
 	}
-
 
 	public String getInsuranceName() {
 		return insuranceName;
@@ -179,15 +180,17 @@ public class Insurance {
 	}
 
 	public boolean setTermsIDList(String termsIDList) throws FileNotFoundException, IOException {
-		guaranteeList = new GuaranteeListImpl("data/Guarantee.txt"); 
-		if(guaranteeList.alreadyExistInsurance(this.insuranceID)) guaranteeList.delete(insuranceID);
+		guaranteeList = new GuaranteeListImpl("data/Guarantee.txt");
+		if (guaranteeList.alreadyExistInsurance(this.insuranceID))
+			guaranteeList.delete(insuranceID);
 		String[] termsIDListSplit = termsIDList.split(",");
 		Guarantee guarantee = new Guarantee();
-		for(int i=0; i<termsIDListSplit.length; i++) {		
+		for (int i = 0; i < termsIDListSplit.length; i++) {
 			guarantee.setInsuranceID(this.insuranceID);
 			guarantee.setTermsID(termsIDListSplit[i]);
-			if(!guarantee.isExistTermsID()) return false;
-			}
+			if (!guarantee.isExistTermsID())
+				return false;
+		}
 		guaranteeList.create(guarantee);
 		TermsIDList = termsIDList;
 		return true;

@@ -5,21 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer implements Serializable {
-	
+
 	public enum EGender {
 		male("남"), female("여");
+
 		private String genderStr;
+
 		private EGender(String genderStr) {
 			this.genderStr = genderStr;
 		}
+
 		public String getGenderStr() {
 			return genderStr;
 		}
+
 		public void setGenderStr(String genderStr) {
 			this.genderStr = genderStr;
 		}
 	}
-	
+
 	private static final long serialVersionUID = 1L;
 	private String address;
 	private String customerID;
@@ -29,9 +33,9 @@ public class Customer implements Serializable {
 	private String birth; // 생년월일(yyyy-mm-dd, String)
 	private EGender eGender; // 성별
 	private ArrayList<Customer> customerList;
-   
-   // composition
-   public FamilyHistory familyHistory;
+
+	// composition
+	public FamilyHistory familyHistory;
 //
 //   public Customer(String inputString) {
 //
@@ -42,26 +46,26 @@ public class Customer implements Serializable {
 //
 //   }
 
-   public Customer() {
-	   this.familyHistory = new FamilyHistory();
-   }
+	public Customer() {
+		this.familyHistory = new FamilyHistory();
+	}
 
 // 1. deleteCustomer
-   public boolean deleteCustomer(int customerID) {
-      Customer customerToRemove = null;
-      for (Customer customer : customerList) {
-         if (customer.getCustomerID().equals(customerID)) {
-            customerToRemove = customer;
-            break;
-         }
-      }
-      if (customerToRemove != null) {
-         customerList.remove(customerToRemove);
-         return true;
-      } else {
-         return false;
-      }
-   }
+	public boolean deleteCustomer(int customerID) {
+		Customer customerToRemove = null;
+		for (Customer customer : customerList) {
+			if (customer.getCustomerID().equals(customerID)) {
+				customerToRemove = customer;
+				break;
+			}
+		}
+		if (customerToRemove != null) {
+			customerList.remove(customerToRemove);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 //2. exceptCustomer
 //   public boolean exceptCustomer(TargetType targetType, int customerID) {
@@ -88,7 +92,7 @@ public class Customer implements Serializable {
 //      }
 //   }
 
-   // 대상 유형을 기준으로 대상 목록을 결정하는 메서드.
+	// 대상 유형을 기준으로 대상 목록을 결정하는 메서드.
 //   private List<Customer> getTargetList(TargetType targetType) {
 //      switch (targetType) {
 //      case EXPIRED_CONTRACTS:
@@ -103,124 +107,124 @@ public class Customer implements Serializable {
 //   }
 
 //3. retrieveMaturityCustomer
-   public ArrayList<Customer> retrieveMaturityCustomer() {
-      ArrayList<Customer> maturityCustomers = new ArrayList<>();
-      // 만기 계약이 있는 고객을 목록에 추가
-      for (Customer customer : customerList) {
-         if (customer.hasMaturityContract()) {
-            maturityCustomers.add(customer);
-         }
-      }
+	public ArrayList<Customer> retrieveMaturityCustomer() {
+		ArrayList<Customer> maturityCustomers = new ArrayList<>();
+		// 만기 계약이 있는 고객을 목록에 추가
+		for (Customer customer : customerList) {
+			if (customer.hasMaturityContract()) {
+				maturityCustomers.add(customer);
+			}
+		}
 
-      return maturityCustomers;
-   }
+		return maturityCustomers;
+	}
 
-   private boolean hasMaturityContract() {
-      return false;
-   }
+	private boolean hasMaturityContract() {
+		return false;
+	}
 
 //4. retrieveNonPaymentCustomer
-   public ArrayList<Customer> retrieveNonPaymentCustomer() {
-      ArrayList<Customer> nonPaymentCustomers = new ArrayList<>();
-      // 미결제 고객을 목록에 추가
-      for (Customer customer : customerList) {
-         if (customer.hasOutstandingPayment()) {
-            nonPaymentCustomers.add(customer);
-         }
-      }
+	public ArrayList<Customer> retrieveNonPaymentCustomer() {
+		ArrayList<Customer> nonPaymentCustomers = new ArrayList<>();
+		// 미결제 고객을 목록에 추가
+		for (Customer customer : customerList) {
+			if (customer.hasOutstandingPayment()) {
+				nonPaymentCustomers.add(customer);
+			}
+		}
 
-      return nonPaymentCustomers;
-   }
+		return nonPaymentCustomers;
+	}
 
-   private boolean hasOutstandingPayment() {
-      return false;
-   }
+	private boolean hasOutstandingPayment() {
+		return false;
+	}
 //5. retrieveResurrectionCustomer
 
-   public ArrayList<Customer> retrieveResurrectionCustomer() {
-      ArrayList<Customer> resurrectionCustomers = new ArrayList<>();
-      // 목록에 부활 대상 고객 추가
-      for (Customer customer : customerList) {
-         if (customer.isEligibleForResurrection()) {
-            resurrectionCustomers.add(customer);
-         }
-      }
+	public ArrayList<Customer> retrieveResurrectionCustomer() {
+		ArrayList<Customer> resurrectionCustomers = new ArrayList<>();
+		// 목록에 부활 대상 고객 추가
+		for (Customer customer : customerList) {
+			if (customer.isEligibleForResurrection()) {
+				resurrectionCustomers.add(customer);
+			}
+		}
 
-      return resurrectionCustomers;
-   }
+		return resurrectionCustomers;
+	}
 
-   private boolean isEligibleForResurrection() {
-      return false;
-   }
+	private boolean isEligibleForResurrection() {
+		return false;
+	}
 
-   public boolean updateCustomer(Customer updatedCustomer) {
-      for (Customer customer : customerList) {
-         if (customer.getCustomerID() == updatedCustomer.getCustomerID()) {
-            // customer 정보를 업데이트한다.
-            customer.setCustomerName(updatedCustomer.getCustomerName());
-            customer.setPnumber(updatedCustomer.getPnumber());
-            // 성공적으로 업데이트
-            return true;
-         }
-      }
+	public boolean updateCustomer(Customer updatedCustomer) {
+		for (Customer customer : customerList) {
+			if (customer.getCustomerID() == updatedCustomer.getCustomerID()) {
+				// customer 정보를 업데이트한다.
+				customer.setCustomerName(updatedCustomer.getCustomerName());
+				customer.setPnumber(updatedCustomer.getPnumber());
+				// 성공적으로 업데이트
+				return true;
+			}
+		}
 //customer가 없거나 update가 성공적이지 않음.
-      return false;
-   }
+		return false;
+	}
 
-   public String getAddress() {
-      return address;
-   }
+	public String getAddress() {
+		return address;
+	}
 
-   public void setAddress(String address) {
-      this.address = address;
-   }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-   public String getCustomerID() {
-      return customerID;
-   }
+	public String getCustomerID() {
+		return customerID;
+	}
 
-   public void setCustomerID(String customerID) {
-      this.customerID = customerID;
-   }
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
+	}
 
-   public String getCustomerName() {
-      return customerName;
-   }
+	public String getCustomerName() {
+		return customerName;
+	}
 
-   public void setCustomerName(String customerName) {
-      this.customerName = customerName;
-   }
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
 
-   public String getJob() {
-      return job;
-   }
+	public String getJob() {
+		return job;
+	}
 
-   public void setJob(String job) {
-      this.job = job;
-   }
+	public void setJob(String job) {
+		this.job = job;
+	}
 
-   public String getPnumber() {
-      return pnumber;
-   }
+	public String getPnumber() {
+		return pnumber;
+	}
 
-   public void setPnumber(String pnumber) {
-      this.pnumber = pnumber;
-   }
+	public void setPnumber(String pnumber) {
+		this.pnumber = pnumber;
+	}
 
-   public String getBirth() {
-      return birth;
-   }
+	public String getBirth() {
+		return birth;
+	}
 
-   public void setBirth(String birth) {
-      this.birth = birth;
-   }
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 
 	public EGender getEGender() {
 		return eGender;
 	}
-	
+
 	public void setEGender(EGender eGender) {
 		this.eGender = eGender;
 	}
-   
+
 }
