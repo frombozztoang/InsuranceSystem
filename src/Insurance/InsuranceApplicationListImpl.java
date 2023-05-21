@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 public class InsuranceApplicationListImpl {
 
 	private ArrayList<InsuranceApplication> insuranceApplicationList;
-	public InsuranceApplication m_InsuranceApplication;
+	public InsuranceApplication InsuranceApplication;
 
 	public InsuranceApplicationListImpl(String insuranceApplicationFileName) throws IOException {
 		BufferedReader insuranceApplicationFile = new BufferedReader(new FileReader(insuranceApplicationFileName));
@@ -25,16 +25,17 @@ public class InsuranceApplicationListImpl {
 	private InsuranceApplication stringToInsuranceApplication(String insuranceApplicationInfo) {
 		InsuranceApplication insuranceApplication = new InsuranceApplication();
 		StringTokenizer stringTokenizer = new StringTokenizer(insuranceApplicationInfo);
+		insuranceApplication.setApplicationID(stringTokenizer.nextToken());
 		insuranceApplication.setInsuranceID(stringTokenizer.nextToken());
 		insuranceApplication.setCustomerID(stringTokenizer.nextToken());
 		insuranceApplication.setCreatedAt(LocalDate.parse(stringTokenizer.nextToken()));
 		insuranceApplication.setInsurancePeriod(stringTokenizer.nextToken());
-		insuranceApplication.setMaxCompensation(Integer.parseInt(stringTokenizer.nextToken()));
 		insuranceApplication.setPaymentCycle(stringTokenizer.nextToken());
-		insuranceApplication.setPremium(Integer.parseInt(stringTokenizer.nextToken()));
-		insuranceApplication.setReasonOfApproval(stringTokenizer.nextToken());
 		insuranceApplication.setSubscriptionFilePath(stringTokenizer.nextToken());
+		insuranceApplication.setPremium(Integer.parseInt(stringTokenizer.nextToken()));
+		insuranceApplication.setMaxCompensation(Integer.parseInt(stringTokenizer.nextToken()));
 		insuranceApplication.setApproval(Boolean.parseBoolean(stringTokenizer.nextToken()));
+		insuranceApplication.setReasonOfApproval(stringTokenizer.nextToken());
 		return insuranceApplication;
 	}
 
@@ -50,7 +51,7 @@ public class InsuranceApplicationListImpl {
 	}
 
 	public ArrayList<InsuranceApplication> retrieve(){
-		return null;
+		return insuranceApplicationList;
 	}
 
 	public boolean update(){
@@ -63,7 +64,14 @@ public class InsuranceApplicationListImpl {
 			return true;}
 		else return false;
 	}
-
+	public InsuranceApplication getApplicationbyId(String applicationID) {
+		for(int i=0;i<this.insuranceApplicationList.size();i++) {
+			InsuranceApplication insuranceApplication = (InsuranceApplication) this.insuranceApplicationList.get(i);
+			if(insuranceApplication.matchId(applicationID))
+				return insuranceApplication;
+		}
+		return null;
+	}
 	private void updateFile(String filename) {
 		try {
 			File file = new File(filename);
@@ -82,4 +90,5 @@ public class InsuranceApplicationListImpl {
 			e.printStackTrace();
 		}
 	}
+	
 }//end InsuranceApplicationListImpl

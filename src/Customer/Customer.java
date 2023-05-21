@@ -7,6 +7,7 @@ import java.util.List;
 public class Customer implements Serializable {
 
 	public enum EGender {
+
 		male("남"), female("여");
 
 		private String genderStr;
@@ -36,21 +37,11 @@ public class Customer implements Serializable {
 
 	// composition
 	public FamilyHistory familyHistory;
-//
-//   public Customer(String inputString) {
-//
-//      StringTokenizer stringTokenizer = new StringTokenizer(inputString);
-//      this.address = stringTokenizer.nextToken();
-//      this.customerName = stringTokenizer.nextToken();
-//      this.job = stringTokenizer.nextToken();
-//
-//   }
 
 	public Customer() {
 		this.familyHistory = new FamilyHistory();
 	}
 
-// 1. deleteCustomer
 	public boolean deleteCustomer(int customerID) {
 		Customer customerToRemove = null;
 		for (Customer customer : customerList) {
@@ -67,46 +58,6 @@ public class Customer implements Serializable {
 		}
 	}
 
-//2. exceptCustomer
-//   public boolean exceptCustomer(TargetType targetType, int customerID) {
-//      Customer customerToRemove = null;
-//      List<Customer> targetList = getTargetList(targetType);
-//
-//      // 대상 목록에서 지정된 ID를 가진 고객 찾기
-//      for (Customer customer : targetList) {
-//         if (customer.getCustomerID() == customerID) {
-//            customerToRemove = customer;
-//            break;
-//         }
-//      }
-//
-//      // 고객을 찾았는지 확인
-//      if (customerToRemove != null) {
-//         // 대상 목록에서 고객 제거
-//         targetList.remove(customerToRemove);
-//         // 고객이 성공적으로 제거
-//         return true;
-//      } else {
-//         // 고객 없음
-//         return false;
-//      }
-//   }
-
-	// 대상 유형을 기준으로 대상 목록을 결정하는 메서드.
-//   private List<Customer> getTargetList(TargetType targetType) {
-//      switch (targetType) {
-//      case EXPIRED_CONTRACTS:
-//         return expiredContracts;
-//      case UNPAID_CUSTOMERS:
-//         return unpaidCustomers;
-//      case RESURRECT_CANDIDATES:
-//         return resurrectCandidates;
-//      default:
-//         throw new IllegalArgumentException("Invalid target type: " + targetType);
-//      }
-//   }
-
-//3. retrieveMaturityCustomer
 	public ArrayList<Customer> retrieveMaturityCustomer() {
 		ArrayList<Customer> maturityCustomers = new ArrayList<>();
 		// 만기 계약이 있는 고객을 목록에 추가
@@ -225,6 +176,10 @@ public class Customer implements Serializable {
 
 	public void setEGender(EGender eGender) {
 		this.eGender = eGender;
+	}
+
+	public boolean matchId(String customerID) {
+		return this.customerID.equals(customerID);
 	}
 
 }

@@ -3,18 +3,18 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import Customer.Customer;
 
+
 public class CounselApplicationListImpl implements CounselApplicationList{
 
 	private ArrayList<CounselApplication> CounselApplicationList;
-	private CounselList counselList;
-	private String content;
+
 	public CounselApplicationListImpl(String councelFileName) throws IOException, ParseException {
 		BufferedReader customerFile = new BufferedReader(new FileReader(councelFileName));
 		this.CounselApplicationList = new ArrayList<CounselApplication>();
@@ -83,5 +83,26 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 	public ArrayList<CounselApplication> retrieve() {
 		// TODO Auto-generated method stub
 		return CounselApplicationList;
+	}
+	public static List<CounselApplication> getCounselList(Customer customer, 
+			   CounselApplicationListImpl counselApplicationListImpl) {
+		List<CounselApplication> selectedCouncels = new ArrayList<CounselApplication>();
+		ArrayList<CounselApplication> counsels = counselApplicationListImpl.retrieve();
+		for(CounselApplication counselApplication : counsels) {
+			if(counselApplication.getCustomerID().equals(customer.getCustomerID()) )
+				selectedCouncels.add(counselApplication);
+		}
+		return selectedCouncels;
+	}
+
+	public  CounselApplication getConsuleInfo(String id, LocalDate date, 
+			   CounselApplicationListImpl counselApplicationListImpl) {
+		   ArrayList<CounselApplication> counselApplications = counselApplicationListImpl.retrieve();
+		   for(CounselApplication counselApplication : counselApplications) {
+			   if(!counselApplication.getCustomerID().equals(id)) continue;
+			   if(counselApplication.getDateOfFirst().equals(date)) return counselApplication;
+			   if(counselApplication.getDateOfSecond().equals(date)) return counselApplication;
+		   }
+		   return null;
 	}
 }

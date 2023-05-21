@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.StringTokenizer;
 
 import Customer.Customer;
@@ -199,5 +198,15 @@ public class ContractListImpl {
 		return insuranceIdFromCustomerId;
 
 	}
+
+//    public Contract getContractByCID(String inputCustomerId) {
+//		for(int i=0;i<this.contractList.size();i++) {
+//			Contract contract = (Contract) this.contractList.get(i);
+//			if(contract.matchCID(inputCustomerId))
+//				return contract;
+//		}
+//		return null;
+//	}
+	// 현재 맨위에 있는 하나의 contract만 출력되므로 수정필요
 
 }// end ContractListImpl

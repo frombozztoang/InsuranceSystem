@@ -1,5 +1,7 @@
 package CompensationClaim;
 
+import Insurance.InsuranceApplication;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -29,9 +31,9 @@ public class CompensationClaimListImpl {
 	private CompensationClaim stringToCompensationClaim(String compensationClaimInfo) {
 		CompensationClaim compensationClaim = new CompensationClaim();
 		StringTokenizer stringTokenizer = new StringTokenizer(compensationClaimInfo);
+		compensationClaim.setCCID(stringTokenizer.nextToken());
 		compensationClaim.setInsuranceID(stringTokenizer.nextToken());
 		compensationClaim.setCustomerID(stringTokenizer.nextToken());
-		compensationClaim.setCCID(stringTokenizer.nextToken());
 		compensationClaim.setReceptionistName(stringTokenizer.nextToken());
 		compensationClaim.setReceptionistPNumber(stringTokenizer.nextToken());
 		compensationClaim.setRelationshipOfContractor(stringTokenizer.nextToken());
@@ -66,4 +68,13 @@ public class CompensationClaimListImpl {
 			e.printStackTrace();
 		}
 	}
+
+    public CompensationClaim getCompensationClaimbyID(String inputCCID) {
+		for(int i=0;i<this.compensationClaimList.size();i++) {
+			CompensationClaim compensationClaim = (CompensationClaim) this.compensationClaimList.get(i);
+			if(compensationClaim.matchId(inputCCID))
+				return compensationClaim;
+		}
+		return null;
+    }
 }//end CompensationClaimListImpl

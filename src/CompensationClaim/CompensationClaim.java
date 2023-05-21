@@ -4,16 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 	public class CompensationClaim {
-		private String CCID;
-		private String insuranceID;
-		private String customerID;
-		private String receptionistName;
-		private String receptionistPNumber;
-		private String relationshipOfContractor;
-		private String documentFilePath;
-		private String bank;
-		private String accountNumber;
-		private String accountHolderName;
+		protected String CCID;
+		protected String insuranceID;
+		protected String customerID;
+		protected String receptionistName;
+		protected String receptionistPNumber;
+		protected String relationshipOfContractor;
+		protected String documentFilePath;
+		protected String bank;
+		protected String accountNumber;
+		protected String accountHolderName;
 		public Survey m_Survey;
 
 		public CompensationClaim() {
@@ -23,7 +23,12 @@ import java.io.IOException;
 		/**
 		 * Getters & Setters
 		 */
-		public String getInsuranceID() {
+		public String getCCID() {
+			return CCID;
+		}
+		public void setCCID(String CCID) {
+			this.CCID = CCID;
+		}public String getInsuranceID() {
 			return insuranceID;
 		}
 
@@ -37,14 +42,6 @@ import java.io.IOException;
 
 		public void setCustomerID(String customerID) {
 			this.customerID = customerID;
-		}
-
-		public String getCCID() {
-			return CCID;
-		}
-
-		public void setCCID(String CCID) {
-			this.CCID = CCID;
 		}
 
 		public String getReceptionistName() {
@@ -104,7 +101,7 @@ import java.io.IOException;
 		}
 
 		public String toString() {
-			String stringReturn = this.insuranceID + " " + this.customerID + " " + this.CCID + " " + this.receptionistName + " " + this.receptionistPNumber + " " + this.relationshipOfContractor
+			String stringReturn =  this.CCID + " " + this.insuranceID + " " + this.customerID + " " + this.receptionistName + " " + this.receptionistPNumber + " " + this.relationshipOfContractor
 					+ " " + this.documentFilePath + " " + this.bank + " " + this.accountNumber + " " + this.accountHolderName;
 			return stringReturn;
 		}
@@ -113,4 +110,7 @@ import java.io.IOException;
 
 		}
 
-	}
+        public boolean matchId(String ccid) {
+			return this.CCID.equals(ccid);
+        }
+    }
