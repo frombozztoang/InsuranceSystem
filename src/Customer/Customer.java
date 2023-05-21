@@ -42,6 +42,12 @@ public class Customer implements Serializable {
 		this.familyHistory = new FamilyHistory();
 	}
 
+	public String toString() {
+		String stringReturn = customerID + " " + this.birth + " " + this.eGender + " " + this.pnumber + " " + this.job
+				+ " " + this.address;
+		return stringReturn;
+	}
+
 	public boolean deleteCustomer(int customerID) {
 		Customer customerToRemove = null;
 		for (Customer customer : customerList) {
