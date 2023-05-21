@@ -1239,12 +1239,11 @@ public class Main {
 						return;
 					} else if (!isCancelled && isMatured) {
 						// A4. 만기된 보험의 해지 버튼을 누른 경우
-						System.out.println("만기 해지 화면을 출력");
+						insuranceTermination("만기", customerName, customerPH, info, contractListImpl, inputReader);
 						return;
 					} else if (!isCancelled && !isMatured) {
 						// A3. 만기되지 않은 보험의 해지 버튼을 누른 경우
-						earlyTerminationInsurance(customerName, customerPH, info,
-								new ContractListImpl("data/Contract.txt"), inputReader);
+						insuranceTermination("중도", customerName, customerPH, info, contractListImpl, inputReader);
 						return;
 					}
 					return;
@@ -1275,35 +1274,35 @@ public class Main {
 		int padding = (totalWidth - text.length()) / 2;
 		return String.format("%-" + totalWidth + "s", " ".repeat(padding) + text + " ".repeat(padding));
 	}
-// END Of uc17) 가입된 보험을 조회한다.
 
-// uc18) 보험을 중도 해지한다. 
-	private static void earlyTerminationInsurance(String customerName, String customerPH, String info,
-			ContractListImpl contractListImpl, BufferedReader systemInput) throws Exception {
-		System.out.println("\n[ 중도 해지 화면 ]");
+// END Of uc17) 가입된 보험을 조회한다.
+// uc18) 보험을 중도 해지한다. , uc19) 만기 보험을 해지하다.  
+	private static void insuranceTermination(String insuranceStatus, String customerName, String customerPH,
+			String info, ContractListImpl contractListImpl, BufferedReader systemInput) throws IOException {
+		System.out.printf("\n[ %s 해지 화면 ]", insuranceStatus);
 		System.out.println(
-				"_____________________________________________________________________________________________");
+				"\n_____________________________________________________________________________________________");
 		System.out.printf("\n%-10s %-10s %-10s %-10s %-10s\n", centerAlign("이름", 10), centerAlign("전화번호", 10),
-				centerAlign("해지 약관 안내", 13), centerAlign("해지 약관 동의", 13), centerAlign("중도 해지 버튼", 10));
+				centerAlign("해지 약관 안내", 13), centerAlign("해지 약관 동의", 13), centerAlign("해지하기 버튼", 10));
 		System.out.println(
 				"_____________________________________________________________________________________________\n");
 		System.out.printf("%-10s %-10s %-10s %-10s %-10s\n", centerAlign("[입력]", 10), centerAlign("[입력]", 10),
-				centerAlign("[show]", 15), centerAlign("[Y/N]", 15), centerAlign("[Y/N]", 15));
+				centerAlign("[show]", 15), centerAlign("[Y/N]", 15), centerAlign("[Y/N]", 13));
 
-		System.out.print("\n• 해지 약관 안내 보기 (Y/N) : ");
+		System.out.print("\n\n• 해지 약관 안내 보기 (Y/N) : ");
 		String choice = systemInput.readLine().trim();
 		// A1. 해지 약관 안내를 누른 경우
 		if (choice.equals("Y"))
-			showEarlyTerminationPolicyMessage();
+			showTerminationPolicyMessage();
 
-		System.out.println("\n• 중도 해지 정보 입력  ");
-		System.out.print("이름 : ");
+		System.out.printf("\n• %s 해지 정보 입력", insuranceStatus);
+		System.out.print("\n이름 : ");
 		String inputName = systemInput.readLine().trim();
 		System.out.print("전화번호 : ");
 		String inputPH = systemInput.readLine().trim();
 		System.out.print("해지 약관 동의 (Y/N) : ");
 		String inputAgree = systemInput.readLine().trim();
-		System.out.print("중도 해지 (Y/N) : ");
+		System.out.print("해지하기 (Y/N) : ");
 		String inputCancel = systemInput.readLine().trim();
 
 		if (inputName.isEmpty() || inputPH.isEmpty())
@@ -1318,10 +1317,10 @@ public class Main {
 				&& inputCancel.equals("Y"))
 			System.out.println("해지 환급금 요청 화면");
 		if (inputName.equals(customerName) && inputPH.equals(customerPH) && inputCancel.equals("N"))
-			System.out.println("중도 해지 요청을 취소합니다.");
+			System.out.println("[System] 해지 요청을 취소합니다.");
 
 	}
-// End Of uc18) 보험을 중도 해지하다.
+// End Of  uc18) 보험을 중도 해지한다. , uc19) 만기 보험을 해지하다. 
 
 	private static void showContractList(ContractListImpl contractListImpl, BufferedReader systemInput)
 			throws Exception {
@@ -1381,7 +1380,7 @@ public class Main {
 			showMaturityPolicyMessage();
 			break;
 		case "2":
-			cancelMaturity(contractListImpl, systemInput, customerID);
+//			cancelMaturity(contractListImpl, systemInput, customerID);
 			break;
 		case "X":
 			showContractList(contractListImpl, systemInput);
@@ -1397,62 +1396,13 @@ public class Main {
 
 	}
 
-	private static void cancelMaturity(ContractListImpl contractListImpl, BufferedReader systemInput, String customerID)
-			throws Exception {
-		System.out.println("\n-------- Maturity Contract Cancellation Info-------------");
-
-		showList(contractListImpl.retreiveCustomerContract(customerID));
-
-		System.out.print("\n[System] ������ ��� ����Ʈ�� ��ȣ�� �Է��ϼ���. ");
-//		int contractIndex = Integer.parseInt(systemInput.readLine().trim());
-//		boolean getCustomerMaturity = contractListImpl.getCustomerMaturity(customerID, contractIndex);
-
-//		// 이미 해지된 보험인 경우
-//		if (getCustomerMaturity) {
-//			System.out.println("\n[System] 이미 해지된 만기 보헙입니다.");
-//			showContractList(contractListImpl, systemInput); // showContract 메서드 호출
-//		}
-
-//		boolean isMatchCustomerContract = contractListImpl.isMatchCustomerContract(contractIndex, customerID);
-//		if (isMatchCustomerContract) {
-//			boolean isUpdated = contractListImpl.updateMaturity(contractIndex);
-//			if (isUpdated) {
-//				System.out.println("\n[System] 해지 약관에 동의하십니까? (Y/N) ");
-//				String agree = systemInput.readLine().trim();
-//				if (agree.equals("N")) {
-//					System.out.println("\n[System] 해지 약관에 동의하지 않을 경우 해지가 불가능합니다.");
-//					showContractList(contractListImpl, systemInput); // showContract 메서드 호출
-//																		// showContractList(contractListImpl,
-//																		// systemInput); // showContract �޼��� ȣ��
-//				} else {
-//					System.out.println("\n[System] 해지가 완료되었습니다.");
-//					// 해지 환급금 요청 화면 연결
-//					System.out.println("\n-------- [고객 " + customerID + "] 납입 내역" + "-------------");
-//					System.out.println(contractListImpl.retreiveCustomerContract(customerID));
-//					showContractList(contractListImpl, systemInput); // showContract 메서드 호출
-//				}
-//				return;
-//			} else {
-//				System.out.println("\n[System] 잘못된 정보입니다.");
-//				showContractList(contractListImpl, systemInput); // showContract 메서드 호출ȣ��
-//			}
-//		} else {
-//			System.out.println("\n[System] 잘못된 계약 리스트 번호입니다.");
-//			showContractList(contractListImpl, systemInput); // showContract 메서드 호출istImpl, systemInput); //
-//																// showContract �޼��� ȣ��
-//		}
-//		showContractList(contractListImpl, systemInput); // showContract 메서드 호출
-		return;
-
-	}
-
 	private static void showMaturityPolicyMessage() {
 		// TODO Auto-generated method stub
 
 	}
 
-	private static void showEarlyTerminationPolicyMessage() {
-		System.out.println("해지 약관 전문 화면(해지 약관)");
+	private static void showTerminationPolicyMessage() {
+		System.out.println("\n[ 해지 약관 전문 화면(해지 약관) ]");
 
 	}
 
