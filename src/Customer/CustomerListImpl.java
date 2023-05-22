@@ -5,15 +5,20 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import Contract.Contract;
 import Contract.ContractListImpl;
+import Counsel.CounselApplication;
 import Customer.Customer.EGender;
+import Insurance.Insurance;
 
 public class CustomerListImpl implements CustomerList{
-	
-	// 만기계약대상자/미납대상자/부활대상자 enum
+
+
+
+    // 만기계약대상자/미납대상자/부활대상자 enum
     public enum TargetType {
        EXPIRED_CONTRACTS, UNPAID_CUSTOMERS, RESURRECT_CANDIDATES
     }
@@ -43,7 +48,7 @@ public class CustomerListImpl implements CustomerList{
 	       }
 
 	       for (Contract contract : contractListImpl.retrieve()) {
-	          if (customer.getCustomerID().equals(contract.getCustomerID)) {
+	          if (customer.getCustomerID().equals(contract.getCustomerID())) {
 	             if (contract.isResurrection()) {
 	            	resurrectCandidates.add(customer);
 	                customerMap.put(customer.getCustomerID(), true);
@@ -65,7 +70,7 @@ public class CustomerListImpl implements CustomerList{
 	       }
 
 	       for (Contract contract : contractListImpl.retrieve()) {
-	          if (customer.getCustomerID() == contract.getCustomerID()) {
+	          if (customer.getCustomerID().equals(contract.getCustomerID())) {
 	             if (contract.isMaturity()) {
 	            	// 새로 만듬 -> 1 3 4
 	            	// 1 3 4 -> 1 2 3 4
@@ -195,5 +200,36 @@ public class CustomerListImpl implements CustomerList{
 	}
 	public boolean deleteUnpaidCustomer(Customer customer) { // 미납 대상자에서 제외
 		return unpaidCustomers.remove(customer);
+	}
+
+	public Customer getCustomerFromCouncels(
+			   CounselApplication counselApplication, CustomerListImpl customerListImpl) {
+		Customer selectedCustomer = null;
+		for(Customer customer : customerListImpl.retrieve()) {
+			if(customer.getCustomerID().equals(counselApplication.getCustomerID()))
+				selectedCustomer = customer;
+		}
+		return selectedCustomer;
+	}
+
+	public static List<Contract> getContractFromCustomerId(String id, ContractListImpl contractListImpl) throws Exception {
+		   List<Contract> selectedContracts = new ArrayList<Contract>();
+		   ArrayList<Contract> contracts = contractListImpl.retrieve();
+		   for(Contract contract : contracts) {
+			   if (contract.getCustomerID().equals(id)) {
+				   selectedContracts.add(contract);
+			   }
+		   }
+		   // 여기서 한 사람당 계약 정보가 둘 이상일 때 첫 번째 계약만 값을 받아옴
+		   return selectedContracts;
+	   }
+
+	public Customer getCustomerByID(String customerID) {
+		for(int i=0;i<this.customerList.size();i++) {
+			Customer customer = (Customer) this.customerList.get(i);
+			if(customer.matchId(customerID))
+				return customer;
+		}
+		return null;
 	}
 }

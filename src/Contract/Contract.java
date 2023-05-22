@@ -1,13 +1,11 @@
 package Contract;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import CompensationClaim.CompensationClaim;
 
 public class Contract {
 
-	public String getCustomerID;
 	private String customerID;
 	private String insuranceID;
 	private String insurancePeriod;
@@ -194,5 +192,9 @@ public class Contract {
 
 	public boolean updateMaturity() {
 		return !this.maturity;
+	}
+
+	public boolean matchCID(String customerID) {
+		return (this.customerID.equals(customerID));
 	}
 }// end Contract

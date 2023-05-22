@@ -63,4 +63,15 @@ public class FamilyHistoryListImpl {
 	public void setRetrieve(ArrayList<FamilyHistory> familyHistoryList) {
 		this.familyHistoryList = familyHistoryList;
 	}
+
+	
+	public FamilyHistory getFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) { // 고객 아이디에 맞는 가족력 반환
+		   ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
+		   for(FamilyHistory familyHistory : familyHistories) {
+			   if (familyHistory.getCustomerID().equals(id)) {
+				   return familyHistory;
+			   }
+		   }
+		   return null;
+	   }
 }

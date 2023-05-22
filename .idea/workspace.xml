@@ -2,22 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76272c56-46e5-414e-8018-c71372182699" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Contract/Contract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/Contract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Contract/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/Payment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Contract/PaymentListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/PaymentListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Counsel/Counsel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Counsel/Counsel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Counsel/CounselApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Counsel/CounselApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Counsel/CounselApplicationList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Counsel/CounselApplicationList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Counsel/CounselApplicationListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Counsel/CounselApplicationListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer/CustomerList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/CustomerList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer/CustomerListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/CustomerListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer/FamilyHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/FamilyHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Customer/FamilyHistoryListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/FamilyHistoryListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Insurance/Insurance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/Insurance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +28,8 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -53,7 +42,11 @@
       <updated>1684136781661</updated>
       <workItem from="1684136784873" duration="1197000" />
       <workItem from="1684171550228" duration="2356000" />
-      <workItem from="1684212794910" duration="8809000" />
+      <workItem from="1684212794910" duration="10915000" />
+      <workItem from="1684377166883" duration="6226000" />
+      <workItem from="1684402022673" duration="31449000" />
+      <workItem from="1684601244951" duration="200000" />
+      <workItem from="1684601475225" duration="7248000" />
     </task>
     <servers />
   </component>
@@ -70,5 +63,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="inputReader" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
