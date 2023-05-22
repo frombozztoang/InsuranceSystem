@@ -4,10 +4,7 @@ import java.io.IOException;
 
 public class Insurance {
 
-	private String insuranceID;
-	public void setInsuranceID(String insuranceID) {
-		this.insuranceID = insuranceID;
-	}
+	private String insuranceID;	
 	private String insuranceName;
 	private String type;
 	private int maxCompensation;
@@ -29,10 +26,15 @@ public class Insurance {
 
 
 	
-	public Insurance() throws FileNotFoundException, IOException {      
+	public Insurance() throws FileNotFoundException, IOException {  
+		distributionStatus = (Boolean) null;
+		basicPremium = 0;
+		maxCompensation = 0;
     	authorization = false;
     }  
-	
+	public void setInsuranceID(String insuranceID) {
+		this.insuranceID = insuranceID;
+	}
     public boolean matchId(String insuranceID) {
 
       return this.insuranceID.equals(insuranceID);
@@ -192,4 +194,24 @@ public class Insurance {
 		TermsIDList = termsIDList;
 		return true;
 	}
+
+	public boolean checkAllFillIn() {
+		boolean AllFullIn = true;
+		if(this.insuranceID.isEmpty()) AllFullIn = false;
+		if(this.insuranceName.isEmpty()) AllFullIn = false;
+		if(this.type.isEmpty()) AllFullIn = false;
+		if(this.maxCompensation == 0) AllFullIn = false;
+		if(this.periodOfInsurance.isEmpty()) AllFullIn = false;
+		if(this.paymentCycle.isEmpty()) AllFullIn = false;
+		if(this.paymentPeriod.isEmpty()) AllFullIn = false;
+		if(this.ageOfTarget.isEmpty()) AllFullIn = false;
+		if(this.basicPremium == 0) AllFullIn = false;
+		if(this.rate.isEmpty()) AllFullIn = false;
+		if(this.TermsIDList.isEmpty()) AllFullIn = false;
+		if(this.insuranceClausePeriod.isEmpty()) AllFullIn = false;
+		if(this.precaution.isEmpty()) AllFullIn = false;
+		if(this.distributionStatus == (Boolean) null) AllFullIn = false;
+		return AllFullIn;
+	}
+
 }

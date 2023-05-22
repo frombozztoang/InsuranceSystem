@@ -58,5 +58,12 @@ public class Terms {
 		return this.termsID.equals(termsID);
 	}
 
-	
+	public boolean checkAllFillIn() {
+		boolean AllFullIn = true;
+		if(this.termsID.isEmpty()) AllFullIn = false;
+		if(this.termsName.isEmpty()) AllFullIn = false;
+		if(this.calculatedMoneyMethod.isEmpty()) AllFullIn = false;
+		if(this.termsContent.isEmpty()) AllFullIn = false;
+		return AllFullIn;
+	}
 }
