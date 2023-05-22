@@ -29,14 +29,12 @@ public class ContractListImpl {
 		}
 		contractFile.close();
 	}
-
 	public static LocalDate stringToDate(String dateString) {
 		String[] dateParts = dateString.split("-");
 		int year = Integer.parseInt(dateParts[0]);
 		int month = Integer.parseInt(dateParts[1]);
 		int day = Integer.parseInt(dateParts[2]);
 		return LocalDate.of(year, month, day);
-
 	}
 
 	private Contract makeContract(String contractInfo) throws ParseException {
@@ -204,6 +202,14 @@ public class ContractListImpl {
 		}
 	}
 
+	public ArrayList<Contract> getContractsByCID(String inputCustomerId) throws IOException, ParseException {
+		ArrayList<Contract> contracts = new ArrayList<Contract>();
+		for(int i=0;i<this.contractList.size();i++) {
+			if(this.contractList.get(i).matchCID(inputCustomerId))
+				contracts.add(this.contractList.get(i));
+		}
+		return contracts;
+	}
 	public ArrayList<String> getInsuranceIdFromCustomerId(String customerId) {
 		ArrayList<String> insuranceIdFromCustomerId = new ArrayList<String>();
 		for (Contract contract : contractList) {
@@ -225,6 +231,4 @@ public class ContractListImpl {
 		}
 		return premiums;
 	}
-
-
 }// end ContractListImpl
