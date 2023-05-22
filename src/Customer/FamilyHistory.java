@@ -15,6 +15,10 @@ public class FamilyHistory {
 	public FamilyHistory() {
 		
 	}
+	public String toString() {
+		String stringReturn = this.diseaseName + " " + this.relationship;
+		return stringReturn;
+	}
 	public String getCustomerID() {
 		return customerID;
 	}

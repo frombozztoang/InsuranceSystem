@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public class Payment {
 
-	private int paymentIndex;
 	private String customerID;
 	private String insuranceID;
 	private LocalDate dateOfPayment;
@@ -20,21 +19,13 @@ public class Payment {
 	}
 
 	public String toString() {
-		String stringReturn = paymentIndex + " " + customerID + " " + this.insuranceID + " " + this.dateOfPayment + " "
+		String stringReturn = customerID + " " + this.insuranceID + " " + this.dateOfPayment + " "
 				+ this.whetherPayment;
 		return stringReturn;
 	}
 
 	public void finalize() throws Throwable {
 
-	}
-
-	public int getPaymentID() {
-		return paymentIndex;
-	}
-
-	public void setPaymentID(int paymentID) {
-		this.paymentIndex = paymentID;
 	}
 
 	public boolean updatePayment() {
@@ -81,16 +72,7 @@ public class Payment {
 		this.whetherPayment = whetherPayment;
 	}
 
-	public boolean matchCustomerID(String customerID) {
-		return this.customerID == customerID;
-	}
 
-	public boolean matchPaymentID(int paymentIndex) {
-		return this.paymentIndex == paymentIndex;
-	}
 
-	public boolean matchCustomerPayment(int paymentIndex, String customerID) {
-		// TODO Auto-generated method stub
-		return (this.paymentIndex == paymentIndex) && (this.customerID == customerID);
-	}
+
 }// end Payment
