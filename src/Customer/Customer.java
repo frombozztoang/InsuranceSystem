@@ -43,10 +43,11 @@ public class Customer implements Serializable {
 	}
 
 	public String toString() {
-		String stringReturn = customerID + " " + this.birth + " " + this.eGender + " " + this.pnumber + " " + this.job
-				+ " " + this.address;
+		String stringReturn = this.customerID + " " + this.customerName + " " + this.birth + " " + this.eGender + " "
+				+ this.pnumber + " " + this.job + " " + this.address;
 		return stringReturn;
 	}
+	
 
 	public boolean deleteCustomer(int customerID) {
 		Customer customerToRemove = null;

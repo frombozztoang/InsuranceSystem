@@ -112,8 +112,30 @@ public class ContractListImpl {
 				customerContracts.add(contract);
 			}
 		}
-
 		return customerContracts;
+	}
+
+	public ArrayList<String> retreiveCustomerContractStatus(String customerId) {
+		ArrayList<String> contractStatus = new ArrayList<String>();
+		Payment payment = new Payment();
+
+		for (Contract contract : this.contractList) {
+			if (contract.matchCustomerID(customerId)) {
+				contractStatus.add(contract.isMaturity() + " " + contract.isCancellation());
+			}
+		}
+
+		return contractStatus;
+	}
+
+	public Contract getContractByInsuranceID(String insuranceId) {
+		for (Contract contract : this.contractList) {
+			if (contract.getInsuranceID().equals(insuranceId)) {
+				return contract;
+			}
+		}
+
+		return null;
 	}
 
 //	public Boolean updateCancellation(int contractIndex) throws IOException {

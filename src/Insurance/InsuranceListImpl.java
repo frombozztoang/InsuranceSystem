@@ -172,6 +172,17 @@ public class InsuranceListImpl {
 		return null;
 	}
 
+	public ArrayList<String> getInsuranceNameById(String insuranceId) {
+		ArrayList<String> insuranceName = new ArrayList<String>();
+		for (Insurance insurance : insuranceList) {
+			if (insurance.getInsuranceID().equals(insuranceId)) {
+				insuranceName.add(insurance.getInsuranceName());
+
+			}
+		}
+		return insuranceName;
+	}
+
 	public ArrayList<String> getInsuranceNameTypeInfoById(String insuranceId) {
 		ArrayList<String> insuranceNameType = new ArrayList<String>();
 		for (Insurance insurance : insuranceList) {

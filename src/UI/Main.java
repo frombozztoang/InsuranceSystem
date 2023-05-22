@@ -3,6 +3,7 @@ package UI;
 import CompensationClaim.*;
 import Contract.Contract;
 import Contract.ContractListImpl;
+import Contract.Payment;
 import Contract.PaymentListImpl;
 import Counsel.Counsel;
 import Counsel.CounselApplication;
@@ -50,6 +51,7 @@ public class Main {
 		CounselApplicationListImpl counselApplicationListImpl = new CounselApplicationListImpl("data/CounselList.txt");
 		CustomerListImpl customerListImpl = new CustomerListImpl("data/Customer.txt");
 		FamilyHistoryListImpl familyHistoryListImpl = new FamilyHistoryListImpl("data/FamilyHistory.txt");
+		PaymentListImpl paymentListImpl = new PaymentListImpl("data/Payment.txt");
 		String userChoice = "";
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -72,23 +74,28 @@ public class Main {
 				designInsurance(insuranceList, termsListImpl, inputReader, insuranceApplicationList);
 				break;
 			case "5":
-				showContractList(contractListImpl, inputReader);
-				break;
-			case "6":
 				showCustomerList(customerListImpl, inputReader, familyHistoryListImpl, contractListImpl, insuranceList);
 				break;
-			case "7":
+			case "6":
 				showCouncel(inputReader, counselApplicationListImpl);
 				break;
-			case "8":
+			case "7":
 				showManageConsultation(inputReader, counselApplicationListImpl, customerListImpl);
 				break;
-			case "9":
+			case "8":
 				showInsuranceApplicationList(insuranceApplicationList, insuranceList, customerListImpl,
 						familyHistoryListImpl, inputReader);
 				break;
-			case "10":
+			case "9":
 				showSubscriptionInsurance(inputReader, contractListImpl, customerListImpl, insuranceList);
+				break;
+			case "10":
+				// 추후 수정 - 계약유지대상자 조회 하면에서 '만기 계약자 조회 메뉴' 클릭 시 이동하는 곳
+				showUnpaidCustomer(inputReader, contractListImpl, customerListImpl, insuranceList,
+						familyHistoryListImpl, paymentListImpl, compensationClaimList);
+				break;
+			case "11":
+				showPaymentManagement(inputReader, customerListImpl, contractListImpl, paymentListImpl);
 				break;
 			case "x":
 				break;
@@ -99,6 +106,8 @@ public class Main {
 			}
 		}
 	}
+
+
 
 	private static void showInsuranceApplicationList(InsuranceApplicationListImpl insuranceApplicationList,
 			InsuranceListImpl insuranceList, CustomerListImpl customerListImpl, FamilyHistoryListImpl familyHistoryList,
@@ -1280,14 +1289,13 @@ public class Main {
 		System.out.println("2. 보험금 청구 내역(직원용)");
 		System.out.println("3. 보험 조회");
 		System.out.println("4. 보험 설계(직원용)");
-		System.out.println("5. 계약 관리");
-		System.out.println("6. 고객 조회");
-		System.out.println("7. 고객 상담 신청");
-		System.out.println("8. 상담 정보 관리");
-
-		System.out.println("9. 보험 가입 신청 내역");
-		System.out.println("10. 내 보험 확인");
-
+		System.out.println("5. 고객 조회");
+		System.out.println("6. 고객 상담 신청");
+		System.out.println("7. 상담 정보 관리");
+		System.out.println("8. 보험 가입 신청 내역");
+		System.out.println("9. 내 보험 확인");
+		System.out.println("10. 추후 수정 필요 메뉴 - 만기 계약자 조회 ");
+		System.out.println("11. 납입 관리 메뉴 ");
 		System.out.println("x. Exit");
 	}
 
@@ -1441,7 +1449,96 @@ public class Main {
 			System.out.println("[System] 해지 요청을 취소합니다.");
 
 	}
+
 // End Of  uc18) 보험을 중도 해지한다. , uc19) 만기 보험을 해지하다. 
+// uc26) 보험료 미납자를 조회하다. 	
+	private static void showUnpaidCustomer(BufferedReader inputReader, ContractListImpl contractListImpl,
+			CustomerListImpl customerListImpl, InsuranceListImpl insuranceList,
+			FamilyHistoryListImpl familyHistoryListImpl, PaymentListImpl paymentListImpl,
+			CompensationClaimListImpl compensationClaimList) throws Exception {
+
+		System.out.println("\n[ 보험료 미납자 리스트 ]");
+		System.out.println("_____________________________________________________");
+		System.out.printf("\n%-10s %-10s %-10s %-10s \n", centerAlign("고객 ID", 10), centerAlign("이름", 9),
+				centerAlign("성별", 9), centerAlign("세부정보 보기 버튼", 9));
+		System.out.println("_____________________________________________________\n");
+
+		ArrayList<String> unPaidCustomerId = paymentListImpl.retreiveUnpaidCustomerId();
+		ArrayList<Customer> customerInfo = new ArrayList<Customer>();
+		ArrayList<FamilyHistory> familyInfo = new ArrayList<FamilyHistory>();
+		ArrayList<String> unpaidContractStatus = new ArrayList<>();
+		ArrayList<String> unpaidInsuranceId = new ArrayList<>();
+		ArrayList<String> unpaidInsuranceName = new ArrayList<>();
+
+		int detailBtn = 0;
+
+		for (String customerId : unPaidCustomerId) {
+			Customer customer = customerListImpl.getCustomerByID(customerId);
+			System.out.printf("%-10s %-10s %-10s %-10s\n", centerAlign(customer.getCustomerID(), 10),
+					centerAlign(customer.getCustomerName(), 10), centerAlign(customer.getEGender().toString(), 10),
+					centerAlign(Integer.toString(detailBtn), 12));
+			detailBtn++;
+		}
+
+		System.out.print("\n\n• 버튼 선택 : ");
+		String btnChoice = inputReader.readLine().trim();
+		String selectedCustomerId = "";
+		if (Integer.parseInt(btnChoice) >= 0 && Integer.parseInt(btnChoice) < unPaidCustomerId.size()) {
+			selectedCustomerId = unPaidCustomerId.get(Integer.parseInt(btnChoice));
+			customerInfo.add(customerListImpl.retrieveCustomer(selectedCustomerId));
+			familyInfo.addAll(familyHistoryListImpl.getAllFamilyHistoryFromId(selectedCustomerId, familyHistoryListImpl));
+			ArrayList<Payment> customerPayments = paymentListImpl.retreiveCustomerPayment(selectedCustomerId);
+			for (Payment payment : customerPayments) {
+				Contract contract = contractListImpl.getContractByInsuranceID(payment.getInsuranceID());
+				if (contract != null && !payment.isWhetherPayment()) {
+					unpaidContractStatus.add(contract.isMaturity() + " " + contract.isCancellation());
+					unpaidInsuranceId.add(contract.getInsuranceID());
+				}
+			}
+			for (String insurance : unpaidInsuranceId)
+				unpaidInsuranceName.addAll(insuranceList.getInsuranceNameById(insurance));
+		} else {
+			System.out.println("[System] 올바르지 않은 버튼 선택입니다. ");
+			return;
+		}
+			
+
+		System.out.println("\n[ 고객 정보 화면 ]");
+		System.out.println("___________________________________________________________________");
+		System.out.printf("\n%-60s \n", centerAlign("고객 정보", 60));
+		System.out.println("___________________________________________________________________\n");
+		System.out.printf("%60s\n", customerInfo.get(0).toString());
+		
+
+		System.out.println("\n\n___________________________________________________________________\n");
+		System.out.println("[          가족력 리스트          /          보유 계약 리스트           ]");
+		System.out.println("___________________________________________________________________\n");
+
+		// 출력할 행의 개수는 네 개의 리스트 중 가장 큰 크기로 설정
+		int maxIndex = Math.max(Math.max(familyInfo.size(), unpaidInsuranceName.size()), unpaidContractStatus.size());
+		// 각각의 리스트를 인덱스별로 가져와서 출력
+		for (int i = 0; i < maxIndex; i++) {
+			String familyInfoLine = (i < familyInfo.size()) ? familyInfo.get(i).toString() : "";
+			String insuranceNameLine = (i < unpaidInsuranceName.size()) ? unpaidInsuranceName.get(i) : "";
+			String contractStatusLine = (i < unpaidContractStatus.size()) ? unpaidContractStatus.get(i) : "";
+			String combined = insuranceNameLine + " " + contractStatusLine;
+			System.out.printf("%20s %20s \n", centerAlign(familyInfoLine, 30), centerAlign(combined,30));
+		}
+		
+		System.out.print("\n\n• 대상자 제외 버튼 선택 (Y/N) : ");
+		String choice = inputReader.readLine().trim();
+		if(choice.equals("Y")) {
+			// A1. 대상자에서 제외하고 싶은 경우
+			// Q. customerListImpl에서 미납자, 만기계약자 뭐 이런거 다 따로 저장해두고 여기에서 꺼내와야하는가?
+//			customerListImpl.deleteUnpaidCustomer(customerListImpl.retrieveCustomer(selectedCustomerId));
+			System.out.println("\n[System] 대상자에서 제외되었습니다.");
+		}
+	}
+//End Of uc26) 보험료 미납자를 조회하다. 	
+	private static void showPaymentManagement(BufferedReader inputReader, CustomerListImpl customerListImpl,
+			ContractListImpl contractListImpl, PaymentListImpl paymentListImpl) {
+
+	}
 
 	private static void showContractList(ContractListImpl contractListImpl, BufferedReader systemInput)
 			throws Exception {
@@ -1616,25 +1713,25 @@ public class Main {
 		System.out.println(paymentListImpl.retreiveCustomerPayment(customerID));
 		System.out.println("\n[System] 변경할 납입 리스트의 번호를 입력하세요.");
 		System.out.print("납입 리스트 번호 : ");
-		int paymentID = Integer.parseInt(systemInput.readLine().trim());
-		boolean isMatchCustomerPayment = paymentListImpl.isMatchCustomerPayment(paymentID, customerID);
-		if (isMatchCustomerPayment) {
-			boolean isUpdated = paymentListImpl.updateWheterPayment(paymentID);
-			if (isUpdated) {
-				System.out.println("\n[System] 납입 상태를 변경했습니다.");
-				System.out.println("\n-------- [고객 " + customerID + "] 납입 내역" + "-------------");
-				System.out.println(paymentListImpl.retreiveCustomerPayment(customerID));
-				showPaymentList(paymentListImpl, systemInput); // showPaymentList 메서드 호출
-				return;
-			} else {
-				System.out.println("\n[System] 잘못된 정보입니다.");
-				showPaymentList(paymentListImpl, systemInput); // showPaymentList 메서드 호출
-			}
-		} else {
-			System.out.println("\n[System] 잘못된 납입 리스트 번호입니다.");
-			showPaymentList(paymentListImpl, systemInput); // showPaymentList 메서드 호출
-		}
-		showPaymentList(paymentListImpl, systemInput); // showPaymentList 메서드 호출
+//		int paymentID = Integer.parseInt(systemInput.readLine().trim());
+//		boolean isMatchCustomerPayment = paymentListImpl.isMatchCustomerPayment(paymentID, customerID);
+//		if (isMatchCustomerPayment) {
+//			boolean isUpdated = paymentListImpl.updateWheterPayment(paymentID);
+//			if (isUpdated) {
+//				System.out.println("\n[System] 납입 상태를 변경했습니다.");
+//				System.out.println("\n-------- [고객 " + customerID + "] 납입 내역" + "-------------");
+//				System.out.println(paymentListImpl.retreiveCustomerPayment(customerID));
+//				showPaymentList(paymentListImpl, systemInput); // showPaymentList 메서드 호출
+//				return;
+//			} else {
+//				System.out.println("\n[System] 잘못된 정보입니다.");
+//				showPaymentList(paymentListImpl, systemInput); // showPaymentList 메서드 호출
+//			}
+//		} else {
+//			System.out.println("\n[System] 잘못된 납입 리스트 번호입니다.");
+//			showPaymentList(paymentListImpl, systemInput); // showPaymentList 메서드 호출
+//		}
+//		showPaymentList(paymentListImpl, systemInput); // showPaymentList 메서드 호출
 		return;
 	}
 }
