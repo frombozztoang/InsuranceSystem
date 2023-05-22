@@ -31,10 +31,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 //import java.rmi.Naming;
 //import java.rmi.NotBoundException;
 //import java.rmi.RemoteException;
+import java.util.Map;
 
 public class Main {
 
@@ -95,7 +97,8 @@ public class Main {
 						familyHistoryListImpl, paymentListImpl, compensationClaimList);
 				break;
 			case "11":
-				showPaymentManagement(inputReader, customerListImpl, contractListImpl, paymentListImpl);
+				showPaymentManagement(inputReader, customerListImpl, new ContractListImpl("data/Contract.txt"),
+						paymentListImpl, insuranceList);
 				break;
 			case "x":
 				break;
@@ -106,8 +109,6 @@ public class Main {
 			}
 		}
 	}
-
-
 
 	private static void showInsuranceApplicationList(InsuranceApplicationListImpl insuranceApplicationList,
 			InsuranceListImpl insuranceList, CustomerListImpl customerListImpl, FamilyHistoryListImpl familyHistoryList,
@@ -1486,7 +1487,8 @@ public class Main {
 		if (Integer.parseInt(btnChoice) >= 0 && Integer.parseInt(btnChoice) < unPaidCustomerId.size()) {
 			selectedCustomerId = unPaidCustomerId.get(Integer.parseInt(btnChoice));
 			customerInfo.add(customerListImpl.retrieveCustomer(selectedCustomerId));
-			familyInfo.addAll(familyHistoryListImpl.getAllFamilyHistoryFromId(selectedCustomerId, familyHistoryListImpl));
+			familyInfo
+					.addAll(familyHistoryListImpl.getAllFamilyHistoryFromId(selectedCustomerId, familyHistoryListImpl));
 			ArrayList<Payment> customerPayments = paymentListImpl.retreiveCustomerPayment(selectedCustomerId);
 			for (Payment payment : customerPayments) {
 				Contract contract = contractListImpl.getContractByInsuranceID(payment.getInsuranceID());
@@ -1501,14 +1503,12 @@ public class Main {
 			System.out.println("[System] 올바르지 않은 버튼 선택입니다. ");
 			return;
 		}
-			
 
 		System.out.println("\n[ 고객 정보 화면 ]");
 		System.out.println("___________________________________________________________________");
 		System.out.printf("\n%-60s \n", centerAlign("고객 정보", 60));
 		System.out.println("___________________________________________________________________\n");
 		System.out.printf("%60s\n", customerInfo.get(0).toString());
-		
 
 		System.out.println("\n\n___________________________________________________________________\n");
 		System.out.println("[          가족력 리스트          /          보유 계약 리스트           ]");
@@ -1522,22 +1522,173 @@ public class Main {
 			String insuranceNameLine = (i < unpaidInsuranceName.size()) ? unpaidInsuranceName.get(i) : "";
 			String contractStatusLine = (i < unpaidContractStatus.size()) ? unpaidContractStatus.get(i) : "";
 			String combined = insuranceNameLine + " " + contractStatusLine;
-			System.out.printf("%20s %20s \n", centerAlign(familyInfoLine, 30), centerAlign(combined,30));
+			System.out.printf("%20s %20s \n", centerAlign(familyInfoLine, 30), centerAlign(combined, 30));
 		}
-		
+
 		System.out.print("\n\n• 대상자 제외 버튼 선택 (Y/N) : ");
 		String choice = inputReader.readLine().trim();
-		if(choice.equals("Y")) {
+		if (choice.equals("Y")) {
 			// A1. 대상자에서 제외하고 싶은 경우
 			// Q. customerListImpl에서 미납자, 만기계약자 뭐 이런거 다 따로 저장해두고 여기에서 꺼내와야하는가?
 //			customerListImpl.deleteUnpaidCustomer(customerListImpl.retrieveCustomer(selectedCustomerId));
 			System.out.println("\n[System] 대상자에서 제외되었습니다.");
 		}
 	}
-//End Of uc26) 보험료 미납자를 조회하다. 	
-	private static void showPaymentManagement(BufferedReader inputReader, CustomerListImpl customerListImpl,
-			ContractListImpl contractListImpl, PaymentListImpl paymentListImpl) {
 
+//End Of uc26) 보험료 미납자를 조회하다. 	
+// uc36) 고객 납입 여부를 등록하다. 
+	private static void showPaymentManagement(BufferedReader inputReader, CustomerListImpl customerListImpl,
+			ContractListImpl contractListImpl, PaymentListImpl paymentListImpl, InsuranceListImpl insuranceListImpl)
+			throws Exception {
+
+		ArrayList<Contract> contractList = contractListImpl.retrieve();
+		ArrayList<Customer> customerList = customerListImpl.retrieve();
+		ArrayList<Insurance> insuranceList = insuranceListImpl.retrieve();
+		ArrayList<String> customerId = new ArrayList<String>();
+		ArrayList<String> customerInfo = new ArrayList<String>();
+		ArrayList<String> insuranceId = new ArrayList<String>();
+		ArrayList<String> insuranceName = new ArrayList<String>();
+		ArrayList<Integer> premium = new ArrayList<Integer>();
+
+		for (Contract contract : contractList) {
+			customerId.add(contract.getCustomerID());
+			insuranceId.add(contract.getInsuranceID());
+			premium.add(contract.getPremium());
+		}
+
+		// customerId와 customerList를 매치하여 customerName 가져오기
+		Map<String, String> customerNameMap = new HashMap<>();
+		Map<String, String> customerPHMap = new HashMap<>();
+		for (Customer customer : customerList) {
+			customerNameMap.put(customer.getCustomerID(), customer.getCustomerName());
+			customerPHMap.put(customer.getCustomerID(), customer.getPnumber());
+		}
+
+		for (String id : customerId) {
+			String name = customerNameMap.get(id);
+			String PH = customerPHMap.get(id);
+			if (name != null && PH != null)
+				customerInfo.add(name + " " + PH);
+		}
+
+		// insuranceId와 insuranceList를 매치하여 insuranceName 가져오기
+		Map<String, String> insuranceNameMap = new HashMap<>();
+		for (Insurance insurance : insuranceList) {
+			insuranceNameMap.put(insurance.getInsuranceID(), insurance.getInsuranceName());
+		}
+
+		for (String id : insuranceId) {
+			String name = insuranceNameMap.get(id);
+			if (name != null)
+				insuranceName.add(name);
+		}
+
+		// premium과 insuranceName 인덱스 별로 합치기
+		ArrayList<String> premiumInsuranceList = new ArrayList<>();
+		int maxIndex = Math.max(premium.size(), insuranceName.size());
+		for (int i = 0; i < maxIndex; i++) {
+			String premiumStr = (i < premium.size()) ? premium.get(i).toString() : "";
+			String insuranceNameStr = (i < insuranceName.size()) ? insuranceName.get(i) : "";
+			String combinedLine = insuranceNameStr + " " + premiumStr;
+			premiumInsuranceList.add(combinedLine);
+		}
+		// customerInfo와 premiumInsuranceList 인덱스 별로 합치기
+		ArrayList<String> customerPaymentList = new ArrayList<>();
+		int maxIndex2 = Math.max(customerInfo.size(), premiumInsuranceList.size());
+		for (int i = 0; i < maxIndex2; i++) {
+			String customerInfoStr = (i < customerInfo.size()) ? customerInfo.get(i) : "";
+			String premiumInsuranceStr = (i < premiumInsuranceList.size()) ? premiumInsuranceList.get(i) : "";
+			String combinedLine = customerInfoStr + " " + premiumInsuranceStr;
+			customerPaymentList.add(combinedLine);
+		}
+
+		System.out.println("\n[ 납입 관리 화면 ]");
+		System.out.println("___________________________________________________________________\n");
+		System.out.printf("%10s %10s %20s %10s\n", centerAlign("고객명", 10), centerAlign("고객 연락처", 10),
+				centerAlign("보험명", 13), centerAlign("납입내역버튼", 8));
+		System.out.println("___________________________________________________________________");
+		int paymentBtn = 0;
+		for (String paymentLine : customerPaymentList) {
+			String[] paymentInfo = paymentLine.split(" ");
+			String customerInfoStr = (paymentInfo.length > 0) ? paymentInfo[0] : "";
+			String insuranceNameStr = (paymentInfo.length > 1) ? paymentInfo[1] : "";
+			String premiumStr = (paymentInfo.length > 2) ? paymentInfo[2] : "";
+			System.out.printf("%10s %10s %20s %10s\n", centerAlign(customerInfoStr, 10),
+					centerAlign(insuranceNameStr, 10), centerAlign(premiumStr, 10), Integer.toString(paymentBtn));
+			paymentBtn++;
+		}
+
+		System.out.print("\n\n• 납입내역버튼 선택 (버튼 번호 입력 또는 X 입력하여 종료): ");
+		String choice = inputReader.readLine().trim();
+
+		while (!choice.equalsIgnoreCase("X")) {
+			int selectedBtn = Integer.parseInt(choice);
+			if (selectedBtn >= 0 && selectedBtn < customerPaymentList.size()) {
+				String selectedPaymentLine = customerPaymentList.get(selectedBtn);
+				String[] selectedPaymentInfo = selectedPaymentLine.split(" ");
+				String selectedCustomerName = selectedPaymentInfo[0];
+				String selectedInsuranceName = selectedPaymentInfo[2];
+				String selectedCustomerId = customerId.get(selectedBtn);
+				String selectedInsuranceId = insuranceId.get(selectedBtn);
+				String paymentStatus = "";
+				ArrayList<String> selectedPaymentList = paymentListImpl.retreiveDateStatusById(selectedCustomerId,
+						selectedInsuranceId);
+				ArrayList<String> selectedPremium = contractListImpl.retreivePremiumById(selectedCustomerId,
+						selectedInsuranceId);
+
+				System.out.println("\n[ 납입 내역 ]");
+				System.out.println(
+						"____________________________________________________________________________________________________\n");
+				System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s\n", centerAlign("고객명", 15),
+						centerAlign("보험명", 15), centerAlign("보험료", 15), centerAlign("납입일", 15), centerAlign("납입여부", 15),
+						centerAlign("납입상태변경버튼", 15));
+				System.out.println(
+						"____________________________________________________________________________________________________");
+				ArrayList<String> updatedPaymentList = new ArrayList<>(selectedPaymentList); // 업데이트된 납입 내역 목록
+				int paymentStatusBtn = 0;
+				for (int i = 0; i < Math.min(selectedPaymentList.size(), selectedPremium.size()); i++) {
+					String paymentLine = selectedPaymentList.get(i);
+					String[] paymentInfo = paymentLine.split(" ");
+					String paymentDate = (paymentInfo.length > 0) ? paymentInfo[0] : "";
+					paymentStatus = (paymentInfo.length > 1) ? paymentInfo[1] : "";
+
+					System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s\n", centerAlign(selectedCustomerName, 15),
+							centerAlign(selectedInsuranceName, 15), centerAlign(selectedPremium.get(i), 15),
+							centerAlign(paymentDate, 20), centerAlign(paymentStatus, 12),
+							centerAlign(Integer.toString(paymentStatusBtn), 15));
+					paymentStatusBtn++;
+				}
+
+				System.out.print("\n\n• 납입상태변경버튼 선택 (버튼 번호 입력 또는 Q 입력하여 종료): ");
+				String paymentUpdateBtn = inputReader.readLine().trim();
+				if (paymentUpdateBtn.matches("\\d+")) {
+					int selectedPaymentUpdateBtn = Integer.parseInt(paymentUpdateBtn);
+					if (selectedPaymentUpdateBtn >= 0 && selectedPaymentUpdateBtn < Math.min(selectedPaymentList.size(),
+							selectedPremium.size())) {
+						selectedCustomerId = customerId.get(selectedPaymentUpdateBtn);
+						selectedInsuranceId = insuranceId.get(selectedPaymentUpdateBtn);
+						// 변경된 상태를 가져올 때 updatedPaymentList 사용
+						paymentStatus = updatedPaymentList.get(selectedPaymentUpdateBtn).split(" ")[1];
+						if (contractListImpl.updateCancellation(selectedCustomerId, selectedInsuranceId)) {
+							System.out.println("[System] 납입 상태를 변경했습니다.");
+							selectedPaymentList = paymentListImpl.retreiveDateStatusById(selectedCustomerId,
+									selectedInsuranceId);
+							updatedPaymentList = new ArrayList<>(selectedPaymentList);
+						} else {
+							System.out.println("[System] 납입 상태 변경 실패");
+						}
+					}
+				}
+
+				return;
+
+			} else {
+				System.out.println("[System] 유효하지 않은 버튼 번호입니다.");
+				// 다시 선택
+				System.out.print("\n\n• 납입내역버튼 선택 (버튼 번호 입력 또는 Q 입력하여 종료): ");
+				choice = inputReader.readLine().trim();
+			}
+		}
 	}
 
 	private static void showContractList(ContractListImpl contractListImpl, BufferedReader systemInput)

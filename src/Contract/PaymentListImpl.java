@@ -103,6 +103,16 @@ public class PaymentListImpl {
 		return customerPayment;
 	}
 
+	public ArrayList<String> retreiveDateStatusById(String customerID, String insuranceId) {
+		ArrayList<String> dateAndStatus = new ArrayList<String>();
+		for (int i = 0; i < this.paymentList.size(); i++) {
+			if (paymentList.get(i).getCustomerID().equals(customerID) && paymentList.get(i).getInsuranceID().equals(insuranceId)) {
+				dateAndStatus.add(paymentList.get(i).getDateOfPayment() + " " + paymentList.get(i).isWhetherPayment());
+			}
+		}
+		return dateAndStatus;
+	}
+
 	public ArrayList<String> retreiveUnpaidCustomerId() {
 		ArrayList<String> unPaidCustomerId = new ArrayList<String>();
 		HashSet<String> uniqueCustomerId = new HashSet<String>(); // 중복 값을 없애기 위한 HashSet

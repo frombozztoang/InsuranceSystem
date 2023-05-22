@@ -138,17 +138,17 @@ public class ContractListImpl {
 		return null;
 	}
 
-//	public Boolean updateCancellation(int contractIndex) throws IOException {
-//		for (int i = 0; i < this.contractList.size(); i++) {
-//			if (this.contractList.get(i).matchContractIndex(contractIndex)) {
-//				this.contractList.get(i).setCancellation(!this.contractList.get(i).updateCancellation());
-//				updateFile("data/Contract.txt");
-//				return true;
-//			}
-//		}
-//
-//		return false; // exception
-//	}
+	public Boolean updateCancellation(String customerId, String insuranceId) throws IOException {
+		for (int i = 0; i < this.contractList.size(); i++) {
+			if (this.contractList.get(i).getCustomerID().equals(customerId) && contractList.get(i).getInsuranceID().equals(insuranceId)) {
+				this.contractList.get(i).setCancellation(this.contractList.get(i).updateCancellation());
+				updateFile("data/Contract.txt");
+				return true;
+			}
+		}
+
+		return false; // exception
+	}
 
 //	public boolean isMatchCustomerContract(int contractIndex, String customerID) {
 //		for (int i = 0; i < this.contractList.size(); i++) {
@@ -181,14 +181,8 @@ public class ContractListImpl {
 //
 //		return false; // exception
 //	}
-//
-//	public boolean getCustomerCancellation(String customerID, int contractIndex) {
-//		for (int i = 0; i < this.contractList.size(); i++) {
-//			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
-//				return contractList.get(i).isCancellation();
-//		}
-//		return false;
-//	}
+
+
 	public void setResurrectFromCustomer(Customer customer) {
 		for (Contract contract : contractList) {
 			if (contract.getCustomerID().equals(customer.getCustomerID()))
@@ -221,14 +215,16 @@ public class ContractListImpl {
 
 	}
 
-//    public Contract getContractByCID(String inputCustomerId) {
-//		for(int i=0;i<this.contractList.size();i++) {
-//			Contract contract = (Contract) this.contractList.get(i);
-//			if(contract.matchCID(inputCustomerId))
-//				return contract;
-//		}
-//		return null;
-//	}
-	// 현재 맨위에 있는 하나의 contract만 출력되므로 수정필요
+	public ArrayList<String> retreivePremiumById(String selectedCustomerId, String selectedInsuranceId) {
+		ArrayList<String> premiums = new ArrayList<String>();
+		for (int i = 0; i < this.contractList.size(); i++) {
+			if (contractList.get(i).getCustomerID().equals(selectedCustomerId)
+					&& contractList.get(i).getInsuranceID().equals(selectedInsuranceId)) {
+				premiums.add(Integer.toString(contractList.get(i).getPremium()));
+			}
+		}
+		return premiums;
+	}
+
 
 }// end ContractListImpl
