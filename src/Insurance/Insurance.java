@@ -28,7 +28,6 @@ public class Insurance {
 
 
 	public Insurance() throws FileNotFoundException, IOException {  
-		distributionStatus = (Boolean) null;
 		basicPremium = 0;
 		maxCompensation = 0;
     	authorization = false;
@@ -215,7 +214,6 @@ public class Insurance {
 		if(this.TermsIDList.isEmpty()) AllFullIn = false;
 		if(this.insuranceClausePeriod.isEmpty()) AllFullIn = false;
 		if(this.precaution.isEmpty()) AllFullIn = false;
-		if(this.distributionStatus == (Boolean) null) AllFullIn = false;
 		return AllFullIn;
 	}
 
