@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class PaymentListImpl {
@@ -27,30 +28,19 @@ public class PaymentListImpl {
 		paymentFile.close();
 	}
 
-//	public class DateConverter {
-//		public static LocalDate stringToDate(String dateString) {
-//
-//			String[] dateParts = dateString.split("-");
-//			int year = Integer.parseInt(dateParts[0]);
-//			int month = Integer.parseInt(dateParts[1]);
-//			int day = Integer.parseInt(dateParts[2]);
-//			return LocalDate.of(year, month, day);
-//
-//		}
-//	}
-public static LocalDate stringToDate(String dateString) {
-	String[] dateParts = dateString.split("-");
-	int year = Integer.parseInt(dateParts[0]);
-	int month = Integer.parseInt(dateParts[1]);
-	int day = Integer.parseInt(dateParts[2]);
-	return LocalDate.of(year, month, day);
+	public static LocalDate stringToDate(String dateString) {
+		String[] dateParts = dateString.split("-");
+		int year = Integer.parseInt(dateParts[0]);
+		int month = Integer.parseInt(dateParts[1]);
+		int day = Integer.parseInt(dateParts[2]);
+		return LocalDate.of(year, month, day);
 
-}
+	}
+
 	public Payment makePayment(String paymentInfo) throws ParseException {
 		Payment payment = new Payment();
 
 		StringTokenizer stringTokenizer = new StringTokenizer(paymentInfo);
-		payment.setPaymentID(Integer.parseInt(stringTokenizer.nextToken()));
 		payment.setCustomerID(stringTokenizer.nextToken());
 		payment.setInsuranceID(stringTokenizer.nextToken());
 		payment.setStringDateOfPayment(stringTokenizer.nextToken());
@@ -106,36 +96,40 @@ public static LocalDate stringToDate(String dateString) {
 	public ArrayList<Payment> retreiveCustomerPayment(String customerID) {
 		ArrayList<Payment> customerPayment = new ArrayList<Payment>();
 		for (int i = 0; i < this.paymentList.size(); i++) {
-			Payment payment = (Payment) paymentList.get(i);
-			if (this.paymentList.get(i).matchCustomerID(customerID)) {
-				customerPayment.add(payment);
+			if (paymentList.get(i).getCustomerID().equals(customerID)) {
+				customerPayment.add(paymentList.get(i));
 			}
 		}
-
 		return customerPayment;
 	}
 
-	public boolean update() {
-		return false;
+	public ArrayList<String> retreiveDateStatusById(String customerID, String insuranceId) {
+		ArrayList<String> dateAndStatus = new ArrayList<String>();
+		for (int i = 0; i < this.paymentList.size(); i++) {
+			if (paymentList.get(i).getCustomerID().equals(customerID) && paymentList.get(i).getInsuranceID().equals(insuranceId)) {
+				dateAndStatus.add(paymentList.get(i).getDateOfPayment() + " " + paymentList.get(i).isWhetherPayment());
+			}
+		}
+		return dateAndStatus;
 	}
 
-	public Boolean updateWheterPayment(int paymentID) throws IOException {
+	public ArrayList<String> retreiveUnpaidCustomerId() {
+		ArrayList<String> unPaidCustomerId = new ArrayList<String>();
+		HashSet<String> uniqueCustomerId = new HashSet<String>(); // 중복 값을 없애기 위한 HashSet
+
 		for (int i = 0; i < this.paymentList.size(); i++) {
-			if (this.paymentList.get(i).matchPaymentID(paymentID)) {
-				this.paymentList.get(i).setWhetherPayment(this.paymentList.get(i).updatePayment());
-				updateFile("data/Payment.txt");
-				return true;
+			if (Boolean.toString(paymentList.get(i).isWhetherPayment()).equals("false")) {
+				uniqueCustomerId.add(paymentList.get(i).getCustomerID());
 			}
 		}
 
-		return false; // exception
+		// HashSet의 값을 ArrayList에 복사
+		unPaidCustomerId.addAll(uniqueCustomerId);
+
+		return unPaidCustomerId;
 	}
 
-	public boolean isMatchCustomerPayment(int paymentID, String customerID) {
-		for (int i = 0; i < this.paymentList.size(); i++) {
-			if (this.paymentList.get(i).matchCustomerPayment(paymentID, customerID))
-				return true;
-		}
+	public boolean update() {
 		return false;
 	}
 

@@ -1,13 +1,12 @@
 package Insurance;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Insurance {
 
-	private String insuranceID;
-	public void setInsuranceID(String insuranceID) {
-		this.insuranceID = insuranceID;
-	}
+
+	private String insuranceID;	
 	private String insuranceName;
 	private String type;
 	private int maxCompensation;
@@ -18,32 +17,39 @@ public class Insurance {
 	private int basicPremium;
 	private String rate;
 	private boolean distributionStatus;
+
 	private String TermsIDList;
-	private String insuranceClausePeriod;	
-	private String precaution;
-	private boolean authorization;
-	
+	private String insuranceClausePeriod; // 보험면책기간 (단위:월)
+	private String precaution; // 주의사항
+	private boolean authorization; // 인가여부
 
 	public GuaranteeListImpl guaranteeList;
 	public InsuranceApplication m_InsuranceApplication;
 
 
-	
-	public Insurance() throws FileNotFoundException, IOException {      
+	public Insurance() throws FileNotFoundException, IOException {  
+		distributionStatus = (Boolean) null;
+		basicPremium = 0;
+		maxCompensation = 0;
     	authorization = false;
     }  
-	
+	public void setInsuranceID(String insuranceID) {
+		this.insuranceID = insuranceID;
+	}
     public boolean matchId(String insuranceID) {
 
-      return this.insuranceID.equals(insuranceID);
-    }
-  
-    public String toString() {
-        String stringReturn = this.insuranceID + " " + this.insuranceName + " " + this.type + " " + this.maxCompensation + " " + this.periodOfInsurance
-        		+ " " + this.paymentCycle + " " + this.paymentPeriod + " " + this.ageOfTarget + " " + this.basicPremium
-        		+ " " + this.rate + " " + this.distributionStatus + " " + this.TermsIDList + " " + this.insuranceClausePeriod + " "  + this.authorization + " "+ this.precaution;
-        return stringReturn;
-    }
+
+		return this.insuranceID.equals(insuranceID);
+	}
+
+	public String toString() {
+		String stringReturn = this.insuranceID + " " + this.insuranceName + " " + this.type + " " + this.maxCompensation
+				+ " " + this.periodOfInsurance + " " + this.paymentCycle + " " + this.paymentPeriod + " "
+				+ this.ageOfTarget + " " + this.basicPremium + " " + this.rate + " " + this.distributionStatus + " "
+				+ this.TermsIDList + " " + this.insuranceClausePeriod + " " + this.authorization + " "
+				+ this.precaution;
+		return stringReturn;
+	}
 
 	public boolean matchType(String type) {
 		return this.type.equals(type);
@@ -52,7 +58,6 @@ public class Insurance {
 	public String getInsuranceID() {
 		return insuranceID;
 	}
-
 
 	public String getInsuranceName() {
 		return insuranceName;
@@ -179,17 +184,39 @@ public class Insurance {
 	}
 
 	public boolean setTermsIDList(String termsIDList) throws FileNotFoundException, IOException {
-		guaranteeList = new GuaranteeListImpl("data/Guarantee.txt"); 
-		if(guaranteeList.alreadyExistInsurance(this.insuranceID)) guaranteeList.delete(insuranceID);
+		guaranteeList = new GuaranteeListImpl("data/Guarantee.txt");
+		if (guaranteeList.alreadyExistInsurance(this.insuranceID))
+			guaranteeList.delete(insuranceID);
 		String[] termsIDListSplit = termsIDList.split(",");
 		Guarantee guarantee = new Guarantee();
-		for(int i=0; i<termsIDListSplit.length; i++) {		
+		for (int i = 0; i < termsIDListSplit.length; i++) {
 			guarantee.setInsuranceID(this.insuranceID);
 			guarantee.setTermsID(termsIDListSplit[i]);
-			if(!guarantee.isExistTermsID()) return false;
-			}
+			if (!guarantee.isExistTermsID())
+				return false;
+		}
 		guaranteeList.create(guarantee);
 		TermsIDList = termsIDList;
 		return true;
 	}
+
+	public boolean checkAllFillIn() {
+		boolean AllFullIn = true;
+		if(this.insuranceID.isEmpty()) AllFullIn = false;
+		if(this.insuranceName.isEmpty()) AllFullIn = false;
+		if(this.type.isEmpty()) AllFullIn = false;
+		if(this.maxCompensation == 0) AllFullIn = false;
+		if(this.periodOfInsurance.isEmpty()) AllFullIn = false;
+		if(this.paymentCycle.isEmpty()) AllFullIn = false;
+		if(this.paymentPeriod.isEmpty()) AllFullIn = false;
+		if(this.ageOfTarget.isEmpty()) AllFullIn = false;
+		if(this.basicPremium == 0) AllFullIn = false;
+		if(this.rate.isEmpty()) AllFullIn = false;
+		if(this.TermsIDList.isEmpty()) AllFullIn = false;
+		if(this.insuranceClausePeriod.isEmpty()) AllFullIn = false;
+		if(this.precaution.isEmpty()) AllFullIn = false;
+		if(this.distributionStatus == (Boolean) null) AllFullIn = false;
+		return AllFullIn;
+	}
+
 }

@@ -28,15 +28,15 @@ public class Contract {
 		
 	}
 
-	private int contractIndex;
-
-	public int getContractIndex() {
-		return contractIndex;
-	}
-
-	public void setContractIndex(int contractIndex) {
-		this.contractIndex = contractIndex;
-	}
+//	private int contractIndex;
+//
+//	public int getContractIndex() {
+//		return contractIndex;
+//	}
+//
+//	public void setContractIndex(int contractIndex) {
+//		this.contractIndex = contractIndex;
+//	}
 
 	public String getStringDateOfSubscription() {
 		return stringDateOfSubscription;
@@ -59,7 +59,7 @@ public class Contract {
 	}
 
 	public String toString() {
-		String stringReturn = contractIndex + " " + customerID + " " + this.insuranceID + " " + this.insurancePeriod
+		String stringReturn = customerID + " " + this.insuranceID + " " + this.insurancePeriod
 				+ " " + this.premium + " " + this.paymentCycle + " " + this.maxCompensation + " "
 				+ this.dateOfSubscription + " " + this.dateOfMaturity + " " + this.maturity + " " + this.resurrection
 				+ " " + this.cancellation;
@@ -182,13 +182,13 @@ public class Contract {
 		return this.customerID.equals(customerID);
 	}
 
-	public boolean matchContractIndex(int contractIndex) {
-		return this.contractIndex == contractIndex;
-	}
+//	public boolean matchContractIndex(int contractIndex) {
+//		return this.contractIndex == contractIndex;
+//	}
 
-	public boolean matchCustomerContract(int contractIndex, String customerID) {
-		return (this.contractIndex == contractIndex) && (this.customerID.equals(customerID));
-	}
+//	public boolean matchCustomerContract(int contractIndex, String customerID) {
+//		return (this.contractIndex == contractIndex) && (this.customerID.equals(customerID));
+//	}
 
 	public boolean updateMaturity() {
 		return !this.maturity;
