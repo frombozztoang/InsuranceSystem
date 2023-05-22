@@ -5,22 +5,19 @@ import java.io.IOException;
 
 public class Insurance {
 
-	private String insuranceID;
 
-	public void setInsuranceID(String insuranceID) {
-		this.insuranceID = insuranceID;
-	}
+	private String insuranceID;	
+	private String insuranceName;
+	private String type;
+	private int maxCompensation;
+	private String periodOfInsurance;
+	private String paymentCycle;
+	private String paymentPeriod;
+	private String ageOfTarget;
+	private int basicPremium;
+	private String rate;
+	private boolean distributionStatus;
 
-	private String insuranceName; // 보험명
-	private String type; // 보험 종류
-	private int maxCompensation; // 최대보장한도
-	private String periodOfInsurance; // 보험기간
-	private String paymentCycle; // 납입주기
-	private String paymentPeriod; // 납입기간
-	private String ageOfTarget; // 가입나이
-	private int basicPremium; // 기본보험료
-	private String rate; // 요율
-	private boolean distributionStatus; // 배당여부
 	private String TermsIDList;
 	private String insuranceClausePeriod; // 보험면책기간 (단위:월)
 	private String precaution; // 주의사항
@@ -29,11 +26,18 @@ public class Insurance {
 	public GuaranteeListImpl guaranteeList;
 	public InsuranceApplication m_InsuranceApplication;
 
-	public Insurance() throws FileNotFoundException, IOException {
-		authorization = false;
-	}
 
-	public boolean matchId(String insuranceID) {
+	public Insurance() throws FileNotFoundException, IOException {  
+		distributionStatus = (Boolean) null;
+		basicPremium = 0;
+		maxCompensation = 0;
+    	authorization = false;
+    }  
+	public void setInsuranceID(String insuranceID) {
+		this.insuranceID = insuranceID;
+	}
+    public boolean matchId(String insuranceID) {
+
 
 		return this.insuranceID.equals(insuranceID);
 	}
@@ -195,4 +199,24 @@ public class Insurance {
 		TermsIDList = termsIDList;
 		return true;
 	}
+
+	public boolean checkAllFillIn() {
+		boolean AllFullIn = true;
+		if(this.insuranceID.isEmpty()) AllFullIn = false;
+		if(this.insuranceName.isEmpty()) AllFullIn = false;
+		if(this.type.isEmpty()) AllFullIn = false;
+		if(this.maxCompensation == 0) AllFullIn = false;
+		if(this.periodOfInsurance.isEmpty()) AllFullIn = false;
+		if(this.paymentCycle.isEmpty()) AllFullIn = false;
+		if(this.paymentPeriod.isEmpty()) AllFullIn = false;
+		if(this.ageOfTarget.isEmpty()) AllFullIn = false;
+		if(this.basicPremium == 0) AllFullIn = false;
+		if(this.rate.isEmpty()) AllFullIn = false;
+		if(this.TermsIDList.isEmpty()) AllFullIn = false;
+		if(this.insuranceClausePeriod.isEmpty()) AllFullIn = false;
+		if(this.precaution.isEmpty()) AllFullIn = false;
+		if(this.distributionStatus == (Boolean) null) AllFullIn = false;
+		return AllFullIn;
+	}
+
 }

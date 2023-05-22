@@ -970,27 +970,25 @@ public class Main {
 		}
 	}
 
-	private static void createTerms(TermsListImpl termsListImpl, BufferedReader inputReader)
-			throws NumberFormatException, IOException {
+	private static void createTerms(TermsListImpl termsListImpl, BufferedReader inputReader) throws NumberFormatException, IOException {
 		Terms terms = new Terms();
 		System.out.println("--------약관 추가 화면---------");
 		System.out.println("약관 ID : ");
 		terms.setTermsID(inputReader.readLine().trim());
 		System.out.println("약관명  : ");
 		terms.setTermsName(inputReader.readLine().trim());
-		System.out.println("지급보험금 산정방식: ");
-		terms.setCalculatedMoneyMethod(inputReader.readLine().trim());
 		System.out.println("보장내용 : ");
 		terms.setTermsContent(inputReader.readLine().trim());
+		System.out.println("지급보험금 산정방식: ");
+		terms.setCalculatedMoneyMethod(inputReader.readLine().trim());
 		System.out.println("입력한 내용을 저장하시겠습니까? (Y/N)");
 		String save = inputReader.readLine().trim();
-		if (save.equals("Y"))
-			if (termsListImpl.createTerms(terms))
-				System.out.println("저장되었습니다.");
-			else
-				System.out.println("저장되지 않았습니다.");
-		else
-			System.out.println("저장을 취소했습니다.");
+		if (save.equals("Y") && terms.checkAllFillIn()== true)
+			if (termsListImpl.createTerms(terms)) System.out.println("저장되었습니다.");
+			else System.out.println("저장되지 않았습니다.");
+		else if(save.equals("Y") && terms.checkAllFillIn() == false) System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해 주세요");
+		else if(save.equals("N")) System.out.println("저장을 취소했습니다.");
+
 	}
 
 	private static void showDesignedInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
@@ -1148,8 +1146,7 @@ public class Main {
 		}
 	}
 
-	private static void createInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
-			throws IOException {
+	private static void createInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws IOException {
 		Insurance insurance = new Insurance();
 		System.out.println("--------보험 설계 화면---------");
 		System.out.println("보험 ID : ");
@@ -1186,15 +1183,16 @@ public class Main {
 		System.out.println("보험 면책 기간 : ");
 		insurance.setInsuranceClausePeriod(inputReader.readLine().trim());
 		System.out.println("입력한 내용을 저장하시겠습니까? (Y/N)");
-		String save = inputReader.readLine().trim();
-		if (save.equals("Y"))
-			if (insuranceListImpl.createInsurance(insurance))
-				System.out.println("저장되었습니다.");
-			else
-				System.out.println("저장에 실패했니다.");
-		else
-			System.out.println("저장을 취소했습니다.");
+
+		String save = inputReader.readLine().trim();	
+		if (save.equals("Y")&&insurance.checkAllFillIn()==true)
+			if(insuranceListImpl.createInsurance(insurance)) System.out.println("저장되었습니다.");
+			else System.out.println("저장에 실패했니다.");
+		else if(save.equals("Y")&&insurance.checkAllFillIn()==false) System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해 주세요");
+		else if(save.equals("N"))System.out.println("저장을 취소했습니다.");
 	}
+	
+	
 
 	private static void updateInsurance(Insurance insurance, InsuranceListImpl insuranceListImpl,
 			BufferedReader inputReader) throws IOException {
