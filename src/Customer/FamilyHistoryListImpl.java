@@ -1,5 +1,7 @@
 package Customer;
 
+import Contract.Contract;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -68,17 +70,24 @@ public class FamilyHistoryListImpl {
 		this.familyHistoryList = familyHistoryList;
 	}
 
-	public FamilyHistory getFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) { // 고객 아이디에 맞는
-																											// 가족력 반환
-		ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
-		for (FamilyHistory familyHistory : familyHistories) {
-			if (familyHistory.getCustomerID().equals(id)) {
-				return familyHistory;
-			}
-		}
-		return null;
-	}
+	public FamilyHistory getFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) { // 고객 아이디에 맞는 가족력 반환
+		   ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
+		   for(FamilyHistory familyHistory : familyHistories) {
+			   if (familyHistory.getCustomerID().equals(id)) {
+				   return familyHistory;
+			   }
+		   }
+		   return null;
+	   }
 
+    public ArrayList<FamilyHistory> getFamilyHistoryByCID(String customerID) {
+		ArrayList<FamilyHistory> familyHistories = new ArrayList<FamilyHistory>();
+		for(int i=0;i<this.familyHistoryList.size();i++) {
+			if(this.familyHistoryList.get(i).matchCID(customerID))
+				familyHistories.add(this.familyHistoryList.get(i));
+		}
+		return familyHistories;
+    }
 	public ArrayList<FamilyHistory> getAllFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) {
 		ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
 		ArrayList<FamilyHistory> matchingFamilyHistories = new ArrayList<>();
