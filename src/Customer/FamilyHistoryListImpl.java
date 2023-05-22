@@ -1,5 +1,7 @@
 package Customer;
 
+import Contract.Contract;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -74,4 +76,13 @@ public class FamilyHistoryListImpl {
 		   }
 		   return null;
 	   }
+
+    public ArrayList<FamilyHistory> getFamilyHistoryByCID(String customerID) {
+		ArrayList<FamilyHistory> familyHistories = new ArrayList<FamilyHistory>();
+		for(int i=0;i<this.familyHistoryList.size();i++) {
+			if(this.familyHistoryList.get(i).matchCID(customerID))
+				familyHistories.add(this.familyHistoryList.get(i));
+		}
+		return familyHistories;
+    }
 }

@@ -33,4 +33,9 @@ public class FamilyHistory {
 	public void setRelationship(String relationship) {
 		this.relationship = relationship;
 	}
+
+	public boolean matchCID(String customerID) {
+		return (this.customerID.equals(customerID));
+
+	}
 }

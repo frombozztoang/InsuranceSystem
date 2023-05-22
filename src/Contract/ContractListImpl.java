@@ -30,23 +30,12 @@ public class ContractListImpl {
 		}
 		contractFile.close();
 	}
-
-//	public class DateConverter {
-//		public static LocalDate stringToDate(String dateString) {
-//			String[] dateParts = dateString.split("-");
-//			int year = Integer.parseInt(dateParts[0]);
-//			int month = Integer.parseInt(dateParts[1]);
-//			int day = Integer.parseInt(dateParts[2]);
-//			return LocalDate.of(year, month, day);
-//
-//		}
-//	}
-public static LocalDate stringToDate(String dateString) {
-	String[] dateParts = dateString.split("-");
-	int year = Integer.parseInt(dateParts[0]);
-	int month = Integer.parseInt(dateParts[1]);
-	int day = Integer.parseInt(dateParts[2]);
-	return LocalDate.of(year, month, day);
+	public static LocalDate stringToDate(String dateString) {
+		String[] dateParts = dateString.split("-");
+		int year = Integer.parseInt(dateParts[0]);
+		int month = Integer.parseInt(dateParts[1]);
+		int day = Integer.parseInt(dateParts[2]);
+		return LocalDate.of(year, month, day);
 
 }
 	private Contract makeContract(String contractInfo) throws ParseException {
@@ -196,13 +185,13 @@ public static LocalDate stringToDate(String dateString) {
 				contract.m_Payment.setWhetherPayment(true);
 		}
 	}
-//    public Contract getContractByCID(String inputCustomerId) {
-//		for(int i=0;i<this.contractList.size();i++) {
-//			Contract contract = (Contract) this.contractList.get(i);
-//			if(contract.matchCID(inputCustomerId))
-//				return contract;
-//		}
-//		return null;
-//	}
-	//현재 맨위에 있는 하나의 contract만 출력되므로 수정필요
+
+	public ArrayList<Contract> getContractsByCID(String inputCustomerId) throws IOException, ParseException {
+		ArrayList<Contract> contracts = new ArrayList<Contract>();
+		for(int i=0;i<this.contractList.size();i++) {
+			if(this.contractList.get(i).matchCID(inputCustomerId))
+				contracts.add(this.contractList.get(i));
+		}
+		return contracts;
+	}
 }// end ContractListImpl

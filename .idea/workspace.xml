@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="76272c56-46e5-414e-8018-c71372182699" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Survey.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Survey.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Customer/FamilyHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/FamilyHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Customer/FamilyHistoryListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer/FamilyHistoryListImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +47,10 @@
       <workItem from="1684377166883" duration="6226000" />
       <workItem from="1684402022673" duration="31449000" />
       <workItem from="1684601244951" duration="200000" />
-      <workItem from="1684601475225" duration="7248000" />
+      <workItem from="1684601475225" duration="7675000" />
+      <workItem from="1684719495284" duration="4102000" />
+      <workItem from="1684734837561" duration="656000" />
+      <workItem from="1684738861658" duration="1626000" />
     </task>
     <servers />
   </component>
@@ -65,6 +69,20 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java</url>
+          <line>74</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="inputReader" />
