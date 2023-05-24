@@ -75,7 +75,8 @@ public class Main {
 				designInsurance(insuranceList, termsListImpl, inputReader, insuranceApplicationList);
 				break;
 			case "5":
-				showCustomerList(customerListImpl, inputReader, familyHistoryListImpl, contractListImpl, insuranceList);
+				showCustomerList(customerListImpl, inputReader, 
+						familyHistoryListImpl, contractListImpl, insuranceList, paymentListImpl, compensationClaimList);
 				break;
 			case "6":
 				showCouncel(inputReader, counselApplicationListImpl);
@@ -92,10 +93,6 @@ public class Main {
 				break;
 			case "10":
 				// 추후 수정 - 계약유지대상자 조회 하면에서 '만기 계약자 조회 메뉴' 클릭 시 이동하는 곳
-				showUnpaidCustomer(inputReader, contractListImpl, customerListImpl, insuranceList,
-						familyHistoryListImpl, paymentListImpl, compensationClaimList);
-				break;
-			case "11":
 				showPaymentManagement(inputReader, customerListImpl, new ContractListImpl("data/Contract.txt"),
 						paymentListImpl, insuranceList);
 				break;
@@ -490,7 +487,7 @@ public class Main {
 
 	private static void showfMaturityList(BufferedReader inputReader, ContractListImpl contractListImpl,
 			CustomerListImpl customerListImpl, FamilyHistoryListImpl familyHistoryListImpl,
-			InsuranceListImpl insuranceList) throws Exception { // 만기계약 대상자 조회
+			InsuranceListImpl insuranceList, PaymentListImpl paymentListImpl, CompensationClaimListImpl compensationClaimList) throws Exception { // 만기계약 대상자 조회
 		TargetType targetType = showKeepContract(inputReader); // 계약유지대상자 조회화면 출력 및 대상자 입력 - Enum 반환
 		ArrayList<Customer> customerList = null;
 
@@ -531,22 +528,24 @@ public class Main {
 			contractListImpl.setMaturityFromCustomer(customer);
 			System.out.println("대상자에서 제외되었습니다.");
 		} else if (targetType == TargetType.UNPAID_CUSTOMERS) { // 3. 보험료 미납자
-			customerList = customerListImpl.getUnpaidContracts(contractListImpl); // 미납 대상자들 받아옴
-			showUnPaidContracts(customerList); // 미납 대상자 출력
-			boolean isShowDetail = getCustomerDetails(inputReader); // 세부정보 보기 출력
-			if (!isShowDetail)
-				return;
-			Customer customer = getCustomerFromUnpaid(customerListImpl, inputReader); // 미납 대상자에서 고객 조회
-			if (customer == null) {
-				System.out.println("입력하신 고객 정보가 없습니다.");
-				return;
-			}
-			showCustomerDetailInfos(customer, familyHistoryListImpl, contractListImpl, insuranceList); // 고객 세부정보 출력
-			if (!selectCustomerDelete(inputReader))
-				return;
-			customerListImpl.deleteUnpaidCustomer(customer);
-			contractListImpl.setWheaterPaymentFromCustomer(customer);
-			System.out.println("대상자에서 제외되었습니다.");
+//			customerList = customerListImpl.getUnpaidContracts(contractListImpl); // 미납 대상자들 받아옴
+//			showUnPaidContracts(customerList); // 미납 대상자 출력
+//			boolean isShowDetail = getCustomerDetails(inputReader); // 세부정보 보기 출력
+//			if (!isShowDetail)
+//				return;
+//			Customer customer = getCustomerFromUnpaid(customerListImpl, inputReader); // 미납 대상자에서 고객 조회
+//			if (customer == null) {
+//				System.out.println("입력하신 고객 정보가 없습니다.");
+//				return;
+//			}
+//			showCustomerDetailInfos(customer, familyHistoryListImpl, contractListImpl, insuranceList); // 고객 세부정보 출력
+//			if (!selectCustomerDelete(inputReader))
+//				return;
+//			customerListImpl.deleteUnpaidCustomer(customer);
+//			contractListImpl.setWheaterPaymentFromCustomer(customer);
+//			System.out.println("대상자에서 제외되었습니다.");
+			showUnpaidCustomer(inputReader, contractListImpl, customerListImpl, insuranceList,
+					familyHistoryListImpl, paymentListImpl, compensationClaimList);
 		}
 	}
 
@@ -623,7 +622,7 @@ public class Main {
 
 	private static void showCustomerList(CustomerListImpl customerListImpl, BufferedReader inputReader,
 			FamilyHistoryListImpl familyHistoryListImpl, ContractListImpl contractListImpl,
-			InsuranceListImpl insuranceList) throws Exception {
+			InsuranceListImpl insuranceList, PaymentListImpl paymentListImpl, CompensationClaimListImpl compensationClaimList) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("고객 조회 메뉴입니다.");
 		System.out.println("1. 고객 정보 조회");
@@ -658,7 +657,8 @@ public class Main {
 			break;
 		case "2":
 			System.out.println("[계약 유지 대상자 조회]");
-			showfMaturityList(inputReader, contractListImpl, customerListImpl, familyHistoryListImpl, insuranceList);
+			showfMaturityList(inputReader, contractListImpl, customerListImpl, 
+					familyHistoryListImpl, insuranceList, paymentListImpl, compensationClaimList);
 			break;
 		}
 	}
@@ -1276,8 +1276,7 @@ public class Main {
 		System.out.println("7. 상담 정보 관리");
 		System.out.println("8. 보험 가입 신청 내역");
 		System.out.println("9. 내 보험 확인");
-		System.out.println("10. 추후 수정 필요 메뉴 - 만기 계약자 조회 ");
-		System.out.println("11. 납입 관리 메뉴 ");
+		System.out.println("10. 납입 관리 메뉴 ");
 		System.out.println("x. Exit");
 	}
 
