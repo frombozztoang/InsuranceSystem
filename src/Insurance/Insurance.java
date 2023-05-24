@@ -27,7 +27,7 @@ public class Insurance {
 	public InsuranceApplication m_InsuranceApplication;
 
 
-	public Insurance() throws FileNotFoundException, IOException {
+	public Insurance() throws FileNotFoundException, IOException {  
 		basicPremium = 0;
 		maxCompensation = 0;
     	authorization = false;

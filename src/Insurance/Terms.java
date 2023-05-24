@@ -50,7 +50,7 @@ public class Terms {
 		this.termsName = termsName;
 	}
 	  public String toString() {
-	        String stringReturn = this.termsID + "/" + this.termsName + "/" + this.calculatedMoneyMethod + "/" + this.termsContent;
+	        String stringReturn = this.termsID + "," + this.termsName + "," + this.termsContent  + "," + this.calculatedMoneyMethod;
 	        return stringReturn;
 	    }
 
