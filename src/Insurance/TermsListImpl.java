@@ -26,11 +26,11 @@ public class TermsListImpl {
 	
 	private Terms makeStringToTerms(String termsInfo) {
 		Terms terms = new Terms();
-		StringTokenizer stringTokenizer = new StringTokenizer(termsInfo,"/");
+		StringTokenizer stringTokenizer = new StringTokenizer(termsInfo,",");
 		terms.setTermsID(stringTokenizer.nextToken());
-		terms.setTermsName(stringTokenizer.nextToken());	
-		terms.setCalculatedMoneyMethod(stringTokenizer.nextToken());
+		terms.setTermsName(stringTokenizer.nextToken());		
 		terms.setTermsContent(stringTokenizer.nextToken());
+		terms.setCalculatedMoneyMethod(stringTokenizer.nextToken());
 		return terms;
 	}
 

@@ -928,7 +928,7 @@ public class Main {
 				termsManagement(insuranceListImpl, termsListImpl, inputReader);
 			else if (choice.equals("4"))
 				showOnSaleInsurance(insuranceListImpl, insuranceApplicationList, inputReader, "Manager");
-			else if (!choice.equals("x"))
+			else if (choice.equals("x"))
 				break;
 			else
 				System.out.println("잘못된 선택지입니다.");
@@ -1042,7 +1042,7 @@ public class Main {
 		while (true) {
 			System.out.println("****************** 보험 조회 화면 *******************");
 			System.out.println("조회하실 보험 종류를 입력하세요");
-			System.out.println("1. 전체, 2. 자동차보험, 3. 상해/질병보험, 4. 암보험, 5. 화재보험 x. 조회 종료");
+			System.out.println("1. 전체, 2. 자동차보험, 3. 건강보험, 4. 종신보험, 5. 화재보험 6. 재물보험 x. 조회 종료");
 			System.out.println("선택 : ");
 			insuranceType = inputReader.readLine().trim();
 			if (insuranceType.equals("1"))
@@ -1050,11 +1050,13 @@ public class Main {
 			else if (insuranceType.equals("2"))
 				showList(insuranceListImpl.retrieveInsurance("Car"));
 			else if (insuranceType.equals("3"))
-				showList(insuranceListImpl.retrieveInsurance("Disease"));
+				showList(insuranceListImpl.retrieveInsurance("Health"));
 			else if (insuranceType.equals("4"))
-				showList(insuranceListImpl.retrieveInsurance("Cancer"));
+				showList(insuranceListImpl.retrieveInsurance("Life"));
 			else if (insuranceType.equals("5"))
 				showList(insuranceListImpl.retrieveInsurance("Fire"));
+			else if (insuranceType.equals("6"))
+				showList(insuranceListImpl.retrieveInsurance("Property"));
 			else if (!insuranceType.equals("x"))
 				System.out.println("잘못된 선택지입니다.");
 			else if (insuranceType.equals("x"))
