@@ -46,10 +46,18 @@ public class InsuranceApplicationListImpl {
 		return false;
 	}
 
-	public boolean delete(){
+	public boolean delete(String applicationId){
+		for (int i = 0; i < this.insuranceApplicationList.size(); i++) {
+			InsuranceApplication insuranceApplication = (InsuranceApplication) this.insuranceApplicationList.get(i);
+			if (insuranceApplication.matchId(applicationId))
+				if (this.insuranceApplicationList.remove(insuranceApplication)) {
+					updateFile("InsuranceApplication.txt");
+					return true;
+				} else
+					return false;
+		}
 		return false;
 	}
-
 	public ArrayList<InsuranceApplication> retrieve(){
 		return insuranceApplicationList;
 	}
