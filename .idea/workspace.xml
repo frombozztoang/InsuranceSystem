@@ -3,6 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="76272c56-46e5-414e-8018-c71372182699" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/CarAccident.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/CarAccident.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/CompensationClaim.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/CompensationClaim.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Contract.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Contract.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/InsuranceApplication.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/InsuranceApplication.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Survey.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Survey.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CarAccident.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CarAccident.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CarAccidentListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CarAccidentListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +34,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.appearance&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -45,7 +54,10 @@
       <workItem from="1684601475225" duration="7675000" />
       <workItem from="1684719495284" duration="4102000" />
       <workItem from="1684734837561" duration="656000" />
-      <workItem from="1684738861658" duration="2606000" />
+      <workItem from="1684738861658" duration="5871000" />
+      <workItem from="1684816818830" duration="3110000" />
+      <workItem from="1685025462769" duration="7100000" />
+      <workItem from="1685106355948" duration="106000" />
     </task>
     <servers />
   </component>
