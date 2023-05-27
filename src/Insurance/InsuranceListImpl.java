@@ -67,7 +67,7 @@ public class InsuranceListImpl {
 		for (int i = 0; i < this.insuranceList.size(); i++) {
 			if (this.insuranceList.get(i).matchId(insuranceID)) {
 				this.insuranceList.get(i).setAuthorization(authorization);
-				updateFile("Insurance.txt");
+				updateFile("data/Insurance.txt");
 				return true;
 			}
 		}
@@ -95,7 +95,7 @@ public class InsuranceListImpl {
 
 	public boolean createInsurance(Insurance insurance) throws FileNotFoundException, IOException {
 		if (this.insuranceList.add(insurance)) {
-			updateFile("Insurance.txt");
+			updateFile("data/Insurance.txt");
 			return true;
 		} else
 			return false;
@@ -124,7 +124,7 @@ public class InsuranceListImpl {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if (insurance.matchId(insuranceId))
 				if (this.insuranceList.remove(insurance)) {
-					updateFile("Insurance.txt");
+					updateFile("data/Insurance.txt");
 					return true;
 				} else
 					return false;
@@ -157,7 +157,7 @@ public class InsuranceListImpl {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if (insurance.matchId(updateInsurance.getInsuranceID()))
 				this.insuranceList.set(i, updateInsurance);
-			updateFile("Insurance.txt");
+			updateFile("data/Insurance.txt");
 			return true;
 		}
 		return false;

@@ -34,7 +34,7 @@ public class GuaranteeListImpl {
 	
 	public boolean create(Guarantee newguarantee){
 		if(this.guaranteeList.add(newguarantee)) {
-			updateFile("Guarantee.txt");
+			updateFile("data/Guarantee.txt");
 			return true;
 		}
 		else return false;
@@ -76,7 +76,7 @@ public class GuaranteeListImpl {
 				this.guaranteeList.remove(guarantee);			
 				deleteOkay = true;
 			}}
-		updateFile("Guarantee.txt");
+		updateFile("data/Guarantee.txt");
 		return deleteOkay;
 	}
 }
