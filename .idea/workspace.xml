@@ -3,16 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="76272c56-46e5-414e-8018-c71372182699" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Insurance.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/InsuranceApplication.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Terms.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Contract.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Contract.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Guarantee.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Guarantee.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/InsuranceApplication.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/InsuranceApplication.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Contract/PaymentListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/PaymentListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Insurance/Guarantee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/Guarantee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Insurance/GuaranteeListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/GuaranteeListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Insurance/Terms.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/Terms.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Insurance/TermsListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/TermsListImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Main.java" afterDir="false" />
     </list>
@@ -62,7 +57,7 @@
       <workItem from="1685025462769" duration="7100000" />
       <workItem from="1685106355948" duration="541000" />
       <workItem from="1685107247492" duration="1944000" />
-      <workItem from="1685188042354" duration="5144000" />
+      <workItem from="1685188042354" duration="9866000" />
     </task>
     <servers />
   </component>

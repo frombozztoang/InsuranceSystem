@@ -18,6 +18,7 @@ import Insurance.Insurance;
 import Insurance.InsuranceListImpl;
 import Insurance.Terms;
 import Insurance.TermsListImpl;
+import Insurance.Guarantee;
 import Insurance.GuaranteeListImpl;
 import Insurance.InsuranceApplication;
 import Insurance.InsuranceApplicationListImpl;
@@ -66,10 +67,10 @@ public class Main {
 				retrieveCompensationClaim(insuranceList, compensationClaimList, surveyList,	inputReader);
 				break;
 			case "3":
-				showOnSaleInsurance(insuranceList, insuranceApplicationList, inputReader, "Customer");
+				showOnSaleInsurance(insuranceList, insuranceApplicationList, guaranteeList, termsListImpl, inputReader, "Customer");
 				break;
 			case "4":
-				designInsurance(insuranceList, termsListImpl, inputReader, insuranceApplicationList);
+				designInsurance(insuranceList, termsListImpl, guaranteeList, inputReader, insuranceApplicationList);
 				break;
 			case "5":
 				showCustomerList(customerListImpl, inputReader, familyHistoryListImpl, contractListImpl, insuranceList, paymentListImpl, compensationClaimList);
@@ -161,8 +162,6 @@ public class Main {
 		insuranceApplication.setMaxCompensation(Integer.parseInt(inputReader.readLine().trim()));
 		System.out.print("산정보험료: ");
 		insuranceApplication.setPremium(Integer.parseInt(inputReader.readLine().trim()));
-		// 내용이 입력되었는지 확인하는 method필요?
-		// file에 실제로 저장되지 않는 문제 해결 필요
 		System.out.println(insuranceApplication.getReasonOfApproval() + "\n위 내용에 따라, 고객의 보험료가 "
 				+ insuranceApplication.getPremium() + "원으로 산정되었습니다.");
 		System.out.println("최대보장한도는 " + insuranceApplication.getMaxCompensation() + "원입니다.");
@@ -885,7 +884,7 @@ public class Main {
 		return carAccident;
 	}
 
-	private static void designInsurance(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl,
+	private static void designInsurance(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl, GuaranteeListImpl guaranteeList,
 			BufferedReader inputReader, InsuranceApplicationListImpl insuranceApplicationList) throws IOException {
 		String choice = "";
 		while (true) {
@@ -900,7 +899,7 @@ public class Main {
 			else if (choice.equals("3"))
 				termsManagement(insuranceListImpl, termsListImpl, inputReader);
 			else if (choice.equals("4"))
-				showOnSaleInsurance(insuranceListImpl, insuranceApplicationList, inputReader, "Manager");
+				showOnSaleInsurance(insuranceListImpl, insuranceApplicationList, guaranteeList, termsListImpl, inputReader, "Manager");
 			else if (choice.equals("x"))
 				break;
 			else
@@ -1008,7 +1007,7 @@ public class Main {
 
 	}
 
-	private static void showOnSaleInsurance(InsuranceListImpl insuranceListImpl,InsuranceApplicationListImpl insuranceApplicationList, BufferedReader inputReader, String who)
+	private static void showOnSaleInsurance(InsuranceListImpl insuranceListImpl,InsuranceApplicationListImpl insuranceApplicationList, GuaranteeListImpl guaranteeList, TermsListImpl termsList, BufferedReader inputReader, String who)
 			throws IOException {
 		String insuranceType = "";
 		while (true) {
@@ -1043,9 +1042,14 @@ public class Main {
 					System.out.println("보험종류: " + insurance.getType() + "\n보험명: " + insurance.getInsuranceName()
 							+ "\n최대보장한도: " + insurance.getMaxCompensation() + "\n보험기간: "
 							+ insurance.getPeriodOfInsurance() + "\n납입기간: " + insurance.getPaymentPeriod() + "\n가입나이: "
-							+ insurance.getAgeOfTarget() + "\n납입주기: " + insurance.getPaymentCycle() + "\n배당여부: "
-							+ insurance.isDistributionStatus() + "\n주의사항: " + insurance.getPrecaution());
-					// 보장내용 안내(조회)
+							+ insurance.getAgeOfTarget() + "\n납입주기: " + insurance.getPaymentCycle() + "\n보장내용(보통약관):");
+					ArrayList<Guarantee> guarantees = guaranteeList.getAllGuranteeByID(insurance.getInsuranceID());
+					for (int i=0; i<guarantees.size();i++) {
+						Guarantee guaranteeByIID = guaranteeList.getAllGuranteeByID(insurance.getInsuranceID()).get(i);
+						Terms terms = termsList.getTermsByID(guaranteeByIID.getTermsID());
+						System.out.println("약관명: " + terms.getTermsName() + "  약관내용: " + terms.getTermsContent());
+					}
+					System.out.println("\n배당여부: "	+ insurance.isDistributionStatus() + "\n주의사항: " + insurance.getPrecaution());
 					createInsuranceApplication(insurance, insuranceApplicationList, inputReader);
 				}
 			} else {
