@@ -3,3 +3,10 @@
 10022 1002 2 2023-05-22 1 1 path 2000 90000 true 가족력있어서
 10068 1006 8 2023-05-25 평생 20년 subscription/file/path 30000 1000000 true 그냥
 1012x 1012 x 2023-05-27 x x x 0 0 false null
+101110 1011 10 2023-05-28 15년 10sus subscription 0 0 false null
+10065 1006 5 2023-05-28 평생 20년 C://documents/user/myDocu/Subscription.docx 0 0 false null
+10124 1012 4 2023-05-28 평생 30년 C://filepath 0 0 false null
+10081 1008 1 2023-05-28 5년 매월 path 0 0 false null
+10053 1005 3 2023-05-28 20년 매년 path 0 0 false null
+10081 1008 1 2023-05-28 5ㄴ년 매월 subscription 0 0 false null
+10151 1015 1 2023-05-28 3년 일시납 subscriptionfilepath 0 0 false null
