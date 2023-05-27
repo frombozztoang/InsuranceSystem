@@ -51,7 +51,7 @@ public class InsuranceApplicationListImpl {
 			InsuranceApplication insuranceApplication = (InsuranceApplication) this.insuranceApplicationList.get(i);
 			if (insuranceApplication.matchId(applicationId))
 				if (this.insuranceApplicationList.remove(insuranceApplication)) {
-					updateFile("InsuranceApplication.txt");
+					updateFile("data/InsuranceApplication.txt");
 					return true;
 				} else
 					return false;
@@ -65,7 +65,16 @@ public class InsuranceApplicationListImpl {
 	public boolean update(){
 		return false;
 	}
-
+	public boolean updateInsuranceApplication(InsuranceApplication updatedInsuranceApplication) {
+		for (int i = 0; i < this.insuranceApplicationList.size(); i++) {
+			InsuranceApplication insuranceApplication = (InsuranceApplication) this.insuranceApplicationList.get(i);
+			if (insuranceApplication.matchId(updatedInsuranceApplication.getInsuranceID()))
+				this.insuranceApplicationList.set(i, updatedInsuranceApplication);
+			updateFile("data/InsuranceApplication.txt");
+			return true;
+		}
+		return false;
+	}
 	public boolean createInsuranceApplication(InsuranceApplication insuranceApplication) {
 		if(this.insuranceApplicationList.add(insuranceApplication)) {
 			updateFile("data/InsuranceApplication.txt");

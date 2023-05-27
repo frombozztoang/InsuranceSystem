@@ -36,7 +36,7 @@ public class TermsListImpl {
 
 	public boolean createTerms(Terms terms){
 		if(this.termsList.add(terms)) {
-			updateFile("Terms.txt");
+			updateFile("data/Terms.txt");
 			return true;}
 		else return false;
 	}
