@@ -29,6 +29,7 @@ public class ContractListImpl {
 		}
 		contractFile.close();
 	}
+
 	public static LocalDate stringToDate(String dateString) {
 		String[] dateParts = dateString.split("-");
 		int year = Integer.parseInt(dateParts[0]);
@@ -138,7 +139,8 @@ public class ContractListImpl {
 
 	public Boolean updateCancellation(String customerId, String insuranceId) throws IOException {
 		for (int i = 0; i < this.contractList.size(); i++) {
-			if (this.contractList.get(i).getCustomerID().equals(customerId) && contractList.get(i).getInsuranceID().equals(insuranceId)) {
+			if (this.contractList.get(i).getCustomerID().equals(customerId)
+					&& contractList.get(i).getInsuranceID().equals(insuranceId)) {
 				this.contractList.get(i).setCancellation(this.contractList.get(i).updateCancellation());
 				updateFile("data/Contract.txt");
 				return true;
@@ -180,7 +182,6 @@ public class ContractListImpl {
 //		return false; // exception
 //	}
 
-
 	public void setResurrectFromCustomer(Customer customer) {
 		for (Contract contract : contractList) {
 			if (contract.getCustomerID().equals(customer.getCustomerID()))
@@ -204,12 +205,13 @@ public class ContractListImpl {
 
 	public ArrayList<Contract> getContractsByCID(String inputCustomerId) throws IOException, ParseException {
 		ArrayList<Contract> contracts = new ArrayList<Contract>();
-		for(int i=0;i<this.contractList.size();i++) {
-			if(this.contractList.get(i).matchCID(inputCustomerId))
+		for (int i = 0; i < this.contractList.size(); i++) {
+			if (this.contractList.get(i).matchCID(inputCustomerId))
 				contracts.add(this.contractList.get(i));
 		}
 		return contracts;
 	}
+
 	public ArrayList<String> getInsuranceIdFromCustomerId(String customerId) {
 		ArrayList<String> insuranceIdFromCustomerId = new ArrayList<String>();
 		for (Contract contract : contractList) {
