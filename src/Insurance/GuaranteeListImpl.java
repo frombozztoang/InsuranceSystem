@@ -1,5 +1,7 @@
 package Insurance;
 
+import Customer.FamilyHistory;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -34,7 +37,7 @@ public class GuaranteeListImpl {
 	
 	public boolean create(Guarantee newguarantee){
 		if(this.guaranteeList.add(newguarantee)) {
-			updateFile("Guarantee.txt");
+			updateFile("data/Guarantee.txt");
 			return true;
 		}
 		else return false;
@@ -76,7 +79,16 @@ public class GuaranteeListImpl {
 				this.guaranteeList.remove(guarantee);			
 				deleteOkay = true;
 			}}
-		updateFile("Guarantee.txt");
+		updateFile("data/Guarantee.txt");
 		return deleteOkay;
+	}
+
+	public ArrayList<Guarantee> getAllGuranteeByID(String insuranceID) {
+		ArrayList<Guarantee> guarantees = new ArrayList<Guarantee>();
+		for(int i=0;i<this.guaranteeList.size();i++) {
+			if(this.guaranteeList.get(i).matchID(insuranceID))
+				guarantees.add(this.guaranteeList.get(i));
+		}
+		return guarantees;
 	}
 }

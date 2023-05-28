@@ -26,17 +26,17 @@ public class TermsListImpl {
 	
 	private Terms makeStringToTerms(String termsInfo) {
 		Terms terms = new Terms();
-		StringTokenizer stringTokenizer = new StringTokenizer(termsInfo,"/");
+		StringTokenizer stringTokenizer = new StringTokenizer(termsInfo,",");
 		terms.setTermsID(stringTokenizer.nextToken());
-		terms.setTermsName(stringTokenizer.nextToken());	
-		terms.setCalculatedMoneyMethod(stringTokenizer.nextToken());
+		terms.setTermsName(stringTokenizer.nextToken());		
 		terms.setTermsContent(stringTokenizer.nextToken());
+		terms.setCalculatedMoneyMethod(stringTokenizer.nextToken());
 		return terms;
 	}
 
 	public boolean createTerms(Terms terms){
 		if(this.termsList.add(terms)) {
-			updateFile("Terms.txt");
+			updateFile("data/Terms.txt");
 			return true;}
 		else return false;
 	}
@@ -61,5 +61,13 @@ public class TermsListImpl {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
+	}
+	public Terms getTermsByID(String termsID) {
+		for(int i=0;i<this.termsList.size();i++) {
+			Terms terms = (Terms) this.termsList.get(i);
+			if(terms.matchId(termsID))
+				return terms;
+		}
+		return null;
 	}
 }

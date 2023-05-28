@@ -68,12 +68,11 @@ public class ContractListImpl {
 
 	}
 
-	public boolean add() throws IOException {
-		if (this.contractList.add(new Contract())) {
-			updateFile("Contract.txt");
+	public boolean add(Contract contract) throws IOException {
+		if (this.contractList.add(contract)) {
+			updateFile("data/Contract.txt");
 			return true;
-		}
-		return false;
+		} else return false;
 	}
 
 	private void updateFile(String string) throws IOException {

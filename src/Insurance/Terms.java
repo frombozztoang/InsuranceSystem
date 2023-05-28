@@ -50,7 +50,7 @@ public class Terms {
 		this.termsName = termsName;
 	}
 	  public String toString() {
-	        String stringReturn = this.termsID + "/" + this.termsName + "/" + this.calculatedMoneyMethod + "/" + this.termsContent;
+	        String stringReturn = this.termsID + "," + this.termsName + "," + this.termsContent  + "," + this.calculatedMoneyMethod;
 	        return stringReturn;
 	    }
 
@@ -65,5 +65,9 @@ public class Terms {
 		if(this.calculatedMoneyMethod.isEmpty()) AllFullIn = false;
 		if(this.termsContent.isEmpty()) AllFullIn = false;
 		return AllFullIn;
+	}
+
+	public boolean matchId(String termsID) {
+		return this.termsID.equals(termsID);
 	}
 }

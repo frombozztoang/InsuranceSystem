@@ -25,15 +25,6 @@ public class CarAccidentListImpl {
 		CarAccident carAccident = new CarAccident();
 		StringTokenizer stringTokenizer = new StringTokenizer(carAccidentInfo);
 		carAccident.setCCID(stringTokenizer.nextToken());
-		carAccident.setInsuranceID(stringTokenizer.nextToken());
-		carAccident.setCustomerID(stringTokenizer.nextToken());
-		carAccident.setReceptionistName(stringTokenizer.nextToken());
-		carAccident.setReceptionistPNumber(stringTokenizer.nextToken());
-		carAccident.setRelationshipOfContractor(stringTokenizer.nextToken());
-		carAccident.setDocumentFilePath(stringTokenizer.nextToken());
-		carAccident.setBank(stringTokenizer.nextToken());
-		carAccident.setAccountNumber(stringTokenizer.nextToken());
-		carAccident.setAccountHolderName(stringTokenizer.nextToken());
 		carAccident.setType(stringTokenizer.nextToken());
 		carAccident.setDateTime(LocalDateTime.parse(stringTokenizer.nextToken()));
 		carAccident.setPlace(stringTokenizer.nextToken());
