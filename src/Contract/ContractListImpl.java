@@ -72,7 +72,8 @@ public class ContractListImpl {
 		if (this.contractList.add(contract)) {
 			updateFile("data/Contract.txt");
 			return true;
-		} else return false;
+		} else
+			return false;
 	}
 
 	private void updateFile(String string) throws IOException {
@@ -86,7 +87,6 @@ public class ContractListImpl {
 		BufferedWriter contractFileWriter = new BufferedWriter(new FileWriter(file));
 		for (int i = 1; i < this.contractList.size(); i++)
 			contractInfo = contractInfo + "\r\n" + contractList.get(i).toString();
-
 		contractFileWriter.write(contractInfo);
 		contractFileWriter.flush();
 		contractFileWriter.close();
@@ -140,7 +140,7 @@ public class ContractListImpl {
 		for (int i = 0; i < this.contractList.size(); i++) {
 			if (this.contractList.get(i).getCustomerID().equals(customerId)
 					&& contractList.get(i).getInsuranceID().equals(insuranceId)) {
-				this.contractList.get(i).setCancellation(this.contractList.get(i).updateCancellation());
+				this.contractList.get(i).updateCancellation();
 				updateFile("data/Contract.txt");
 				return true;
 			}
@@ -148,38 +148,6 @@ public class ContractListImpl {
 
 		return false; // exception
 	}
-
-//	public boolean isMatchCustomerContract(int contractIndex, String customerID) {
-//		for (int i = 0; i < this.contractList.size(); i++) {
-//			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
-//				return true;
-//		}
-//		return false;
-//	}
-//
-//	public boolean update() {
-//		return false;
-//	}
-//
-//	public boolean getCustomerMaturity(String customerID, int contractIndex) {
-//		for (int i = 0; i < this.contractList.size(); i++) {
-//			if (this.contractList.get(i).matchCustomerContract(contractIndex, customerID))
-//				return contractList.get(i).isMaturity();
-//		}
-//		return false;
-//	}
-//
-//	public boolean updateMaturity(int contractIndex) throws IOException {
-//		for (int i = 0; i < this.contractList.size(); i++) {
-//			if (this.contractList.get(i).matchContractIndex(contractIndex)) {
-//				this.contractList.get(i).setMaturity(!this.contractList.get(i).updateMaturity());
-//				updateFile("Contract.txt");
-//				return true;
-//			}
-//		}
-//
-//		return false; // exception
-//	}
 
 	public void setResurrectFromCustomer(Customer customer) {
 		for (Contract contract : contractList) {
