@@ -106,11 +106,26 @@ public class PaymentListImpl {
 	public ArrayList<String> retreiveDateStatusById(String customerID, String insuranceId) {
 		ArrayList<String> dateAndStatus = new ArrayList<String>();
 		for (int i = 0; i < this.paymentList.size(); i++) {
-			if (paymentList.get(i).getCustomerID().equals(customerID) && paymentList.get(i).getInsuranceID().equals(insuranceId)) {
+			if (paymentList.get(i).getCustomerID().equals(customerID)
+					&& paymentList.get(i).getInsuranceID().equals(insuranceId)) {
 				dateAndStatus.add(paymentList.get(i).getDateOfPayment() + " " + paymentList.get(i).isWhetherPayment());
 			}
 		}
 		return dateAndStatus;
+	}
+
+	public Boolean updateCancellation(String customerId, String insuranceId) throws IOException {
+		for (int i = 0; i < this.paymentList.size(); i++) {
+			if (this.paymentList.get(i).getCustomerID().equals(customerId)
+					&& paymentList.get(i).getInsuranceID().equals(insuranceId)) {
+				this.paymentList.get(i).updatePayment();
+				updateFile("data/Payment.txt");
+
+				return true;
+			}
+		}
+
+		return false; // exception
 	}
 
 	public ArrayList<String> retreiveUnpaidCustomerId() {
@@ -129,8 +144,9 @@ public class PaymentListImpl {
 		return unPaidCustomerId;
 	}
 
-	public boolean update() {
-		return false;
+	public boolean update() throws IOException {
+		updateFile("data/Payment.txt");
+		return true;
 	}
 
 }

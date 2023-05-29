@@ -25,7 +25,7 @@ public class Contract {
 	public CompensationClaim m_CompensationClaim;
 
 	public Contract() {
-		
+
 	}
 
 //	private int contractIndex;
@@ -59,10 +59,9 @@ public class Contract {
 	}
 
 	public String toString() {
-		String stringReturn = customerID + " " + this.insuranceID + " " + this.insurancePeriod
-				+ " " + this.premium + " " + this.paymentCycle + " " + this.maxCompensation + " "
-				+ this.dateOfSubscription + " " + this.dateOfMaturity + " " + this.maturity + " " + this.resurrection
-				+ " " + this.cancellation;
+		String stringReturn = customerID + " " + this.insuranceID + " " + this.insurancePeriod + " " + this.premium
+				+ " " + this.paymentCycle + " " + this.maxCompensation + " " + this.dateOfSubscription + " "
+				+ this.dateOfMaturity + " " + this.maturity + " " + this.resurrection + " " + this.cancellation;
 		return stringReturn;
 	}
 
@@ -174,8 +173,9 @@ public class Contract {
 
 	}
 
-	public boolean updateCancellation() {
-		return !this.cancellation;
+	public void updateCancellation() {
+		this.cancellation = !this.cancellation;
+
 	}
 
 	public boolean matchCustomerID(String customerID) {
