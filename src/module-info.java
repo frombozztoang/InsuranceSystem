@@ -6,4 +6,5 @@
  *
  */
 module InsuranceTeamProject {
+	requires java.sql;
 }

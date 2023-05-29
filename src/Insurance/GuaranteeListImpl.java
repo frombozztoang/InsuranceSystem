@@ -10,73 +10,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class GuaranteeListImpl {
+import Dao.GuaranteeDao;
+
+public class GuaranteeListImpl implements GuaranteeList{
 
 	private ArrayList<Guarantee> guaranteeList;
+	private GuaranteeDao guaranteeDao;
 
-	public GuaranteeListImpl(String guaranteeFileName)throws FileNotFoundException, IOException {
-		BufferedReader guaranteeFile = new BufferedReader(new FileReader(guaranteeFileName));
-		this.guaranteeList = new ArrayList<Guarantee>();
-		while (guaranteeFile.ready()) {		
-			Guarantee guarantee = makeStringToGuarantee(guaranteeFile.readLine());
-			if (guarantee!=null) this.guaranteeList.add(guarantee);
-		}
-		guaranteeFile.close();
+	public GuaranteeListImpl() throws Exception {
+		guaranteeDao = new GuaranteeDao();
+		this.guaranteeList = guaranteeDao.retrieveAll();
 	}
 
-	private Guarantee makeStringToGuarantee(String guaranteeInfo) throws FileNotFoundException, IOException {
-		Guarantee guarantee = new Guarantee();
-		StringTokenizer stringTokenizer = new StringTokenizer(guaranteeInfo);
-		guarantee.setInsuranceID(stringTokenizer.nextToken());
-		guarantee.setTermsID(stringTokenizer.nextToken());
-		return guarantee;
-	}
-	
-	public boolean create(Guarantee newguarantee){
+	@Override
+	public boolean create(Guarantee newguarantee) throws Exception{
 		if(this.guaranteeList.add(newguarantee)) {
-			updateFile("Guarantee.txt");
+			guaranteeDao.create(newguarantee);
 			return true;
 		}
 		else return false;
 	}
 	
-	public boolean alreadyExistInsurance(String insuranceID){
+	public boolean alreadyExistInsurance(String insuranceID) throws Exception{
 		for(int i=0;i<this.guaranteeList.size();i++) {
 			if(this.guaranteeList.get(i).matchInsuranceId(insuranceID)) 
-				return true;
+				guaranteeList.remove(this.guaranteeList.get(i));
 		}
+		guaranteeDao.deleteByInsuranceId(insuranceID);
 		return false;
 	}
 	
-	private void updateFile(String string) {
-		try {
-			File file = new File(string);
-			if (!file.exists()) 
-			file.createNewFile();
-			String guaranteeInfo = "";
-			BufferedWriter guaranteeFileWriter = new BufferedWriter(new FileWriter(file));
-			guaranteeInfo = guaranteeList.get(0).toString();
-			for (int i = 1; i < this.guaranteeList.size(); i++) 
-				guaranteeInfo = guaranteeInfo + "\r\n" + guaranteeList.get(i).toString();
-			guaranteeFileWriter.write(guaranteeInfo);
-			guaranteeFileWriter.flush();
-			guaranteeFileWriter.close();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-		
-	
-	public boolean delete(String insuranceID){
-		boolean deleteOkay = false;
-		for(int i=0;i<this.guaranteeList.size();i++) {
-			Guarantee guarantee = (Guarantee) this.guaranteeList.get(i);
-			if(guarantee.matchInsuranceId(insuranceID)) {
-				this.guaranteeList.remove(guarantee);			
-				deleteOkay = true;
-			}}
-		updateFile("Guarantee.txt");
-		return deleteOkay;
-	}
+
 }
