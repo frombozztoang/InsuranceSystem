@@ -53,10 +53,11 @@ public class GuaranteeListImpl implements GuaranteeList{
 	}
 
 	public boolean deleteGuranteeById(String insuranceID) throws Exception{
+		boolean DoDelete=false;
 		for(int i=0;i<this.guaranteeList.size();i++) {
-			if(this.guaranteeList.get(i).matchID(insuranceID)) this.guaranteeList.remove(i);
+			if(this.guaranteeList.get(i).matchID(insuranceID)) {this.guaranteeList.remove(i); DoDelete=true;}
 		}
-		if(this.guaranteeDao.deleteByInsuranceId(insuranceID)) return true;
-		else return false;
+		this.guaranteeDao.deleteByInsuranceId(insuranceID);
+		return DoDelete;
 	}
 }

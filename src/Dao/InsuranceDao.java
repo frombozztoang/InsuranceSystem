@@ -13,14 +13,14 @@ public class InsuranceDao extends Dao{
 			e.printStackTrace();
 		}
 	}
-	public boolean create(Insurance insurance) throws Exception {
+	public void create(Insurance insurance) throws Exception {
 		//쿼리 제조
 		String query = "insert into Insurance(insuranceID, insuranceName, type, maxCompensation, periodOfInsurance, paymentCycle, paymentPeriod, ageOfTarget, basicPremium, rate, distributionStatus, termsIDList, insuranceClausePeriod, precaution, authorization) values ('"+    
 		insurance.getInsuranceID() + "','" + insurance.getInsuranceName() + "','" + insurance.getType() + "'," + insurance.getMaxCompensation()
 		+ ",'" + insurance.getPeriodOfInsurance() + "','" + insurance.getPaymentCycle() + "','" + insurance.getPaymentPeriod() + "','" + insurance.getAgeOfTarget()
 		+ "'," + insurance.getBasicPremium() + ",'" + insurance.getRate() + "'," + insurance.isDistributionStatus() + ",'" + insurance.getTermsIDList()  + "','"
 		+ insurance.getInsuranceClausePeriod() + "','" + insurance.getPrecaution() + "'," + insurance.isAuthorization()+");";
-		return super.create(query);
+		super.create(query);
 	}
 	public void createAll(ArrayList<Insurance> insuranceList) throws Exception {
 		//쿼리 제조
@@ -72,24 +72,24 @@ public class InsuranceDao extends Dao{
 		return insuranceList;
 	}
 
-	public boolean update(Insurance insurance) throws Exception {
+	public void update(Insurance insurance) throws Exception {
 		//쿼리 제조
 		String query =  "UPDATE Insurance SET insuranceName = '"+insurance.getInsuranceName()+"', type = '"+insurance.getType()+"', maxCompensation = "
 		+insurance.getMaxCompensation()+", periodOfInsurance = '"+insurance.getPeriodOfInsurance()+"', paymentCycle = '"+insurance.getPaymentCycle()+"', "
         + "paymentPeriod = '"+insurance.getPaymentPeriod()+"', ageOfTarget = '"+insurance.getAgeOfTarget()+"', basicPremium = "+insurance.getBasicPremium()+", "
         + "rate = '"+insurance.getRate()+"', distributionStatus = "+insurance.isDistributionStatus()+", termsIDList = '"+insurance.getTermsIDList()+"', "
         + "insuranceClausePeriod = '"+insurance.getInsuranceClausePeriod()+"', precaution = '"+insurance.getPrecaution()+"', authorization = "+insurance.isAuthorization()+" WHERE insuranceID ='" +insurance.getInsuranceID()+"';";
-		return super.update(query);
+		super.update(query);
 	}
 
-	public boolean deleteById(String insuranceId) throws Exception {
+	public void deleteById(String insuranceId) throws Exception {
 		//쿼리 제조
 		String query = "DELETE FROM Insurance WHERE insuranceID="+insuranceId+";";
-		return super.delete(query);
+		super.delete(query);
 	}
-	public boolean deleteAll() throws Exception {
+	public void deleteAll() throws Exception {
 		//쿼리 제조
 		String query = "DELETE FROM Insurance;";
-		return super.delete(query);
+		super.delete(query);
 	}
 }

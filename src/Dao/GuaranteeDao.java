@@ -14,11 +14,11 @@ public class GuaranteeDao extends Dao{
 			e.printStackTrace();
 		}
 	}
-	public boolean create(Guarantee guarantee) throws Exception {
+	public void create(Guarantee guarantee) throws Exception {
 		//쿼리 제조
 		String query = "insert into Guarantee(insuranceID, termsID) values ('"+  
 				guarantee.getInsuranceID() + "','" + guarantee.getTermsID() +"');";
-		return super.create(query);
+		super.create(query);
 	}
 
 	public ResultSet retrieveByInsuranceID(String insuranceID) throws Exception {
@@ -41,14 +41,14 @@ public class GuaranteeDao extends Dao{
 		return guaranteeList;
 	}
 
-	public boolean deleteByInsuranceId(String insuranceID) throws Exception {
+	public void deleteByInsuranceId(String insuranceID) throws Exception {
 		//쿼리 제조
 		String query = "DELETE FROM Guarantee WHERE insuranceID="+insuranceID+";";
-		return super.delete(query);
+		super.delete(query);
 	}
-	public boolean deleteAll() throws Exception {
+	public void deleteAll() throws Exception {
 		//쿼리 제조
 		String query = "DELETE FROM Guarantee;";
-		return super.delete(query);
+		super.delete(query);
 	}
 }

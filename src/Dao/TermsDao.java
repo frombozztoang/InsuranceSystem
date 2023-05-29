@@ -14,11 +14,11 @@ public class TermsDao extends Dao{
 			e.printStackTrace();
 		}
 	}
-	public boolean create(Terms terms) throws Exception {
+	public void create(Terms terms) throws Exception {
 		//쿼리 제조
 		String query = "insert into Terms(termsID, termsName, calculatedMoneyMethod, termsContent) values ('"+ 
 		terms.getTermsID()+"','"+terms.getTermsName() + "','"+ terms.getCalculatedMoneyMethod() +"','"+terms.getTermsContent()+"');";
-		return super.create(query);
+		super.create(query);
 	}
 	public ArrayList<Terms> retrieveAll() throws Exception {
 		//쿼리 제조
