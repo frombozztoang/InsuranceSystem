@@ -20,7 +20,6 @@ public class InsuranceDao extends Dao{
 		+ ",'" + insurance.getPeriodOfInsurance() + "','" + insurance.getPaymentCycle() + "','" + insurance.getPaymentPeriod() + "','" + insurance.getAgeOfTarget()
 		+ "'," + insurance.getBasicPremium() + ",'" + insurance.getRate() + "'," + insurance.isDistributionStatus() + ",'" + insurance.getTermsIDList()  + "','"
 		+ insurance.getInsuranceClausePeriod() + "','" + insurance.getPrecaution() + "'," + insurance.isAuthorization()+");";
-		System.out.println(query);
 		return super.create(query);
 	}
 	public void createAll(ArrayList<Insurance> insuranceList) throws Exception {
@@ -33,25 +32,21 @@ public class InsuranceDao extends Dao{
 		+ ",'" + insurance.getPeriodOfInsurance() + "','" + insurance.getPaymentCycle() + "','" + insurance.getPaymentPeriod() + "','" + insurance.getAgeOfTarget()
 		+ "'," + insurance.getBasicPremium() + ",'" + insurance.getRate() + "'," + insurance.isDistributionStatus() + ",'" + insurance.getTermsIDList()  + "','"
 		+ insurance.getInsuranceClausePeriod() + "','" + insurance.getPrecaution() + "'," + insurance.isAuthorization()+");";
-		System.out.println(query);
 		super.create(query);
 		}
 	}
 	public ResultSet retrieveById(String type) throws Exception {
 		//쿼리 제조
 		String query = "select * from Insurance where type ="+type+";";
-		System.out.println(query);
 		return super.retrieve(query);
 	}
 	public ResultSet retrieveByType(String insuranceID) throws Exception {
 		//쿼리 제조
 		String query = "select * from Insurance where insuranceID ="+insuranceID+";";
-		System.out.println(query);
 		return super.retrieve(query);
 	}
 	public ArrayList<Insurance> retrieveAll() throws Exception {
 		String query = "select * from Insurance;";
-		System.out.println(query);
 		ResultSet results = super.retrieve(query);
         ArrayList<Insurance> insuranceList = new ArrayList<Insurance>();
         Insurance insurance;
@@ -77,23 +72,24 @@ public class InsuranceDao extends Dao{
 		return insuranceList;
 	}
 
-	public boolean updateById(String insuranceID, String column, String content) throws Exception {
+	public boolean update(Insurance insurance) throws Exception {
 		//쿼리 제조
-		String query = "UPDATE Insurance SET"+column+"="+content+"WHERE insuranceID="+insuranceID+";";
-		System.out.println(query);
+		String query =  "UPDATE Insurance SET insuranceName = '"+insurance.getInsuranceName()+"', type = '"+insurance.getType()+"', maxCompensation = "
+		+insurance.getMaxCompensation()+", periodOfInsurance = '"+insurance.getPeriodOfInsurance()+"', paymentCycle = '"+insurance.getPaymentCycle()+"', "
+        + "paymentPeriod = '"+insurance.getPaymentPeriod()+"', ageOfTarget = '"+insurance.getAgeOfTarget()+"', basicPremium = "+insurance.getBasicPremium()+", "
+        + "rate = '"+insurance.getRate()+"', distributionStatus = "+insurance.isDistributionStatus()+", termsIDList = '"+insurance.getTermsIDList()+"', "
+        + "insuranceClausePeriod = '"+insurance.getInsuranceClausePeriod()+"', precaution = '"+insurance.getPrecaution()+"', authorization = "+insurance.isAuthorization()+" WHERE insuranceID ='" +insurance.getInsuranceID()+"';";
 		return super.update(query);
 	}
 
 	public boolean deleteById(String insuranceId) throws Exception {
 		//쿼리 제조
 		String query = "DELETE FROM Insurance WHERE insuranceID="+insuranceId+";";
-		System.out.println(query);
 		return super.delete(query);
 	}
 	public boolean deleteAll() throws Exception {
 		//쿼리 제조
 		String query = "DELETE FROM Insurance;";
-		System.out.println(query);
 		return super.delete(query);
 	}
 }

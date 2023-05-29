@@ -18,20 +18,17 @@ public class GuaranteeDao extends Dao{
 		//쿼리 제조
 		String query = "insert into Guarantee(insuranceID, termsID) values ('"+  
 				guarantee.getInsuranceID() + "','" + guarantee.getTermsID() +"');";
-		System.out.println(query);
 		return super.create(query);
 	}
 
 	public ResultSet retrieveByInsuranceID(String insuranceID) throws Exception {
 		//쿼리 제조
 		String query = "select * from Guarantee where insuranceID ="+insuranceID+";";
-		System.out.println(query);
 		return super.retrieve(query);
 	}
 	
 	public ArrayList<Guarantee> retrieveAll() throws Exception {
 		String query = "select * from Guarantee;";
-		System.out.println(query);
 		ResultSet results = super.retrieve(query);
         ArrayList<Guarantee> guaranteeList = new ArrayList<Guarantee>();
         Guarantee guarantee;
@@ -47,14 +44,11 @@ public class GuaranteeDao extends Dao{
 	public boolean deleteByInsuranceId(String insuranceID) throws Exception {
 		//쿼리 제조
 		String query = "DELETE FROM Guarantee WHERE insuranceID="+insuranceID+";";
-		System.out.println(query);
 		return super.delete(query);
 	}
 	public boolean deleteAll() throws Exception {
 		//쿼리 제조
 		String query = "DELETE FROM Guarantee;";
-		System.out.println(query);
 		return super.delete(query);
 	}
-	
 }

@@ -23,10 +23,6 @@ public class Insurance {
 	private String precaution; // 주의사항
 	private boolean authorization; // 인가여부
 
-	public GuaranteeListImpl guaranteeList;
-	public InsuranceApplication m_InsuranceApplication;
-
-
 	public Insurance() throws FileNotFoundException, IOException {  
 		basicPremium = 0;
 		maxCompensation = 0;
@@ -171,29 +167,17 @@ public class Insurance {
 		this.authorization = authorization;
 	}
 
-	public GuaranteeListImpl getGuaranteeList() {
-		return guaranteeList;
-	}
-
-	public void setGuaranteeList(GuaranteeListImpl guaranteeList) {
-		this.guaranteeList = guaranteeList;
-	}
 
 	public boolean setTermsIDList(String termsIDList) throws Exception {
-		guaranteeList = new GuaranteeListImpl();
-		if (guaranteeList.alreadyExistInsurance(this.insuranceID));
 		String[] termsIDListSplit = termsIDList.split(",");
-		Guarantee guarantee = new Guarantee();
+		TermsListImpl termsListImpl = new TermsListImpl();
 		for (int i = 0; i < termsIDListSplit.length; i++) {
-			guarantee.setInsuranceID(this.insuranceID);
-			guarantee.setTermsID(termsIDListSplit[i]);
-			if (!guarantee.isExistTermsID())
-				return false;
+			if (termsListImpl.isExistTermsID(termsIDListSplit[i])==false) return false;
 		}
-		guaranteeList.create(guarantee);
 		TermsIDList = termsIDList;
 		return true;
 	}
+
 
 	public boolean checkAllFillIn() {
 		boolean AllFullIn = true;
