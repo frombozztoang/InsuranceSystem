@@ -14,17 +14,15 @@ public class TermsDao extends Dao{
 			e.printStackTrace();
 		}
 	}
-	public boolean create(Terms terms) throws Exception {
+	public void create(Terms terms) throws Exception {
 		//쿼리 제조
 		String query = "insert into Terms(termsID, termsName, calculatedMoneyMethod, termsContent) values ('"+ 
 		terms.getTermsID()+"','"+terms.getTermsName() + "','"+ terms.getCalculatedMoneyMethod() +"','"+terms.getTermsContent()+"');";
-		System.out.println(query);
-		return super.create(query);
+		super.create(query);
 	}
 	public ArrayList<Terms> retrieveAll() throws Exception {
 		//쿼리 제조
 		String query = "select * from Terms;";
-		System.out.println(query);
 		ResultSet results =  super.retrieve(query);
 		ArrayList<Terms> termsList = new ArrayList<Terms>();
 		Terms terms;
@@ -41,7 +39,7 @@ public class TermsDao extends Dao{
 	public ResultSet retrieveById(String type) throws Exception {
 		//쿼리 제조
 		String query = "select * from Terms where type ="+type+";";
-		System.out.println(query);
 		return super.retrieve(query);
 	}
+	
 }

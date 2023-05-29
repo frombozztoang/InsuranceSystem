@@ -52,4 +52,12 @@ public class GuaranteeListImpl implements GuaranteeList{
 		return guarantees;
 	}
 
+	public boolean deleteGuranteeById(String insuranceID) throws Exception{
+		boolean DoDelete=false;
+		for(int i=0;i<this.guaranteeList.size();i++) {
+			if(this.guaranteeList.get(i).matchID(insuranceID)) {this.guaranteeList.remove(i); DoDelete=true;}
+		}
+		this.guaranteeDao.deleteByInsuranceId(insuranceID);
+		return DoDelete;
+	}
 }
