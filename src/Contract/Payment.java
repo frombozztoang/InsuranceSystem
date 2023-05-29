@@ -28,8 +28,8 @@ public class Payment {
 
 	}
 
-	public boolean updatePayment() {
-		return !this.whetherPayment;
+	public void updatePayment() {
+		this.whetherPayment = !this.whetherPayment;
 	}
 
 	public String getCustomerID() {
@@ -71,8 +71,5 @@ public class Payment {
 	public void setWhetherPayment(boolean whetherPayment) {
 		this.whetherPayment = whetherPayment;
 	}
-
-
-
 
 }// end Payment
