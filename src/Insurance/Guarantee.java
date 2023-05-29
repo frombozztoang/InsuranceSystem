@@ -48,4 +48,8 @@ public class Guarantee {
 			if(existTermsList.get(i).matchID(this.termsID)) return true;
 		return false;
 	}
+
+    public boolean matchID(String insuranceID) {
+		return (this.insuranceID.equals(insuranceID));
+    }
 }

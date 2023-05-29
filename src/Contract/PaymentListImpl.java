@@ -57,7 +57,7 @@ public class PaymentListImpl {
 
 	public boolean add(String paymentInfo) throws ParseException, IOException {
 		if (this.paymentList.add(new Payment())) {
-			updateFile("Payment.txt");
+			updateFile("data/Payment.txt");
 			return true;
 		}
 		return false;

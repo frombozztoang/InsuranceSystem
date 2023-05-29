@@ -6,3 +6,6 @@ CC10018 김아야 경로 9000 100000 false 그냥
 CC10011 김우유 경로 8000 203000 true 그냥
 CC10011 김가나 파일경로 9000 32000 false 불쌍해서
 CC10021 김묘묘 보고서 8000 302990 false 그냥
+CC10011 a 3 3000 10000 false adsf
+CC10023 김담당 pathfilepath 9000 200000 false 그냥
+CC10021 김담당 report/file 3000 200000 false 그냥

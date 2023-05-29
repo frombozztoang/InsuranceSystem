@@ -71,7 +71,6 @@ public class InsuranceListImpl implements InsuranceList{
 				else return false;}
 		return false;
 	}
-
 	public ArrayList<Insurance> getOnSaleInsuranceList() {
 		ArrayList<Insurance> onSaleInsurance = new ArrayList<Insurance>();
 		for (int i = 0; i < this.insuranceList.size(); i++) {

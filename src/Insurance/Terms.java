@@ -66,4 +66,8 @@ public class Terms {
 		if(this.termsContent.isEmpty()) AllFullIn = false;
 		return AllFullIn;
 	}
+
+	public boolean matchId(String termsID) {
+		return this.termsID.equals(termsID);
+	}
 }

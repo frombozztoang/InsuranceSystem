@@ -26,5 +26,13 @@ public class TermsListImpl implements TermsList{
 		return termsList;
 	}
 	
+	public Terms getTermsByID(String termsID) {
+		for(int i=0;i<this.termsList.size();i++) {
+			Terms terms = (Terms) this.termsList.get(i);
+			if(terms.matchId(termsID))
+				return terms;
+		}
+		return null;
+	}
 
 }
