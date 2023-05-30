@@ -1232,8 +1232,6 @@ public class Main {
 	}	
 
 	private static void updateInsurance(Insurance insurance, InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
-dReader inputReader) throws IOException {
-
 		String choice = "";
 		System.out.println("수정할 정보를 선택하고 내용을 입력하세요.");
 		System.out.println(
