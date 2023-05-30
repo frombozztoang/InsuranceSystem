@@ -1,17 +1,17 @@
 package Insurance;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public interface InsuranceList {
+public interface InsuranceList{
 
-	public InsuranceListImpl m_InsuranceListImpl();
+	boolean createInsurance(Insurance insurance) throws FileNotFoundException, IOException, Exception;
 
-	public boolean add();
+	boolean updateinsurance(Insurance updateInsurance) throws Exception;
 
-	public boolean delete();
+	ArrayList<Insurance> retrieve();
 
-	public ArrayList<Insurance> retrieve();
-
-	public boolean update();
+	boolean deleteInsurance(String insuranceId) throws Exception;
 
 }

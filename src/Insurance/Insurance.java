@@ -23,21 +23,15 @@ public class Insurance {
 	private String precaution; // 주의사항
 	private boolean authorization; // 인가여부
 
-	public GuaranteeListImpl guaranteeList;
-	public InsuranceApplication m_InsuranceApplication;
-
-
 	public Insurance() throws FileNotFoundException, IOException {  
 		basicPremium = 0;
 		maxCompensation = 0;
-    	authorization = false;
+		authorization = false;
     }  
 	public void setInsuranceID(String insuranceID) {
 		this.insuranceID = insuranceID;
 	}
     public boolean matchId(String insuranceID) {
-
-
 		return this.insuranceID.equals(insuranceID);
 	}
 
@@ -45,8 +39,14 @@ public class Insurance {
 		String stringReturn = this.insuranceID + " " + this.insuranceName + " " + this.type + " " + this.maxCompensation
 				+ " " + this.periodOfInsurance + " " + this.paymentCycle + " " + this.paymentPeriod + " "
 				+ this.ageOfTarget + " " + this.basicPremium + " " + this.rate + " " + this.distributionStatus + " "
-				+ this.TermsIDList + " " + this.insuranceClausePeriod + " " + this.authorization + " "
-				+ this.precaution;
+				+ this.insuranceClausePeriod + " " + this.precaution;
+		return stringReturn;
+	}
+	public String toStringDesignInsurance() {
+		String stringReturn = this.insuranceID + " " + this.insuranceName + " " + this.type + " " + this.maxCompensation
+				+ " " + this.periodOfInsurance + " " + this.paymentCycle + " " + this.paymentPeriod + " "
+				+ this.ageOfTarget + " " + this.basicPremium + " " + this.rate + " " + this.distributionStatus + " "
+				+ this.TermsIDList + " " + this.insuranceClausePeriod + " " + this.precaution;
 		return stringReturn;
 	}
 
@@ -61,7 +61,8 @@ public class Insurance {
 	public String getInsuranceName() {
 		return insuranceName;
 	}
-
+	
+	
 	public void setInsuranceName(String insuranceName) {
 		this.insuranceName = insuranceName;
 	}
@@ -166,38 +167,17 @@ public class Insurance {
 		this.authorization = authorization;
 	}
 
-	public GuaranteeListImpl getGuaranteeList() {
-		return guaranteeList;
-	}
 
-	public void setGuaranteeList(GuaranteeListImpl guaranteeList) {
-		this.guaranteeList = guaranteeList;
-	}
-
-	public InsuranceApplication getM_InsuranceApplication() {
-		return m_InsuranceApplication;
-	}
-
-	public void setM_InsuranceApplication(InsuranceApplication m_InsuranceApplication) {
-		this.m_InsuranceApplication = m_InsuranceApplication;
-	}
-
-	public boolean setTermsIDList(String termsIDList) throws FileNotFoundException, IOException {
-		guaranteeList = new GuaranteeListImpl("data/Guarantee.txt");
-		if (guaranteeList.alreadyExistInsurance(this.insuranceID))
-			guaranteeList.delete(insuranceID);
+	public boolean setTermsIDList(String termsIDList) throws Exception {
 		String[] termsIDListSplit = termsIDList.split(",");
-		Guarantee guarantee = new Guarantee();
+		TermsListImpl termsListImpl = new TermsListImpl();
 		for (int i = 0; i < termsIDListSplit.length; i++) {
-			guarantee.setInsuranceID(this.insuranceID);
-			guarantee.setTermsID(termsIDListSplit[i]);
-			if (!guarantee.isExistTermsID())
-				return false;
+			if (termsListImpl.isExistTermsID(termsIDListSplit[i])==false) return false;
 		}
-		guaranteeList.create(guarantee);
 		TermsIDList = termsIDList;
 		return true;
 	}
+
 
 	public boolean checkAllFillIn() {
 		boolean AllFullIn = true;
@@ -215,6 +195,9 @@ public class Insurance {
 		if(this.insuranceClausePeriod.isEmpty()) AllFullIn = false;
 		if(this.precaution.isEmpty()) AllFullIn = false;
 		return AllFullIn;
+	}
+	public void setTermsIDListFromDB(String string) {
+		this.TermsIDList = string;
 	}
 
 }
