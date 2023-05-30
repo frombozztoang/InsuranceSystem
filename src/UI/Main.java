@@ -1922,7 +1922,6 @@ public class Main {
 		}
 	}
 // End Of ux39) 보험료를 납부한다. 
-
 // uc40) 보험료 납부 방식을 변경한다.
 	private static void paymentMethodChange(String selectionInput) {
 		// TODO Auto-generated method stub
