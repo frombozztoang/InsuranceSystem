@@ -14,7 +14,6 @@ import Customer.CustomerListImpl;
 import Customer.CustomerListImpl.TargetType;
 import Customer.FamilyHistory;
 import Customer.FamilyHistoryListImpl;
-import Dao.InsuranceDao;
 import Insurance.Insurance;
 import Insurance.InsuranceListImpl;
 import Insurance.Terms;
@@ -941,8 +940,7 @@ public class Main {
 			choice = inputReader.readLine().trim();
 
 
-
-			if (choice.equals("1")) showDesignedInsurance(insuranceListImpl, inputReader);
+			if (choice.equals("1")) showDesignedInsurance(insuranceListImpl, guaranteeList, inputReader);
 			else if (choice.equals("2")) createInsurance(insuranceListImpl, inputReader);
 			else if (choice.equals("3")) termsManagement(insuranceListImpl, termsListImpl, inputReader);
 			else if (choice.equals("4")) showOnSaleInsurance(insuranceListImpl, insuranceApplicationList, customerList, familyHistoryList,
@@ -991,14 +989,14 @@ public class Main {
 
 	}
 
-	private static void showDesignedInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
+	private static void showDesignedInsurance(InsuranceListImpl insuranceListImpl, GuaranteeListImpl guaranteeList, BufferedReader inputReader) throws Exception {
 		while (true) {
 			System.out.println("****************** 설계 보험 관리 화면 *******************");
 			showList(insuranceListImpl.getUnregisteredInsuranceList());
 			System.out.println("1. 설계서 수정/삭제하기 2. 보험 등록하기 3. 금융감독원에 인가 요청 x. 종료");
 			System.out.println("선택 : ");
 			String choice = inputReader.readLine().trim();
-			if (choice.equals("1")) updateInsuranceDetail(insuranceListImpl, inputReader);
+			if (choice.equals("1")) updateInsuranceDetail(insuranceListImpl, guaranteeList, inputReader);
 			else if (choice.equals("2")) registerInsurance(insuranceListImpl, inputReader);
 			else if (choice.equals("3")) requestAuthorization(insuranceListImpl, inputReader);
 			else if (choice.equals("x")) break;
@@ -1124,10 +1122,12 @@ public class Main {
 			GuaranteeListImpl guaranteeList, TermsListImpl termsList, BufferedReader inputReader) throws IOException {
 		System.out.println("********** 보험 약관 안내 **********");
 		System.out.println("--------보험 정보--------");
-		System.out.println("보험종류: " + insurance.getType() + "\n보험명: " + insurance.getInsuranceName() + "\n최대보장한도: "
-				+ insurance.getMaxCompensation() + "\n보험기간: " + insurance.getPeriodOfInsurance() + "\n납입기간: "
-				+ insurance.getPaymentPeriod() + "\n가입나이: " + insurance.getAgeOfTarget() + "\n납입주기: "
-				+ insurance.getPaymentCycle() + "\n보장내용(보통약관):");
+
+		System.out.println("보험종류: " + insurance.getType() + "\n보험명: " + insurance.getInsuranceName()
+				+ "\n최대보장한도: " + insurance.getMaxCompensation() + "\n보험기간: "
+				+ insurance.getPeriodOfInsurance() + "\n납입기간: " + insurance.getPaymentPeriod() + "\n가입나이: "
+				+ insurance.getAgeOfTarget() + "\n납입주기: " + insurance.getPaymentCycle() + "\n보장내용(보통약관)");
+
 		ArrayList<Guarantee> guarantees = guaranteeList.getAllGuranteeByID(insurance.getInsuranceID());
 		for (int i = 0; i < guarantees.size(); i++) {
 			Guarantee guaranteeByIID = guaranteeList.getAllGuranteeByID(insurance.getInsuranceID()).get(i);
@@ -1156,7 +1156,7 @@ public class Main {
 			return false;
 	}
 
-	private static void updateInsuranceDetail(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
+	private static void updateInsuranceDetail(InsuranceListImpl insuranceListImpl, GuaranteeListImpl guaranteeList, BufferedReader inputReader) throws Exception {
 		while (true) {
 			System.out.println("****************** 설계서 관리 화면 *******************");
 			System.out.println("수정/삭제할 설계서의 보험 ID를 입력하세요. 없으면 x를 입력하세요");
@@ -1164,12 +1164,13 @@ public class Main {
 			Insurance insurance;
 			System.out.println("보험 ID : ");
 			insuranceID = inputReader.readLine().trim();
+			if(!insuranceListImpl.isExistInsuranceDesign(insuranceID)) {System.out.println("존재하지 않는 보험 설계서입니다."); break;}
 			if (!insuranceID.equals("x")) {
 				insurance = insuranceListImpl.retrieveInsuranceDetail(insuranceID);
 				System.out.println(insurance.toStringDesignInsurance());
 				System.out.println("1. 수정, 2. 삭제");
 				String choice = inputReader.readLine().trim();
-				if (choice.equals("1")) updateInsurance(insurance, insuranceListImpl, inputReader);
+				if (choice.equals("1")) updateInsurance(insurance, guaranteeList, insuranceListImpl, inputReader);
 				else if (choice.equals("2")) deleteInsurance(insuranceListImpl, insurance.getInsuranceID(), inputReader);
 				else System.out.println("잘못된 선택지 입니다.");} 
 			else if (insuranceID.equals("x")) break;
@@ -1231,7 +1232,7 @@ public class Main {
 		}
 	}	
 
-	private static void updateInsurance(Insurance insurance, InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
+	private static void updateInsurance(Insurance insurance, GuaranteeListImpl guaranteeList, InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
 		String choice = "";
 		System.out.println("수정할 정보를 선택하고 내용을 입력하세요.");
 		System.out.println(
@@ -1257,13 +1258,36 @@ public class Main {
 			break;
 		case ("10"): insurance.setRate(content); break;
 		case ("11"): insurance.setDistributionStatus(Boolean.parseBoolean(content)); break;
-		case ("12"): if (insurance.setTermsIDList(content) == false) System.out.println("약관 ID가 존재하지 않아 정보가 저장되지 않았습니다."); break;
+		case ("12"): 
+			if(insurance.setTermsIDList(content)) { 
+				guaranteeList.deleteGuranteeById(insurance.getInsuranceID());
+				String[] termsIDListSplit = content.split(",");
+				Guarantee guarantee = new Guarantee();
+				for (int i = 0; i < termsIDListSplit.length; i++) {
+					guarantee.setInsuranceID(insurance.getInsuranceID());
+					guarantee.setTermsID(termsIDListSplit[i]);
+					guaranteeList.create(guarantee);
+				}
+				}
+			else System.out.println("약관 ID가 존재하지 않아 수정이 저장되지 않았습니다."); 
+			break;
 		case ("13"): insurance.setPrecaution(content); break;
 		case ("14"): insurance.setInsuranceClausePeriod(content); break;
 		default: System.out.println("올바르지 않은 선택지입니다.");
 		}
-		if (insuranceListImpl.updateinsurance(insurance)) System.out.println("수정이 저장되었습니다.");
-		else System.out.println("수정에 실패했습니다.");
+		
+		System.out.println("수정한 내용을 저장하시겠습니까? (Y/N)");
+		System.out.println(insurance.toStringDesignInsurance());
+		while(true) {
+		System.out.println("선택 : ");
+		String save = inputReader.readLine().trim();	
+		if (save.equals("Y")) {	
+			if (insuranceListImpl.updateinsurance(insurance)) System.out.println("수정이 저장되었습니다.");
+			else System.out.println("수정에 실패했습니다.");
+			break;}
+		else if(save.equals("N")) {System.out.println("저장을 취소했습니다."); break;}
+		else System.out.println("Y/N중 하나는 입력하셔야합니다.");
+		}	
 	}
 
 	private static void deleteInsurance(InsuranceListImpl insuranceListImpl, String insuranceID, BufferedReader inputReader) throws Exception {

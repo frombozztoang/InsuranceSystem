@@ -34,5 +34,10 @@ public class TermsListImpl implements TermsList{
 		}
 		return null;
 	}
-
+	
+	public boolean isExistTermsID(String termsID) throws Exception {	
+		for(int i=0;i<termsList.size();i++)
+			if(termsList.get(i).matchID(termsID)) return true;
+		return false;
+	}
 }

@@ -9,10 +9,12 @@ public class InsuranceListImpl implements InsuranceList{
 
 	private ArrayList<Insurance> insuranceList;
 	private InsuranceDao insuranceDao;
+	public GuaranteeListImpl guaranteeList;
 
 	public InsuranceListImpl() throws Exception {
 		this.insuranceDao = new InsuranceDao();
 		this.insuranceList = insuranceDao.retrieveAll();
+		guaranteeList = new GuaranteeListImpl();
 	}
 
 	public String requestAuthorization(String insuranceID) {
@@ -30,8 +32,7 @@ public class InsuranceListImpl implements InsuranceList{
 		for (int i = 0; i < this.insuranceList.size(); i++) {
 			if (this.insuranceList.get(i).matchId(insuranceID)) {
 				this.insuranceList.get(i).setAuthorization(authorization);
-				insuranceDao.deleteAll();
-				insuranceDao.createAll(insuranceList);
+				insuranceDao.update(this.insuranceList.get(i));
 				return true;
 			}
 		}
@@ -41,7 +42,15 @@ public class InsuranceListImpl implements InsuranceList{
 	public boolean createInsurance(Insurance insurance) throws Exception {
 		if (this.insuranceList.add(insurance)) {
 			insuranceDao.create(insurance);
-			return true;} 
+			String[] termsIDListSplit = insurance.getTermsIDList().split(",");
+			Guarantee guarantee = new Guarantee();
+			for (int i = 0; i < termsIDListSplit.length; i++) {
+				guarantee.setInsuranceID(insurance.getInsuranceID());
+				guarantee.setTermsID(termsIDListSplit[i]);
+				guaranteeList.create(guarantee);
+			}
+			return true;
+		}
 		else return false;
 	}
 
@@ -67,7 +76,10 @@ public class InsuranceListImpl implements InsuranceList{
 		for (int i = 0; i < this.insuranceList.size(); i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if (insurance.matchId(insuranceId))
-				if (this.insuranceList.remove(insurance)) {insuranceDao.deleteById(insuranceId); return true;} 
+				if (this.insuranceList.remove(insurance)) {
+					guaranteeList.deleteGuranteeById(insuranceId);
+					insuranceDao.deleteById(insuranceId); 				
+					return true;} 
 				else return false;}
 		return false;
 	}
@@ -93,11 +105,11 @@ public class InsuranceListImpl implements InsuranceList{
 	public boolean updateinsurance(Insurance updateInsurance) throws Exception {
 		for (int i = 0; i < this.insuranceList.size(); i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
-			if (insurance.matchId(updateInsurance.getInsuranceID()))
+			if (insurance.matchId(updateInsurance.getInsuranceID())) {
 				this.insuranceList.set(i, updateInsurance);
-			insuranceDao.deleteAll();
-			insuranceDao.createAll(insuranceList);
-			return true;
+				insuranceDao.update(updateInsurance);		
+				return true;
+			}
 		}
 		return false;
 	}
@@ -153,6 +165,14 @@ public class InsuranceListImpl implements InsuranceList{
 
 	public ArrayList<Insurance> retrieve() {
 		return insuranceList;
+	}
+
+	public boolean isExistInsuranceDesign(String insuranceID) {
+		for (int i = 0; i < this.insuranceList.size(); i++) {
+			Insurance insurance = (Insurance) this.insuranceList.get(i);
+			if (insurance.matchId(insuranceID)&&insurance.isAuthorization()==false) return true;
+		}
+		return false;
 	}
 
 }
