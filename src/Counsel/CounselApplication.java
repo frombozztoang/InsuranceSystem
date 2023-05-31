@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import Customer.Customer;
 
 public class CounselApplication implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	private String CounselApplicationID;
 	private String category;
 	private String counselID;
 	private String customerID;
@@ -17,24 +18,12 @@ public class CounselApplication implements Serializable {
 	private String requirement;
 	
 	private Counsel counsel;
-	private ArrayList<Counsel> counselList;
+	private ArrayList<CounselApplication> CounselApplicationList;
 
 	public CounselApplication() {
 		counsel = new Counsel();
 	}
 
-	public boolean requireCounsel(String managerName, String customerID, Customer customer, String requirement) {
-		// Check if the customer already has an existing counseling schedule
-		for (Counsel counsel : counselList) {
-			if (counsel.getCustomerID().equals(customerID)) {
-				return false; // Application unsuccessful - customer already has a counseling schedule
-			}
-		}
-
-		// Create a new counseling schedule and add it to the list
-		Counsel newCounsel = new Counsel(managerName, customerID, customer, requirement);
-		return counselList.add(newCounsel);
-	}
 
 	public String getCategory() {
 		return category;
@@ -90,6 +79,22 @@ public class CounselApplication implements Serializable {
 
 	public void setCounsel(Counsel counsel) {
 		this.counsel = counsel;
+	}
+
+	public String getCounselApplicationID() {
+		return CounselApplicationID;
+	}
+
+	public void setCounselApplicationID(String counselApplicationID) {
+		CounselApplicationID = counselApplicationID;
+	}
+
+	public ArrayList<CounselApplication> getCounselApplicationList() {
+		return CounselApplicationList;
+	}
+
+	public void setCounselApplicationList(ArrayList<CounselApplication> counselApplicationList) {
+		CounselApplicationList = counselApplicationList;
 	}
 	
 }
