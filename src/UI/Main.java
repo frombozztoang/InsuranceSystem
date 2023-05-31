@@ -457,7 +457,7 @@ public class Main {
 		String id = null;
 		String dateStr = null;
 		String category = null;
-		String content = null;
+		String requirement = null;
 
 		do {
 			System.out.print("고객 ID : ");
@@ -499,10 +499,10 @@ public class Main {
 
 		do {
 			System.out.print("상세 내용 입력 : ");
-			content = inputReader.readLine().trim();
-			if (content.length() == 0)
+			requirement = inputReader.readLine().trim();
+			if (requirement.length() == 0)
 				System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해주세요.");
-		} while (content.length() == 0);
+		} while (requirement.length() == 0);
 
 		System.out.println("제출하겠습니까?");
 		System.out.print("1. 예, 2. 아니오 : ");
@@ -513,7 +513,7 @@ public class Main {
 		counselApplication.setDateOfFirst(date1);
 		counselApplication.setDateOfSecond(date2);
 		counselApplication.setCategory(category);
-		counselApplication.getCounsel().setContent(content);
+		counselApplication.setRequirement(requirement);
 		return counselApplication;
 	}
 

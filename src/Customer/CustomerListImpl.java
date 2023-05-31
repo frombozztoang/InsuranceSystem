@@ -127,9 +127,6 @@ public class CustomerListImpl implements CustomerList {
 		return customer;
 	}
 
-	/**
-	 * 안쓰임
-	 */
 	public boolean add(Customer customer) {
 		if (this.customerList.add(customer))
 			return true;
@@ -161,9 +158,6 @@ public class CustomerListImpl implements CustomerList {
 		return customerList;
 	}
 
-	/**
-	 * 안쓰임
-	 */
 	public void setRetrieve(ArrayList<Customer> customerList) {
 		this.customerList = customerList;
 	}
