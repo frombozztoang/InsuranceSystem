@@ -43,14 +43,14 @@ import java.util.Map;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		CompensationClaimListImpl compensationClaimList = new CompensationClaimListImpl("data/CompensationClaim.txt");
-		SurveyListImpl surveyList = new SurveyListImpl("data/Survey.txt");
-		CarAccidentListImpl carAccidentList = new CarAccidentListImpl("data/CarAccident.txt");
+		CompensationClaimListImpl compensationClaimList = new CompensationClaimListImpl();
+		SurveyListImpl surveyList = new SurveyListImpl();
+		CarAccidentListImpl carAccidentList = new CarAccidentListImpl();
+		InsuranceApplicationListImpl insuranceApplicationList = new InsuranceApplicationListImpl();
 
 		InsuranceListImpl insuranceList = new InsuranceListImpl();
 		GuaranteeListImpl guaranteeList = new GuaranteeListImpl();
 		TermsListImpl termsListImpl = new TermsListImpl();
-		InsuranceApplicationListImpl insuranceApplicationList = new InsuranceApplicationListImpl("data/InsuranceApplication.txt");
 
 		ContractListImpl contractListImpl = new ContractListImpl("data/Contract.txt");
 		CounselApplicationListImpl counselApplicationListImpl = new CounselApplicationListImpl("data/CounselList.txt");
@@ -117,7 +117,7 @@ public class Main {
 	private static void showInsuranceApplicationList(ContractListImpl contractList,
 			InsuranceApplicationListImpl insuranceApplicationList, InsuranceListImpl insuranceList,
 			CustomerListImpl customerListImpl, FamilyHistoryListImpl familyHistoryList, BufferedReader inputReader)
-			throws IOException {
+			throws Exception {
 		System.out.println("****************** 보험 가입 신청 내역 *******************");
 		System.out.println("신청ID 보험ID 고객ID 신청일자");
 		for (InsuranceApplication insuranceApplication : insuranceApplicationList.retrieve()) {
@@ -166,7 +166,7 @@ public class Main {
 
 	private static void ratePremium(InsuranceApplicationListImpl insuranceApplicationList,
 			ContractListImpl contractList, InsuranceApplication insuranceApplication, Insurance insurance,
-			Customer customer, FamilyHistoryListImpl familyHistoryList, BufferedReader inputReader) throws IOException {
+			Customer customer, FamilyHistoryListImpl familyHistoryList, BufferedReader inputReader) throws Exception {
 		System.out.println(insurance.getType() + " " + insurance.getInsuranceName() + " " + insurance.getBasicPremium()
 				+ " " + insurance.getRate());
 		System.out.println(customer.getCustomerName() + " " + customer.getBirth() + " " + customer.getEGender() + " "
@@ -190,7 +190,7 @@ public class Main {
 
 	private static void approveInsuranceApplication(InsuranceApplicationListImpl insuranceApplicationList,
 			ContractListImpl contractList, InsuranceApplication insuranceApplication, Insurance insurance,
-			Customer customer, BufferedReader inputReader) throws IOException {
+			Customer customer, BufferedReader inputReader) throws Exception {
 		System.out.println(
 				insuranceApplication.getApplicationID() + " " + insurance.getType() + " " + insurance.getInsuranceName()
 						+ " " + customer.getCustomerName() + " " + insuranceApplication.getReasonOfApproval() + " "
@@ -847,7 +847,7 @@ public class Main {
 
 	private static void retrieveCompensationClaim(InsuranceListImpl insuranceList,
 			CompensationClaimListImpl compensationClaimList, SurveyListImpl surveyList, BufferedReader inputReader)
-			throws IOException {
+			throws Exception {
 		System.out.println("****************** Compensation Claim List *******************");
 		System.out.println("청구ID 보험ID 고객ID 접수자명 접수자전화번호 보험계약자와의 관계 구비서류파일경로 은행 계좌번호 예금주명");
 		showList(compensationClaimList.retrieve());
@@ -863,7 +863,7 @@ public class Main {
 	}
 
 	private static void createSurvey(CompensationClaimListImpl compensationClaimList, SurveyListImpl surveyList,
-			InsuranceListImpl insuranceList, BufferedReader inputReader) throws IOException {
+			InsuranceListImpl insuranceList, BufferedReader inputReader) throws Exception {
 		Survey survey = new Survey();
 		System.out.println("****************** Survey *******************");
 		System.out.println("손해사정할 청구ID를 입력하세요: ");
@@ -1044,7 +1044,7 @@ public class Main {
 	private static void showOnSaleInsurance(InsuranceListImpl insuranceListImpl,
 			InsuranceApplicationListImpl insuranceApplicationList, CustomerListImpl customerList,
 			FamilyHistoryListImpl familyHistoryList, GuaranteeListImpl guaranteeList, TermsListImpl termsList,
-			BufferedReader inputReader, String who) throws IOException {
+			BufferedReader inputReader, String who) throws Exception {
 		String insuranceType = "";
 		while (true) {
 			System.out.println("****************** 보험 조회 화면 *******************");
@@ -1091,7 +1091,7 @@ public class Main {
 	private static void createInsuranceApplication(Insurance insurance,
 			InsuranceApplicationListImpl insuranceApplicationList, CustomerListImpl customerList,
 			FamilyHistoryListImpl familyHistoryList, GuaranteeListImpl guaranteeList, TermsListImpl termsList,
-			BufferedReader inputReader) throws IOException {
+			BufferedReader inputReader) throws Exception {
 		InsuranceApplication insuranceApplication = new InsuranceApplication();
 		insuranceApplication.setInsuranceID(insurance.getInsuranceID());
 		insuranceApplication.setCreatedAt(LocalDate.now());

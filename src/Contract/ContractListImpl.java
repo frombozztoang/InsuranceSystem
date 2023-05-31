@@ -17,7 +17,6 @@ import Customer.Customer;
 public class ContractListImpl {
 
 	private ArrayList<Contract> contractList;
-	public Contract m_Contract;
 
 	public ContractListImpl(String contractFileName) throws IOException, ParseException {
 		BufferedReader contractFile = new BufferedReader(new FileReader(contractFileName));

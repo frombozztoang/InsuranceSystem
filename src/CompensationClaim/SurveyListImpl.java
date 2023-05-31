@@ -1,5 +1,9 @@
 package CompensationClaim;
 
+import Dao.CompensationClaimDao;
+import Dao.SurveyDao;
+import Insurance.Insurance;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -7,72 +11,44 @@ import java.util.StringTokenizer;
 public class SurveyListImpl {
 
     private ArrayList<Survey> surveyList;
-    public Survey survey;
+    public SurveyDao surveyDao;
 
-    public SurveyListImpl(String surveyFileName) throws IOException {
-        BufferedReader surveyFile = new BufferedReader(new FileReader(surveyFileName));
-        this.surveyList = new ArrayList<Survey>();
-        while (surveyFile.ready()) {
-            Survey survey = stringToSurvey(surveyFile.readLine());
-            if (survey!=null) this.surveyList.add(survey);
-        }
-        surveyFile.close();
+    public SurveyListImpl() throws Exception {
+        this.surveyDao = new SurveyDao();
+        this.surveyList = surveyDao.retrieveAll();
     }
-
-    private Survey stringToSurvey(String surveyInfo) {
-        Survey survey = new Survey();
-        StringTokenizer stringTokenizer = new StringTokenizer(surveyInfo);
-        survey.setCCID(stringTokenizer.nextToken());
-        survey.setManagerName(stringTokenizer.nextToken());
-        survey.setReportFilePath(stringTokenizer.nextToken());
-        survey.setSurveyFee(Integer.parseInt(stringTokenizer.nextToken()));
-        survey.setDecisionMoney(Integer.parseInt(stringTokenizer.nextToken()));
-        survey.setResponsibility(Boolean.parseBoolean(stringTokenizer.nextToken()));
-        survey.setResponsibilityReason(stringTokenizer.nextToken());
-        return survey;
-    }
-
     public void finalize() throws Throwable {
-
     }
     public boolean add(){
         return false;
     }
-
     public boolean delete(){
         return false;
     }
-
     public ArrayList<Survey> retrieve(){
         return surveyList;
     }
-
-    public boolean update(){
-        return false;
-    }
-    public boolean createSurvey(Survey survey) {
+    public boolean update(Survey updateSurvey) throws Exception {
+        for (int i = 0; i < this.surveyList.size(); i++) {
+            Survey survey = (Survey) this.surveyList.get(i);
+            if (survey.matchId(updateSurvey.getCCID())) {
+                this.surveyList.set(i, updateSurvey);
+                surveyDao.update(updateSurvey);
+                return true;
+            }
+        }
+        return false;    }
+    public boolean createSurvey(Survey survey) throws Exception {
         if(this.surveyList.add(survey)) {
-            updateFile("data/Survey.txt");
+            surveyDao.create(survey);
             return true;
         } else return false;
     }
-    private void updateFile(String filename) {
-        try {
-            File file = new File(filename);
-            if (!file.exists())
-                file.createNewFile();
-            String surveyInfo = "";
-            if(surveyList.size()>=1) surveyInfo = surveyList.get(0).toString();
-            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
-            for (int i = 1; i < this.surveyList.size(); i++)
-                surveyInfo = surveyInfo + "\r\n" + surveyList.get(i).toString();
-            fileWriter.write(surveyInfo);
-            fileWriter.flush();
-            fileWriter.close();
+    public boolean create(Survey survey) throws Exception {
+        if(this.surveyList.add(survey)) {
+            surveyDao.create(survey);
+            return true;
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        else return false;
     }
-
 }//end carAccidentListImpl
