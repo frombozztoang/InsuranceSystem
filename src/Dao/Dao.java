@@ -7,7 +7,6 @@
  		Connection connect = null;
  		Statement statement = null;		
  		ResultSet resultSet = null;
-
  	public void connect() throws Exception{
  		try {
  			Class.forName("com.mysql.cj.jdbc.Driver");
