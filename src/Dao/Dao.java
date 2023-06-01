@@ -7,11 +7,12 @@
  		Connection connect = null;
  		Statement statement = null;		
  		ResultSet resultSet = null;
+ 	//	sso8690@
  	public void connect() throws Exception{
  		try {
  			Class.forName("com.mysql.cj.jdbc.Driver");
  			connect = DriverManager.getConnection(
- 					"jdbc:mysql://localhost:3306/insurance?serverTimezone=UTC&useSSL=false", "root", "sso8690@");
+ 					"jdbc:mysql://localhost:3306/contract", "root", "1357");
  		} catch (Exception e) {
  			// TODO Auto-generated catch block
  			e.printStackTrace();

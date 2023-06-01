@@ -82,9 +82,4 @@ public class Survey {
 
 	public void requestBanking() {
 	}
-
-	public boolean matchId(String ccid) {
-		return this.CCID.equals(ccid);
-
-	}
 }

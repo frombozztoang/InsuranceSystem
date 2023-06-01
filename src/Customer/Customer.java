@@ -1,8 +1,6 @@
 package Customer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Customer implements Serializable {
 
@@ -33,7 +31,6 @@ public class Customer implements Serializable {
 	private String pnumber;
 	private String birth; // 생년월일(yyyy-mm-dd, String)
 	private EGender eGender; // 성별
-	private ArrayList<Customer> customerList;
 
 	// composition
 	public FamilyHistory familyHistory;
@@ -48,86 +45,6 @@ public class Customer implements Serializable {
 		return stringReturn;
 	}
 	
-
-	public boolean deleteCustomer(int customerID) {
-		Customer customerToRemove = null;
-		for (Customer customer : customerList) {
-			if (customer.getCustomerID().equals(customerID)) {
-				customerToRemove = customer;
-				break;
-			}
-		}
-		if (customerToRemove != null) {
-			customerList.remove(customerToRemove);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public ArrayList<Customer> retrieveMaturityCustomer() {
-		ArrayList<Customer> maturityCustomers = new ArrayList<>();
-		// 만기 계약이 있는 고객을 목록에 추가
-		for (Customer customer : customerList) {
-			if (customer.hasMaturityContract()) {
-				maturityCustomers.add(customer);
-			}
-		}
-
-		return maturityCustomers;
-	}
-
-	private boolean hasMaturityContract() {
-		return false;
-	}
-
-//4. retrieveNonPaymentCustomer
-	public ArrayList<Customer> retrieveNonPaymentCustomer() {
-		ArrayList<Customer> nonPaymentCustomers = new ArrayList<>();
-		// 미결제 고객을 목록에 추가
-		for (Customer customer : customerList) {
-			if (customer.hasOutstandingPayment()) {
-				nonPaymentCustomers.add(customer);
-			}
-		}
-
-		return nonPaymentCustomers;
-	}
-
-	private boolean hasOutstandingPayment() {
-		return false;
-	}
-//5. retrieveResurrectionCustomer
-
-	public ArrayList<Customer> retrieveResurrectionCustomer() {
-		ArrayList<Customer> resurrectionCustomers = new ArrayList<>();
-		// 목록에 부활 대상 고객 추가
-		for (Customer customer : customerList) {
-			if (customer.isEligibleForResurrection()) {
-				resurrectionCustomers.add(customer);
-			}
-		}
-
-		return resurrectionCustomers;
-	}
-
-	private boolean isEligibleForResurrection() {
-		return false;
-	}
-
-	public boolean updateCustomer(Customer updatedCustomer) {
-		for (Customer customer : customerList) {
-			if (customer.getCustomerID() == updatedCustomer.getCustomerID()) {
-				// customer 정보를 업데이트한다.
-				customer.setCustomerName(updatedCustomer.getCustomerName());
-				customer.setPnumber(updatedCustomer.getPnumber());
-				// 성공적으로 업데이트
-				return true;
-			}
-		}
-//customer가 없거나 update가 성공적이지 않음.
-		return false;
-	}
 
 	public String getAddress() {
 		return address;

@@ -1,28 +1,5 @@
 package UI;
 
-import CompensationClaim.*;
-import Contract.Contract;
-import Contract.ContractListImpl;
-import Contract.Payment;
-import Contract.PaymentListImpl;
-import Counsel.Counsel;
-import Counsel.CounselApplication;
-import Counsel.CounselApplicationListImpl;
-import Customer.Customer;
-import Customer.Customer.EGender;
-import Customer.CustomerListImpl;
-import Customer.CustomerListImpl.TargetType;
-import Customer.FamilyHistory;
-import Customer.FamilyHistoryListImpl;
-import Insurance.Insurance;
-import Insurance.InsuranceListImpl;
-import Insurance.Terms;
-import Insurance.TermsListImpl;
-import Insurance.Guarantee;
-import Insurance.GuaranteeListImpl;
-import Insurance.InsuranceApplication;
-import Insurance.InsuranceApplicationListImpl;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,20 +17,49 @@ import java.util.List;
 //import java.rmi.RemoteException;
 import java.util.Map;
 
+import CompensationClaim.CarAccident;
+import CompensationClaim.CarAccidentListImpl;
+import CompensationClaim.CompensationClaim;
+import CompensationClaim.CompensationClaimListImpl;
+import CompensationClaim.Survey;
+import CompensationClaim.SurveyListImpl;
+import Contract.Contract;
+import Contract.ContractListImpl;
+import Contract.Payment;
+import Contract.PaymentListImpl;
+import Counsel.Counsel;
+import Counsel.CounselApplication;
+import Counsel.CounselApplicationListImpl;
+import Customer.Customer;
+import Customer.Customer.EGender;
+import Customer.CustomerListImpl;
+import Customer.CustomerListImpl.TargetType;
+import Customer.FamilyHistory;
+import Customer.FamilyHistoryListImpl;
+import Insurance.Guarantee;
+import Insurance.GuaranteeListImpl;
+import Insurance.Insurance;
+import Insurance.InsuranceApplication;
+import Insurance.InsuranceApplicationListImpl;
+import Insurance.InsuranceListImpl;
+import Insurance.Terms;
+import Insurance.TermsListImpl;
+
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		CompensationClaimListImpl compensationClaimList = new CompensationClaimListImpl();
-		SurveyListImpl surveyList = new SurveyListImpl();
-		CarAccidentListImpl carAccidentList = new CarAccidentListImpl();
-		InsuranceApplicationListImpl insuranceApplicationList = new InsuranceApplicationListImpl();
+		CompensationClaimListImpl compensationClaimList = new CompensationClaimListImpl("data/CompensationClaim.txt");
+		SurveyListImpl surveyList = new SurveyListImpl("data/Survey.txt");
+		CarAccidentListImpl carAccidentList = new CarAccidentListImpl("data/CarAccident.txt");
 
 		InsuranceListImpl insuranceList = new InsuranceListImpl();
 		GuaranteeListImpl guaranteeList = new GuaranteeListImpl();
 		TermsListImpl termsListImpl = new TermsListImpl();
+		InsuranceApplicationListImpl insuranceApplicationList = new InsuranceApplicationListImpl("data/InsuranceApplication.txt");
 
 		ContractListImpl contractListImpl = new ContractListImpl("data/Contract.txt");
-		CounselApplicationListImpl counselApplicationListImpl = new CounselApplicationListImpl("data/CounselList.txt");
+//		CounselApplicationListImpl counselApplicationListImpl = new CounselApplicationListImpl("data/CounselList.txt");
+		CounselApplicationListImpl counselApplicationListImpl = new CounselApplicationListImpl();
 		CustomerListImpl customerListImpl = new CustomerListImpl("data/Customer.txt");
 		FamilyHistoryListImpl familyHistoryListImpl = new FamilyHistoryListImpl("data/FamilyHistory.txt");
 		PaymentListImpl paymentListImpl = new PaymentListImpl("data/Payment.txt");
@@ -117,7 +123,7 @@ public class Main {
 	private static void showInsuranceApplicationList(ContractListImpl contractList,
 			InsuranceApplicationListImpl insuranceApplicationList, InsuranceListImpl insuranceList,
 			CustomerListImpl customerListImpl, FamilyHistoryListImpl familyHistoryList, BufferedReader inputReader)
-			throws Exception {
+			throws IOException {
 		System.out.println("****************** 보험 가입 신청 내역 *******************");
 		System.out.println("신청ID 보험ID 고객ID 신청일자");
 		for (InsuranceApplication insuranceApplication : insuranceApplicationList.retrieve()) {
@@ -166,7 +172,7 @@ public class Main {
 
 	private static void ratePremium(InsuranceApplicationListImpl insuranceApplicationList,
 			ContractListImpl contractList, InsuranceApplication insuranceApplication, Insurance insurance,
-			Customer customer, FamilyHistoryListImpl familyHistoryList, BufferedReader inputReader) throws Exception {
+			Customer customer, FamilyHistoryListImpl familyHistoryList, BufferedReader inputReader) throws IOException {
 		System.out.println(insurance.getType() + " " + insurance.getInsuranceName() + " " + insurance.getBasicPremium()
 				+ " " + insurance.getRate());
 		System.out.println(customer.getCustomerName() + " " + customer.getBirth() + " " + customer.getEGender() + " "
@@ -190,7 +196,7 @@ public class Main {
 
 	private static void approveInsuranceApplication(InsuranceApplicationListImpl insuranceApplicationList,
 			ContractListImpl contractList, InsuranceApplication insuranceApplication, Insurance insurance,
-			Customer customer, BufferedReader inputReader) throws Exception {
+			Customer customer, BufferedReader inputReader) throws IOException {
 		System.out.println(
 				insuranceApplication.getApplicationID() + " " + insurance.getType() + " " + insurance.getInsuranceName()
 						+ " " + customer.getCustomerName() + " " + insuranceApplication.getReasonOfApproval() + " "
@@ -560,23 +566,7 @@ public class Main {
 			customerListImpl.deleteExpiredCustomer(customer);
 			contractListImpl.setMaturityFromCustomer(customer);
 			System.out.println("대상자에서 제외되었습니다.");
-		} else if (targetType == TargetType.UNPAID_CUSTOMERS) { // 3. 보험료 미납자
-//			customerList = customerListImpl.getUnpaidContracts(contractListImpl); // 미납 대상자들 받아옴
-//			showUnPaidContracts(customerList); // 미납 대상자 출력
-//			boolean isShowDetail = getCustomerDetails(inputReader); // 세부정보 보기 출력
-//			if (!isShowDetail)
-//				return;
-//			Customer customer = getCustomerFromUnpaid(customerListImpl, inputReader); // 미납 대상자에서 고객 조회
-//			if (customer == null) {
-//				System.out.println("입력하신 고객 정보가 없습니다.");
-//				return;
-//			}
-//			showCustomerDetailInfos(customer, familyHistoryListImpl, contractListImpl, insuranceList); // 고객 세부정보 출력
-//			if (!selectCustomerDelete(inputReader))
-//				return;
-//			customerListImpl.deleteUnpaidCustomer(customer);
-//			contractListImpl.setWheaterPaymentFromCustomer(customer);
-//			System.out.println("대상자에서 제외되었습니다.");
+		} else if (targetType == TargetType.UNPAID_CUSTOMERS) { 
 			showUnpaidCustomer(inputReader, contractListImpl, customerListImpl, insuranceList, familyHistoryListImpl,
 					paymentListImpl, compensationClaimList);
 		}
@@ -619,22 +609,6 @@ public class Main {
 			System.out.println("아이디: " + customer.getCustomerID() + ", 이름: " + customer.getCustomerName() + ", 성별: "
 					+ customer.getEGender().getGenderStr());
 		}
-	}
-
-	private static void showUnPaidContracts(ArrayList<Customer> customerList) {
-		System.out.println("미납 대상자 리스트");
-		for (Customer customer : customerList) {
-			System.out.println("아이디: " + customer.getCustomerID() + ", 이름: " + customer.getCustomerName() + ", 성별: "
-					+ customer.getEGender().getGenderStr());
-		}
-	}
-
-	private static Customer getCustomerFromUnpaid(CustomerListImpl customerListImpl, BufferedReader inputReader)
-			throws NumberFormatException, IOException {
-		System.out.println("세부정보를 확인할 고객의 아이디를 입력하세요");
-		System.out.print("아이디 : ");
-		String id = inputReader.readLine().trim();
-		return customerListImpl.retrieveCustomerFromUnpaid(id);
 	}
 
 	private static Customer getCustomerFromExpired(CustomerListImpl customerListImpl, BufferedReader inputReader)
@@ -847,7 +821,7 @@ public class Main {
 
 	private static void retrieveCompensationClaim(InsuranceListImpl insuranceList,
 			CompensationClaimListImpl compensationClaimList, SurveyListImpl surveyList, BufferedReader inputReader)
-			throws Exception {
+			throws IOException {
 		System.out.println("****************** Compensation Claim List *******************");
 		System.out.println("청구ID 보험ID 고객ID 접수자명 접수자전화번호 보험계약자와의 관계 구비서류파일경로 은행 계좌번호 예금주명");
 		showList(compensationClaimList.retrieve());
@@ -863,7 +837,7 @@ public class Main {
 	}
 
 	private static void createSurvey(CompensationClaimListImpl compensationClaimList, SurveyListImpl surveyList,
-			InsuranceListImpl insuranceList, BufferedReader inputReader) throws Exception {
+			InsuranceListImpl insuranceList, BufferedReader inputReader) throws IOException {
 		Survey survey = new Survey();
 		System.out.println("****************** Survey *******************");
 		System.out.println("손해사정할 청구ID를 입력하세요: ");
@@ -1044,7 +1018,7 @@ public class Main {
 	private static void showOnSaleInsurance(InsuranceListImpl insuranceListImpl,
 			InsuranceApplicationListImpl insuranceApplicationList, CustomerListImpl customerList,
 			FamilyHistoryListImpl familyHistoryList, GuaranteeListImpl guaranteeList, TermsListImpl termsList,
-			BufferedReader inputReader, String who) throws Exception {
+			BufferedReader inputReader, String who) throws IOException {
 		String insuranceType = "";
 		while (true) {
 			System.out.println("****************** 보험 조회 화면 *******************");
@@ -1091,7 +1065,7 @@ public class Main {
 	private static void createInsuranceApplication(Insurance insurance,
 			InsuranceApplicationListImpl insuranceApplicationList, CustomerListImpl customerList,
 			FamilyHistoryListImpl familyHistoryList, GuaranteeListImpl guaranteeList, TermsListImpl termsList,
-			BufferedReader inputReader) throws Exception {
+			BufferedReader inputReader) throws IOException {
 		InsuranceApplication insuranceApplication = new InsuranceApplication();
 		insuranceApplication.setInsuranceID(insurance.getInsuranceID());
 		insuranceApplication.setCreatedAt(LocalDate.now());

@@ -13,7 +13,6 @@ import Contract.Contract;
 import Contract.ContractListImpl;
 import Counsel.CounselApplication;
 import Customer.Customer.EGender;
-import Insurance.Insurance;
 
 public class CustomerListImpl implements CustomerList {
 
@@ -87,25 +86,6 @@ public class CustomerListImpl implements CustomerList {
 
 	}
 
-	public ArrayList<Customer> getUnpaidContracts(ContractListImpl contractListImpl) throws Exception {
-		unpaidCustomers = new ArrayList<Customer>();
-		HashMap<String, Boolean> customerMap = new HashMap<String, Boolean>(); // 중복 호출 방지를 위한 맵
-
-		for (Customer customer : customerList) {
-			if (customerMap.containsKey(customer.getCustomerID()))
-				continue; // 이미 출력된 고객이므로 중복 호출 방지
-			for (Contract contract : contractListImpl.retrieve()) {
-				if (customer.getCustomerID() == contract.getCustomerID()) {
-					if (!contract.m_Payment.isWhetherPayment()) {
-						unpaidCustomers.add(customer);
-						customerMap.put(customer.getCustomerID(), true); // 고객 ID를 맵에 추가
-						break; // 해당 고객의 계약이 만기되었으므로 다음 고객으로 넘어감
-					}
-				}
-			}
-		}
-		return unpaidCustomers;
-	}
 
 	private Customer makeCustomer(String customerInfo) throws ParseException {
 		Customer customer = new Customer();
@@ -127,42 +107,6 @@ public class CustomerListImpl implements CustomerList {
 		return customer;
 	}
 
-	public boolean add(Customer customer) {
-		if (this.customerList.add(customer))
-			return true;
-		else
-			return false;
-	}
-
-	public boolean delete(String customerID) {
-		for (Customer customer : this.customerList) {
-			if (customer.getCustomerID().equals(customerID)) {
-				if (this.customerList.remove(customer))
-					return true;
-				break;
-			}
-		}
-		return false;
-	}
-
-	public boolean update(Customer customer, String customerID) {
-		for (int i = 0; i < customerList.size(); i++) {
-			if (customerList.get(i).getCustomerID().equals(customerID))
-				customerList.set(i, customer);
-		}
-		// DB UPDATE 쿼리 써야되유
-		return false;
-	}
-
-	public ArrayList<Customer> retrieve() {
-		return customerList;
-	}
-
-	public void setRetrieve(ArrayList<Customer> customerList) {
-		this.customerList = customerList;
-	}
-
-	// 6. retrieveCustomer
 	public Customer retrieveCustomer(String customerID) {
 		// 지정된 ID를 가진 고객 찾기
 		for (Customer customer : customerList) {
@@ -203,14 +147,6 @@ public class CustomerListImpl implements CustomerList {
 		return null;
 	}
 
-	public Customer retrieveCustomerFromUnpaid(String customerID) {
-		for (Customer customer : unpaidCustomers) {
-			if (customer.getCustomerID().equals(customerID)) {
-				return customer;
-			}
-		}
-		return null;
-	}
 
 	public boolean deleteResurrectCandidatesCustomer(Customer customer) { // 부활 대상자에서 제외
 		return resurrectCandidates.remove(customer);
@@ -254,4 +190,36 @@ public class CustomerListImpl implements CustomerList {
 		}
 		return null;
 	}
+	public ArrayList<Customer> retrieve() {
+		return customerList;
+	}
+
+	public boolean delete(String customerID) {
+		for (Customer customer : this.customerList) {
+			if (customer.getCustomerID().equals(customerID)) {
+				if (this.customerList.remove(customer))
+					return true;
+				break;
+			}
+		}
+		return false;
+	}
+
+	public boolean update(Customer customer, String customerID) {
+		for (int i = 0; i < customerList.size(); i++) {
+			if (customerList.get(i).getCustomerID().equals(customerID))
+				customerList.set(i, customer);
+		}
+		// DB UPDATE 쿼리 써야되유
+		return false;
+	}
+	public Customer retrieveCustomerFromUnpaid(String customerID) {
+		for (Customer customer : unpaidCustomers) {
+			if (customer.getCustomerID().equals(customerID)) {
+				return customer;
+			}
+		}
+		return null;
+	}
+
 }
