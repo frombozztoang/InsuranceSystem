@@ -2,6 +2,8 @@ package Customer;
 
 import java.util.ArrayList;
 
+import Insurance.Guarantee;
+
 public interface CustomerList {
 	public ArrayList<Customer> retrieve();
 
