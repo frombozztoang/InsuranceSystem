@@ -1,6 +1,6 @@
 package Customer;
 
-import Contract.Contract;
+import Dao.FamilyHistoryDao;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,6 +11,7 @@ import java.util.StringTokenizer;
 
 public class FamilyHistoryListImpl {
 
+	private FamilyHistoryDao familyHistoryDao;
 	private ArrayList<FamilyHistory> familyHistoryList;
 
 	public FamilyHistoryListImpl(String familyFileName) throws IOException, ParseException {
@@ -23,7 +24,10 @@ public class FamilyHistoryListImpl {
 		}
 		familyFile.close();
 	}
-
+	public FamilyHistoryListImpl() {
+		familyHistoryDao = new FamilyHistoryDao();
+//		familyHistoryList = familyHistoryDao.retrieveAll(); -- 이거 만들어야함
+	}
 	private FamilyHistory makeFamilyHistory(String familyInfo) throws ParseException {
 		FamilyHistory familyHistory = new FamilyHistory();
 

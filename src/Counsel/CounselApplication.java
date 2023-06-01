@@ -9,7 +9,6 @@ public class CounselApplication implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String CounselApplicationID;
 	private String category;
 	private String counselID;
 	private String customerID;
@@ -81,13 +80,6 @@ public class CounselApplication implements Serializable {
 		this.counsel = counsel;
 	}
 
-	public String getCounselApplicationID() {
-		return CounselApplicationID;
-	}
-
-	public void setCounselApplicationID(String counselApplicationID) {
-		CounselApplicationID = counselApplicationID;
-	}
 
 	public ArrayList<CounselApplication> getCounselApplicationList() {
 		return CounselApplicationList;

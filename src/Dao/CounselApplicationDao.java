@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import Counsel.CounselApplication;
 
-public class CounselApplicationDao extends Dao{
+	public class CounselApplicationDao extends Dao{
 		public CounselApplicationDao() {
 			try {
 				super.connect();
@@ -18,7 +18,6 @@ public class CounselApplicationDao extends Dao{
 		public void create(CounselApplication counselApplication) throws Exception {
 			//쿼리 제조
 			String query = "insert into counselApplication ( CounselApplicationID,category, counselID,customerID, dateOfFirst,dateOfSecond,requirement ) values ( " +
-					" '" + counselApplication.getCounselApplicationID() + "', " +
 					" '" + counselApplication.getCategory()+ "', " +
 					" '" + counselApplication.getCounselID()+ "', " +
 					" '" + counselApplication.getCustomerID()+ "', " +
@@ -41,7 +40,6 @@ public class CounselApplicationDao extends Dao{
 	        CounselApplication counselApplication;
 	        while (results.next()){
 	        	counselApplication = new CounselApplication(); 
-	        	counselApplication.setCounselApplicationID(results.getString("CounselApplicationID"));
 	        	counselApplication.setCategory(results.getString("Category"));
 	        	counselApplication.setCounselID(results.getString("CounselID"));
 	        	counselApplication.setCustomerID(results.getString("CustomerID"));
