@@ -1,57 +1,30 @@
 package Insurance;
 
-import CompensationClaim.CompensationClaim;
+import Dao.InsuranceApplicationDao;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class InsuranceApplicationListImpl {
 
 	private ArrayList<InsuranceApplication> insuranceApplicationList;
-	public InsuranceApplication InsuranceApplication;
-
-	public InsuranceApplicationListImpl(String insuranceApplicationFileName) throws IOException {
-		BufferedReader insuranceApplicationFile = new BufferedReader(new FileReader(insuranceApplicationFileName));
-		this.insuranceApplicationList = new ArrayList<InsuranceApplication>();
-		while (insuranceApplicationFile.ready()) {
-			InsuranceApplication insuranceApplication = stringToInsuranceApplication(insuranceApplicationFile.readLine());
-			if (insuranceApplication!=null) this.insuranceApplicationList.add(insuranceApplication);
-		}
-		insuranceApplicationFile.close();
+	private InsuranceApplicationDao insuranceApplicationDao;
+	public InsuranceApplicationListImpl() throws Exception {
+		this.insuranceApplicationDao = new InsuranceApplicationDao();
+		this.insuranceApplicationList = insuranceApplicationDao.retrieveAll();
 	}
-
-	private InsuranceApplication stringToInsuranceApplication(String insuranceApplicationInfo) {
-		InsuranceApplication insuranceApplication = new InsuranceApplication();
-		StringTokenizer stringTokenizer = new StringTokenizer(insuranceApplicationInfo);
-		insuranceApplication.setApplicationID(stringTokenizer.nextToken());
-		insuranceApplication.setInsuranceID(stringTokenizer.nextToken());
-		insuranceApplication.setCustomerID(stringTokenizer.nextToken());
-		insuranceApplication.setCreatedAt(LocalDate.parse(stringTokenizer.nextToken()));
-		insuranceApplication.setInsurancePeriod(stringTokenizer.nextToken());
-		insuranceApplication.setPaymentCycle(stringTokenizer.nextToken());
-		insuranceApplication.setSubscriptionFilePath(stringTokenizer.nextToken());
-		insuranceApplication.setPremium(Integer.parseInt(stringTokenizer.nextToken()));
-		insuranceApplication.setMaxCompensation(Integer.parseInt(stringTokenizer.nextToken()));
-		insuranceApplication.setApproval(Boolean.parseBoolean(stringTokenizer.nextToken()));
-		insuranceApplication.setReasonOfApproval(stringTokenizer.nextToken());
-		return insuranceApplication;
-	}
-
 	public void finalize() throws Throwable {
-
 	}
 	public boolean add(){
 		return false;
 	}
-
-	public boolean delete(String applicationId){
+	public boolean delete(String applicationId) throws Exception {
 		for (int i = 0; i < this.insuranceApplicationList.size(); i++) {
 			InsuranceApplication insuranceApplication = (InsuranceApplication) this.insuranceApplicationList.get(i);
 			if (insuranceApplication.matchId(applicationId))
 				if (this.insuranceApplicationList.remove(insuranceApplication)) {
-					updateFile("data/InsuranceApplication.txt");
+					insuranceApplicationDao.deleteById(applicationId);
 					return true;
 				} else
 					return false;
@@ -61,24 +34,24 @@ public class InsuranceApplicationListImpl {
 	public ArrayList<InsuranceApplication> retrieve(){
 		return insuranceApplicationList;
 	}
-
 	public boolean update(){
 		return false;
 	}
-	public boolean updateInsuranceApplication(InsuranceApplication updatedInsuranceApplication) {
+	public boolean updateInsuranceApplication(InsuranceApplication updatedInsuranceApplication) throws Exception {
 		for (int i = 0; i < this.insuranceApplicationList.size(); i++) {
 			InsuranceApplication insuranceApplication = (InsuranceApplication) this.insuranceApplicationList.get(i);
 			if (insuranceApplication.matchId(updatedInsuranceApplication.getInsuranceID()))
 				this.insuranceApplicationList.set(i, updatedInsuranceApplication);
-			updateFile("data/InsuranceApplication.txt");
+			insuranceApplicationDao.update(updatedInsuranceApplication);
 			return true;
 		}
 		return false;
 	}
-	public boolean createInsuranceApplication(InsuranceApplication insuranceApplication) {
-		if(this.insuranceApplicationList.add(insuranceApplication)) {
-			updateFile("data/InsuranceApplication.txt");
-			return true;}
+	public boolean createInsuranceApplication(InsuranceApplication insuranceApplication) throws Exception {
+		if (this.insuranceApplicationList.add(insuranceApplication)) {
+			insuranceApplicationDao.create(insuranceApplication);
+			return true;
+		}
 		else return false;
 	}
 	public InsuranceApplication getApplicationbyId(String applicationID) {
@@ -88,24 +61,6 @@ public class InsuranceApplicationListImpl {
 				return insuranceApplication;
 		}
 		return null;
-	}
-	private void updateFile(String filename) {
-		try {
-			File file = new File(filename);
-			if (!file.exists())
-				file.createNewFile();
-			String insuranceApplicationInfo = "";
-			if(insuranceApplicationList.size()>=1) insuranceApplicationInfo = insuranceApplicationList.get(0).toString();
-			BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
-			for (int i = 1; i < this.insuranceApplicationList.size(); i++)
-				insuranceApplicationInfo = insuranceApplicationInfo + "\r\n" + insuranceApplicationList.get(i).toString();
-			fileWriter.write(insuranceApplicationInfo);
-			fileWriter.flush();
-			fileWriter.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 }//end InsuranceApplicationListImpl
