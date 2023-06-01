@@ -1,8 +1,5 @@
 package Customer;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +10,8 @@ import Contract.Contract;
 import Contract.ContractListImpl;
 import Counsel.CounselApplication;
 import Customer.Customer.EGender;
+import Dao.CustomerDao;
+import Insurance.Guarantee;
 
 public class CustomerListImpl implements CustomerList {
 
@@ -25,43 +24,37 @@ public class CustomerListImpl implements CustomerList {
 	private ArrayList<Customer> expiredContracts; // 만기계약 대상자 리스트
 	private ArrayList<Customer> unpaidCustomers; // 미납대상자 리스트
 	private ArrayList<Customer> resurrectCandidates; // 부활대상자 리스트
-
-	public CustomerListImpl(String customerFileName) throws IOException, ParseException {
-		BufferedReader customerFile = new BufferedReader(new FileReader(customerFileName));
-		this.customerList = new ArrayList<Customer>();
-		while (customerFile.ready()) {
-			Customer customer = makeCustomer(customerFile.readLine());
-			if (customer != null)
-				this.customerList.add(customer);
-		}
-		customerFile.close();
+	private ContractListImpl contractList;
+	private CustomerDao customerDao;
+	public CustomerListImpl()throws Exception {
+		this.customerDao = new CustomerDao();
+		this.customerList = customerDao.retrieveAll();
 	}
 
-	public ArrayList<Customer> getResurrectCandidates(ContractListImpl contractListImpl) throws Exception {
-		resurrectCandidates = new ArrayList<Customer>();
-		HashMap<String, Boolean> customerMap = new HashMap<String, Boolean>(); // 중복 호출 방지를 위한 맵
+	
+	public ArrayList<Customer> getResurrectCandidates(boolean resurrection) throws Exception {
+	    resurrectCandidates = new ArrayList<Customer>();
+	    HashMap<String, Boolean> customerMap = new HashMap<String, Boolean>(); // 중복 호출 방지를 위한 맵
 
-		for (Customer customer : customerList) {
-			if (customerMap.containsKey(customer.getCustomerID())) {
-				continue;
-			}
+	    for (Customer customer : customerList) {
+	        if (customerMap.containsKey(customer.getCustomerID())) {
+	            continue;
+	        }
 
-			for (Contract contract : contractListImpl.retrieve()) {
-				if (customer.getCustomerID().equals(contract.getCustomerID())) {
-					if (contract.isResurrection()) {
-						resurrectCandidates.add(customer);
-						customerMap.put(customer.getCustomerID(), true);
-						break;
-					}
-				}
-			}
-		}
-		return resurrectCandidates;
-
+	        for (Contract contract : contractList.retrieve()) {
+	            if (customer.getCustomerID().equals(contract.getCustomerID())) {
+	                if (contract.isResurrection() == resurrection) {
+	                    resurrectCandidates.add(customer);
+	                    customerMap.put(customer.getCustomerID(), true);
+	                    break;
+	                }
+	            }
+	        }
+	    }
+	    return resurrectCandidates;
 	}
 
-	public ArrayList<Customer> getExpiredContracts(ContractListImpl contractListImpl) throws Exception {
-		// 1 3 4 -> 새로 만듬
+	public ArrayList<Customer> getExpiredContracts(boolean maturity) throws Exception {
 		expiredContracts = new ArrayList<Customer>(); // 만기계약 리스트
 		HashMap<String, Boolean> customerMap = new HashMap<String, Boolean>(); // 중복 호출 방지를 위한 맵
 
@@ -70,7 +63,7 @@ public class CustomerListImpl implements CustomerList {
 				continue; // 이미 출력된 고객이므로 중복 호출 방지
 			}
 
-			for (Contract contract : contractListImpl.retrieve()) {
+			for (Contract contract : contractList.retrieve()) {
 				if (customer.getCustomerID().equals(contract.getCustomerID())) {
 					if (contract.isMaturity()) {
 						// 새로 만듬 -> 1 3 4
@@ -210,7 +203,6 @@ public class CustomerListImpl implements CustomerList {
 			if (customerList.get(i).getCustomerID().equals(customerID))
 				customerList.set(i, customer);
 		}
-		// DB UPDATE 쿼리 써야되유
 		return false;
 	}
 	public Customer retrieveCustomerFromUnpaid(String customerID) {
@@ -221,5 +213,7 @@ public class CustomerListImpl implements CustomerList {
 		}
 		return null;
 	}
+
+
 
 }
