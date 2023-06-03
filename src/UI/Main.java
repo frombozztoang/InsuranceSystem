@@ -99,7 +99,8 @@ public class Main {
 						familyHistoryList, inputReader);
 				break;
 			case "9":
-				showSubscriptionInsurance(inputReader, contractListImpl, customerList, insuranceList);
+				showSubscriptionInsurance(inputReader, contractListImpl, customerList, insuranceList,
+						compensationClaimList, paymentListImpl);
 				break;
 			case "10":
 				// 추후 수정 - 계약유지대상자 조회 하면에서 '만기 계약자 조회 메뉴' 클릭 시 이동하는 곳
@@ -871,7 +872,7 @@ public class Main {
 			throws IOException {
 		// 보험사 시스템은 결정보험금 지급 내용(접수자명, 접수자 전화번호, 보험명, 은행, 계좌번호, 예금주명, 결정보험금액)과 이체 요청 메시지를
 		// 은행에 전달한다.
-		System.out.println("이체 요청을 완료했습니다. 보험금이 입금되기까지는 수일이 소요될 수 있습니다.");
+		System.out.println("요청을 완료했습니다. 금액이 입금되기까지는 수일이 소요될 수 있습니다.");
 		// 보상처리팀 직원은 접수자의 전화번호로 ‘보험금 이체 신청이 완료되었습니다. 보험금이 입금되기까지는 수일이 소요될 수 있습니다.’ 라는
 		// 메시지를 보낸다
 	}
@@ -1424,12 +1425,14 @@ public class Main {
 
 // uc17) 가입된 보험을 조회한다.
 	private static void showSubscriptionInsurance(BufferedReader inputReader, ContractListImpl contractListImpl,
-			CustomerListImpl customerListImpl, InsuranceListImpl insuranceListImpl) throws ParseException, Exception {
+			CustomerListImpl customerListImpl, InsuranceListImpl insuranceListImpl,
+			CompensationClaimListImpl compensationClaim, PaymentListImpl paymentListImpl)
+			throws ParseException, Exception {
 		// 가입된 보험을 조회하다.
 		System.out.println("\n[ 보험자 정보 확인 ]");
-		System.out.print("이름 : ");
+		System.out.print("[ 이름 ] : ");
 		String customerName = inputReader.readLine().trim();
-		System.out.print("전화번호 : ");
+		System.out.print("[ 전화번호 ] : ");
 		String customerPH = inputReader.readLine().trim();
 
 		// A1. 입력된 정보의 사용자가 없는 경우
@@ -1439,10 +1442,11 @@ public class Main {
 			return;
 		}
 
-		System.out.println("\n[ 내 보험 리스트 ]");
+		System.out.println("\n\n[ 내 보험 리스트 ]");
 		ArrayList<Contract> customerContract = contractListImpl.retreiveCustomerContract(customerId);
 		ArrayList<String> customerInsuranceId = contractListImpl.getInsuranceIdFromCustomerId(customerId);
 		ArrayList<String> customerInsuranceInfo = new ArrayList<>();
+
 		int indexBtn = 0;
 		// customerContract와 customerInsuranceId의 크기가 같다고 가정, 같지 않을 시 잘못 등록된 정보
 		for (int i = 0; i < customerInsuranceId.size(); i++) {
@@ -1473,29 +1477,53 @@ public class Main {
 		}
 
 		while (true) {
-			System.out.print("\n\n• 버튼 선택 : ");
+			System.out.print("\n\n• 버튼을 선택해주세요. : ");
 			boolean found = false;
 			String cancelBtn = inputReader.readLine().trim();
-
-			for (String info : customerInsuranceInfo) {
-				String[] columns = info.split(" ");
+			String selectedInsuranceId = null;
+			ArrayList<Payment> selectedPaymentList = new ArrayList<Payment>();
+			for (String insuranceInfo : customerInsuranceInfo) {
+				String[] columns = insuranceInfo.split(" ");
 				if (columns[11].equals(cancelBtn)) {
 					found = true;
 					boolean isCancelled = Boolean.parseBoolean(columns[4]);
 					boolean isMatured = Boolean.parseBoolean(columns[7]);
 
+					selectedInsuranceId = insuranceListImpl.getInsuranceIdbyName(columns[0]); // 선택된 보험Id
+					selectedPaymentList = paymentListImpl.retreiveCustomerInsurancePayment(customerId,
+							selectedInsuranceId); // 고객이 해당 보험에 대한 납입(true/false) 리스트
+					ArrayList<String> premiumList = contractListImpl.retreivePremiumById(customerId,
+							selectedInsuranceId); // 해당 고객과 보험에 대한 보험료 리스트
+					double totalPremiumPaid = 0; // 해당 보험에 대해서 납입한 보험료
+					// 해당 보험에 대해서 납입 여부가 true인 것만 보험료 정산
+					for (int i = 0; i < selectedPaymentList.size(); i++) {
+						if (selectedPaymentList.get(i).isWhetherPayment()) {
+							for (String premium : premiumList) {
+								double premiumAmount = Double.parseDouble(premium);
+								totalPremiumPaid += premiumAmount;
+							}
+						}
+					}
 					if (isCancelled && isMatured) {
 						// A6. 해지된 계약의 해지버튼을 누른 경우
-						System.out.println("[System] 이미 해지된 보험입니다.");
+						System.out.println("[System] 이미 만기 해지된 보험입니다.");
 						return;
 					} else if (!isCancelled && isMatured) {
 						// A4. 만기된 보험의 해지 버튼을 누른 경우
-						insuranceTermination("만기", customerName, customerPH, info, contractListImpl, inputReader);
+						insuranceTermination("만기", customerName, customerPH, insuranceInfo, contractListImpl,
+								inputReader, compensationClaim, selectedInsuranceId, customerId, totalPremiumPaid,
+								columns[0], isMatured);
 						return;
 					} else if (!isCancelled && !isMatured) {
 						// A3. 만기되지 않은 보험의 해지 버튼을 누른 경우
-						insuranceTermination("중도", customerName, customerPH, info, contractListImpl, inputReader);
+						insuranceTermination("중도", customerName, customerPH, insuranceInfo, contractListImpl,
+								inputReader, compensationClaim, selectedInsuranceId, customerId, totalPremiumPaid,
+								columns[0], isMatured);
 						return;
+					} else if (isCancelled && !isMatured) {
+						// 이미 중도해지한 보험의 해지 버튼을 누른 경우
+						System.out.println("[System] 이미 중도 해지된 보험입니다.");
+						
 					}
 					return;
 				}
@@ -1529,31 +1557,41 @@ public class Main {
 // END Of uc17) 가입된 보험을 조회한다.
 // uc18) 보험을 중도 해지한다. , uc19) 만기 보험을 해지하다.  
 	private static void insuranceTermination(String insuranceStatus, String customerName, String customerPH,
-			String info, ContractListImpl contractListImpl, BufferedReader systemInput) throws IOException {
-		System.out.printf("\n[ %s 해지 화면 ]", insuranceStatus);
+			String info, ContractListImpl contractListImpl, BufferedReader systemInput,
+			CompensationClaimListImpl compensationClaim, String selectedInsuranceId, String selectedCustomerId,
+			double totalPremiumPaid, String insuranceName, boolean isMatured) throws IOException {
+		System.out.printf("\n\n[ %s 해지 화면 ]", insuranceStatus);
 		System.out.println(
-				"\n_____________________________________________________________________________________________");
-		System.out.printf("\n%-10s %-10s %-10s %-10s %-10s\n", centerAlign("이름", 10), centerAlign("전화번호", 10),
-				centerAlign("해지 약관 안내", 13), centerAlign("해지 약관 동의", 13), centerAlign("해지하기 버튼", 10));
+				"\n________________________________________");
+		System.out.printf("\n%-10s %-10s %-10s\n", centerAlign("이름", 10), centerAlign("전화번호", 10),
+			 centerAlign("해지하기 버튼", 10));
 		System.out.println(
-				"_____________________________________________________________________________________________\n");
-		System.out.printf("%-10s %-10s %-10s %-10s %-10s\n", centerAlign("[입력]", 10), centerAlign("[입력]", 10),
-				centerAlign("[show]", 15), centerAlign("[Y/N]", 15), centerAlign("[Y/N]", 13));
+				"________________________________________\n");
+		System.out.printf("%-10s %-10s %-10s\n", centerAlign("[입력]", 10), centerAlign("[입력]", 10), centerAlign("[Y/N]", 13));
+//		System.out.printf("\n\n[ %s 해지 화면 ]", insuranceStatus);
+//		System.out.println(
+//				"\n_____________________________________________________________________________________________");
+//		System.out.printf("\n%-10s %-10s %-10s %-10s %-10s\n", centerAlign("이름", 10), centerAlign("전화번호", 10),
+//				centerAlign("해지 약관 안내", 13), centerAlign("해지 약관 동의", 13), centerAlign("해지하기 버튼", 10));
+//		System.out.println(
+//				"_____________________________________________________________________________________________\n");
+//		System.out.printf("%-10s %-10s %-10s %-10s %-10s\n", centerAlign("[입력]", 10), centerAlign("[입력]", 10),
+//				centerAlign("[보기]", 15), centerAlign("[Y/N]", 15), centerAlign("[Y/N]", 13));
 
-		System.out.print("\n\n• 해지 약관 안내 보기 (Y/N) : ");
-		String choice = systemInput.readLine().trim();
-		// A1. 해지 약관 안내를 누른 경우
-		if (choice.equals("Y"))
-			showTerminationPolicyMessage();
+//		System.out.print("\n\n• 해지 약관 안내 보기 (Y/N) : ");
+//		String choice = systemInput.readLine().trim();
+//		// A1. 해지 약관 안내를 누른 경우
+//		if (choice.equals("Y"))
+//			showTerminationPolicyMessage();
 
-		System.out.printf("\n• %s 해지 정보 입력", insuranceStatus);
-		System.out.print("\n이름 : ");
+		System.out.printf("\n\n[ %s 해지 정보 입력창 ]", insuranceStatus);
+		System.out.print("\n[ 이름 ] : ");
 		String inputName = systemInput.readLine().trim();
-		System.out.print("전화번호 : ");
+		System.out.print("[ 전화번호 ] : ");
 		String inputPH = systemInput.readLine().trim();
-		System.out.print("해지 약관 동의 (Y/N) : ");
-		String inputAgree = systemInput.readLine().trim();
-		System.out.print("해지하기 (Y/N) : ");
+//		System.out.print("해지 약관 동의 (Y/N) : ");
+//		String inputAgree = systemInput.readLine().trim();
+		System.out.print("\n해당 보험을 해지하시겠습니까? (Y/N) : ");
 		String inputCancel = systemInput.readLine().trim();
 
 		if (inputName.isEmpty() || inputPH.isEmpty())
@@ -1561,23 +1599,302 @@ public class Main {
 		// A2. 잘못된 이름이나 전화번호를 입력한 경우
 		if (!inputName.equals(customerName) || !inputPH.equals(customerPH))
 			System.out.println("\n[System] 보험자 정보를 다시 확인해주십시오.");
-		if (inputName.equals(customerName) && inputPH.equals(customerPH) && inputAgree.equals("N"))
-			// A3. 해지 약관 동의를 체크하지 않은 경우
-			System.out.println("\n[System] 해지 약관에 동의하지 않을 경우 해지가 불가능합니다.");
-		if (inputName.equals(customerName) && inputPH.equals(customerPH) && inputAgree.equals("Y")
-				&& inputCancel.equals("Y"))
-			System.out.println("해지 환급금 요청 화면");
+		if (inputName.equals(customerName) && inputPH.equals(customerPH) && inputCancel.equals("Y")) {
+			requestTerminationRefund(insuranceStatus, customerName, customerPH, info, contractListImpl, systemInput,
+					compensationClaim, selectedInsuranceId, selectedCustomerId, totalPremiumPaid, insuranceName,
+					isMatured);
+		}
+//		if (inputName.equals(customerName) && inputPH.equals(customerPH) && inputAgree.equals("N"))
+//			// A3. 해지 약관 동의를 체크하지 않은 경우
+//			System.out.println("\n[System] 해지 약관에 동의하지 않을 경우 해지가 불가능합니다.");
+//		if (inputName.equals(customerName) && inputPH.equals(customerPH) && inputAgree.equals("Y")
+//				&& inputCancel.equals("Y")) {
+//			System.out.println("해지 환급금 요청 화면");
+//			requestTerminationRefund(insuranceStatus, customerName, customerPH, info, contractListImpl, systemInput,
+//					compensationClaim, selectedInsuranceId, selectedCustomerId, totalPremiumPaid, insuranceName,
+//					isMatured);
+//		}
+
 		if (inputName.equals(customerName) && inputPH.equals(customerPH) && inputCancel.equals("N"))
 			System.out.println("[System] 해지 요청을 취소합니다.");
 
 	}
 
-	private static void showTerminationPolicyMessage() {
-		// A1. 해지 약관 안내를 누른 경우
+//	private static void showTerminationPolicyMessage() {
+//		// A1. 해지 약관 안내를 누른 경우
+//
+//	}
+
+// End Of uc18) 보험을 중도 해지한다. , uc19) 만기 보험을 해지하다.
+// uc20) 해지환급금 지급을 요청한다.
+	private static void requestTerminationRefund(String insuranceStatus, String customerName, String customerPH,
+			String info, ContractListImpl contractListImpl, BufferedReader systemInput,
+			CompensationClaimListImpl compensationClaim, String selectedInsuranceId, String selectedCustomerId,
+			double totalPremiumPaid, String insuranceName, boolean isMatured) throws IOException {
+
+		if (isMatured) {
+			double refundAmount = totalPremiumPaid * 0.8; // 예상 환급금액
+			System.out.println("\n\n[ 만기 해지환급금 요청 화면 ]");
+			System.out.println("+________________________________________________________+");
+			System.out.printf("|   %s님의 %s의 총 납입 보험료     |     %-10.2f원    |\n", customerName, insuranceName,
+					totalPremiumPaid);
+			System.out.println("+________________________________________________________+");
+			System.out.printf("|   %s님의 %s의 예상 환급 금액     |     %-10.2f원    |\n", customerName, insuranceName,
+					refundAmount);
+			System.out.println("+________________________________________________________+");
+
+			showMaturityTerminationTerms(insuranceName);
+
+			String name;
+			String phoneNumber;
+			String bankName;
+			String accountNumber;
+			String accountHolder;
+
+			while (true) {
+				System.out.println("\n\n[ 만기해지환급금 요청 정보 입력창 ]");
+				System.out.print("\n[ 이름 ]: ");
+				name = systemInput.readLine().trim();
+
+				System.out.print("[ 전화번호 ]: ");
+				phoneNumber = systemInput.readLine().trim();
+
+				System.out.print("[ 은행명 ]: ");
+				bankName = systemInput.readLine().trim();
+
+				System.out.print("[ 계좌번호 ]: ");
+				accountNumber = systemInput.readLine().trim();
+
+				System.out.print("[ 예금주명 ]: ");
+				accountHolder = systemInput.readLine().trim();
+
+				if (name.isEmpty() || phoneNumber.isEmpty() || bankName.isEmpty() || accountNumber.isEmpty()
+						|| accountHolder.isEmpty()) {
+					System.out.println("[System] 입력하지 않은 항목이 있습니다. 모든 항목을 입력해주세요.");
+					continue;
+				}
+
+				if (!customerName.equals(name) || !customerPH.equals(phoneNumber)) {
+					System.out.println("[System] 올바르지 않은 고객 정보입니다. 다시 입력해주세요.");
+					continue;
+				}
+
+				// 추가적인 입력 형식 검증
+				if (!bankName.matches("[A-Za-z가-힣]+")) {
+					System.out.println("[System] 은행명은 알파벳과 공백만 입력 가능합니다. 다시 입력해주세요.");
+					continue;
+				}
+
+				if (!accountNumber.matches("\\d+")) {
+					System.out.println("[System] 계좌번호는 숫자로만 입력 가능합니다. 다시 입력해주세요.");
+					continue;
+				}
+
+				if (!name.matches("[가-힣a-zA-Z]+")) {
+					System.out.println("[System] 이름은 한글 또는 영문 대소문자로만 입력 가능합니다. 다시 입력해주세요.");
+					continue;
+				}
+				break;
+			}
+
+			System.out.println(" 해지환급금 약관에 동의하십니까?(Y/N) :");
+			String agreement = systemInput.readLine().trim();
+
+			if (agreement.equalsIgnoreCase("Y")) {
+				contractListImpl.updateCancellation(selectedCustomerId, selectedInsuranceId);
+				if(!contractListImpl.updateCancellation(selectedCustomerId, selectedInsuranceId)) {
+					System.out.println("[System] 시스템 상 오류로 정상적으로 처리되지 않았습니다. 다시 시도해 주세요.");
+				} else {
+					requestBanking(null, null, systemInput);
+				}
+		
+			} else if (agreement.equalsIgnoreCase("N")) {
+				System.out.println("[System] 약관 동의를 하지 않은 경우 해지환급금 신청이 불가능합니다.");
+
+			} else {
+				System.out.println("[System] 올바르지 않은 입력 값입니다. 다시 입력해주세요.");
+			}
+		} else { 
+			// 중도 해지 
+			double refundAmount = (totalPremiumPaid - (totalPremiumPaid*0.6) + totalPremiumPaid * 0.3);
+			System.out.println("\n\n[ 중도해지환급금 요청 화면 ]");
+			System.out.println("+________________________________________________________+");
+			System.out.printf("|   %s님의 %s의 총 납입 보험료     |     %-10.2f원    |\n", customerName, insuranceName,
+					totalPremiumPaid);
+			System.out.println("+________________________________________________________+");
+			System.out.printf("|   %s님의 %s의 예상 환급 금액     |     %-10.2f원    |\n", customerName, insuranceName,
+					refundAmount);
+			System.out.println("+________________________________________________________+");
+			
+			
+			showTerminationTerms( insuranceName);
+			
+			String name;
+			String phoneNumber;
+			String bankName;
+			String accountNumber;
+			String accountHolder;
+
+			while (true) {
+				System.out.println("\n\n[ 중도해지환급금 요청 정보 입력창 ]");
+				System.out.print("\n[ 이름 ]: ");
+				name = systemInput.readLine().trim();
+
+				System.out.print("[ 전화번호 ]: ");
+				phoneNumber = systemInput.readLine().trim();
+
+				System.out.print("[ 은행명 ]: ");
+				bankName = systemInput.readLine().trim();
+
+				System.out.print("[ 계좌번호 ]: ");
+				accountNumber = systemInput.readLine().trim();
+
+				System.out.print("[ 예금주명 ]: ");
+				accountHolder = systemInput.readLine().trim();
+
+				if (name.isEmpty() || phoneNumber.isEmpty() || bankName.isEmpty() || accountNumber.isEmpty()
+						|| accountHolder.isEmpty()) {
+					System.out.println("[System] 입력하지 않은 항목이 있습니다. 모든 항목을 입력해주세요.");
+					continue;
+				}
+
+				if (!customerName.equals(name) || !customerPH.equals(phoneNumber)) {
+					System.out.println("[System] 올바르지 않은 고객 정보입니다. 다시 입력해주세요.");
+					continue;
+				}
+
+				// 추가적인 입력 형식 검증
+				if (!bankName.matches("[A-Za-z가-힣]+")) {
+					System.out.println("[System] 은행명은 알파벳과 공백만 입력 가능합니다. 다시 입력해주세요.");
+					continue;
+				}
+
+				if (!accountNumber.matches("\\d+")) {
+					System.out.println("[System] 계좌번호는 숫자로만 입력 가능합니다. 다시 입력해주세요.");
+					continue;
+				}
+
+				if (!name.matches("[가-힣a-zA-Z]+")) {
+					System.out.println("[System] 이름은 한글 또는 영문 대소문자로만 입력 가능합니다. 다시 입력해주세요.");
+					continue;
+				}
+				break;
+			}
+
+			System.out.print(" 해지환급금 약관에 동의하십니까?(Y/N) :");
+			String agreement = systemInput.readLine().trim();
+
+			if (agreement.equalsIgnoreCase("Y")) {
+				contractListImpl.updateCancellation(selectedCustomerId, selectedInsuranceId);
+				if(!contractListImpl.updateCancellation(selectedCustomerId, selectedInsuranceId)) {
+					System.out.println("[System] 시스템 상 오류로 정상적으로 처리되지 않았습니다. 다시 시도해 주세요.");
+				} else {
+					requestBanking(null, null, systemInput);
+				}
+		
+			} else if (agreement.equalsIgnoreCase("N")) {
+				System.out.println("[System] 약관 동의를 하지 않은 경우 해지환급금 신청이 불가능합니다.");
+
+			} else {
+				System.out.println("[System] 올바르지 않은 입력 값입니다. 다시 입력해주세요.");
+			}
+		}
+
+	}
+// 중도해지환급금 약관 안내 보기 
+private static void showTerminationTerms(String insuranceName) {
+	  System.out.println(
+	            "\n\n_______________________________________________________________________________________________________________");
+	    System.out.println("\n[ 중도해지환급금 약관 안내 ]");
+		System.out.printf("\n안녕하세요, [에이쁠조..]입니다. 고객님께서 보유하신 [%s]의 중도해지환급금에 대해 안내드리겠습니다.",insuranceName);
+	    System.out.println();
+	    System.out.println("1. 중도해지환급금 계산 방식");
+	    System.out.println("   중도해지환급금은 다음과 같이 계산됩니다:");
+	    System.out.println();
+	    System.out.println("   중도해지수수료 = 납입보험료 * 0.6");
+	    System.out.println("   정산환급금 = 납입보험료 * 0.3");
+	    System.out.println("   중도해지환급금 = 납입보험료 - 중도해지수수료 + 정산환급금");
+	    System.out.println();
+	    System.out.println("   중도해지수수료는 납입보험료의 60%로 적용되며,");
+	    System.out.println("   정산환급금은 여러 요소를 고려하지만 대략적으로 납입보험료의 30%로 적용됩니다.");
+	    System.out.println();
+	    System.out.println("2. 중도해지환급금 신청 정보");
+	    System.out.println("   중도해지환급금을 신청하시려면 아래의 정보를 입력해주셔야 합니다:");
+	    System.out.println();
+	    System.out.println("   - 고객명: 고객님의 성함을 입력해주세요.");
+	    System.out.println("   - 전화번호: 고객님의 연락 가능한 전화번호를 입력해주세요.");
+	    System.out.println("   - 은행명: 환급금을 수령하실 은행의 이름을 입력해주세요. (알파벳과 한글만 입력 가능합니다.)");
+	    System.out.println("   - 계좌번호: 환급금을 입금받으실 계좌의 번호를 입력해주세요. (숫자로만 입력 가능합니다.)");
+	    System.out.println("   - 예금주명: 계좌에 등록된 예금주의 성함을 입력해주세요.");
+	    System.out.println();
+	    System.out.println("   입력하신 정보는 환급금을 안전하게 지급하기 위해 사용되며, 개인정보 보호 정책에 따라 처리됩니다.");
+	    System.out.println();
+	    System.out.println("3. 약관 동의");
+	    System.out.println("   고객님은 중도해지환급금 신청 시 약관에 동의하셔야 합니다.");
+	    System.out.println();
+	    System.out.println("   약관에 동의하시면 [Y]를 입력해주세요. 동의하지 않으시면 [N]을 입력해주세요.");
+	    System.out.println();
+	    System.out.println("4. 해지 완료 안내");
+		System.out.printf("\n   고객님께서 약관에 동의하셨을 경우, [%s]의 중도해지가 완료되었습니다. 환급금은 계좌로 입금될 예정이며, 입금까지 수일이 소요될 수 있습니다.",insuranceName);
+	    System.out.println();
+	    System.out.println("   추가 문의 사항이 있으시면 고객센터로 연락해주시기 바랍니다.");
+	    System.out.println();
+	    System.out.println("감사합니다. 중도해지환급금 관련하여 궁금하신 사항이 있으시면 언제든지 문의해주세요.");
+	    System.out.println(
+	            "_______________________________________________________________________________________________________________");
+	
+}
+
+// 만기해지환급금 약관 안내 보기 
+	private static void showMaturityTerminationTerms(String insuranceName) {
+		System.out.println(
+				"\n\n_______________________________________________________________________________________________________________");
+		System.out.println("\n[ 만기해지환급금 약관 안내 ]");
+		System.out.printf("\n안녕하세요, [에이쁠조..]입니다. 고객님께서 보유하신 [%s]의 만기해지환급금에 대해 안내드리겠습니다.",insuranceName);
+		System.out.println();
+		System.out.println("1. 단순환급방식 적용");
+		System.out.println("   단순환급방식은 가장 일반적으로 사용되는 해지환급 방식 중 하나입니다. 해당 방식은 다음과 같이 계산됩니다:");
+		System.out.println();
+		System.out.println("   환급금 = 납입한 보험료 * 환급 비율");
+		System.out.println();
+		System.out.println("   [에이쁠조..]의 환급 비율은 80%로 정해져 있습니다. 즉, 고객님이 납입한 보험료의 80%를 환급받으실 수 있습니다.");
+		System.out.println();
+		System.out.println("   예를 들어, 만기 시점까지 총 보험료로 20,040원을 납입하셨다면, 환급금은 다음과 같이 계산됩니다:");
+		System.out.println();
+		System.out.println("   환급금 = 20,040원 * 80% = 16,032원");
+		System.out.println();
+		System.out.println("   따라서, 고객님께서는 총 20,040원을 납입한 뒤 16,032원의 환급금을 받으실 수 있게 됩니다.");
+		System.out.println();
+		System.out.println("   *참고: 환급금은 세금 등의 공제 후 실제로 지급되는 금액입니다.");
+		System.out.println();
+		System.out.println("2. 입력정보 요청");
+		System.out.println("   고객님께서 만기해지환급금을 신청하시려면 아래의 정보를 입력해주셔야 합니다:");
+		System.out.println();
+		System.out.println("   - 고객명: 고객님의 성함을 입력해주세요.");
+		System.out.println("   - 전화번호: 고객님의 연락 가능한 전화번호를 입력해주세요.");
+		System.out.println("   - 은행명: 환급금을 수령하실 은행의 이름을 입력해주세요. (알파벳과 한글만 입력 가능합니다.)");
+		System.out.println("   - 계좌번호: 환급금을 입금받으실 계좌의 번호를 입력해주세요. (숫자로만 입력 가능합니다.)");
+		System.out.println("   - 예금주명: 계좌에 등록된 예금주의 성함을 입력해주세요.");
+		System.out.println();
+		System.out.println("   입력하신 정보는 환급금을 안전하게 지급하기 위해 사용되며, 개인정보 보호 정책에 따라 처리됩니다.");
+		System.out.println();
+		System.out.println("3. 약관 동의");
+		System.out.println("   고객님은 만기해지환급금 신청 시 약관에 동의하셔야 합니다.");
+		System.out.println();
+		System.out.println("   약관에 동의하시면 [Y]를 입력해주세요. 동의하지 않으시면 [N]을 입력해주세요.");
+		System.out.println();
+		System.out.println("4. 해지 완료 안내");
+		System.out.printf("\n   고객님께서 약관에 동의하셨을 경우, [%s]의 만기해지가 완료되었습니다. 환급금은 계좌로 입금될 예정이며, 입금까지 수일이 소요될 수 있습니다.",insuranceName);
+		System.out.println();
+		System.out.println("   추가 문의 사항이 있으시면 고객센터로 연락해주시기 바랍니다.");
+		System.out.println();
+		System.out.println("감사합니다. 만기해지환급금 관련하여 궁금하신 사항이 있으시면 언제든지 문의해주세요.");
+		System.out.println(
+				"_______________________________________________________________________________________________________________");
 
 	}
 
-	// End Of uc18) 보험을 중도 해지한다. , uc19) 만기 보험을 해지하다.
+// End Of uc20) 해지환급금 지급을 요청한다.
 // uc26) 보험료 미납자를 조회하다. 	
 	private static void showUnpaidCustomer(BufferedReader inputReader, ContractListImpl contractListImpl,
 			CustomerListImpl customerListImpl, InsuranceListImpl insuranceList,
@@ -1655,7 +1972,7 @@ public class Main {
 		String choice = inputReader.readLine().trim();
 		if (choice.equals("Y")) {
 			// A1. 대상자에서 제외하고 싶은 경우
-			customerListImpl.deleteUnpaidCustomer(customerListImpl.retrieveCustomer(selectedCustomerId));
+//			customerListImpl.deleteUnpaidCustomer(customerListImpl.retrieveCustomer(selectedCustomerId));
 			System.out.println("\n[System] 대상자에서 제외되었습니다.");
 		}
 	}
