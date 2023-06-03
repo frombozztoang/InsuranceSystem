@@ -6,7 +6,7 @@ import java.util.List;
 import Contract.Contract;
 import Dao.InsuranceDao;
 
-public class InsuranceListImpl implements InsuranceList{
+public class InsuranceListImpl implements InsuranceList {
 
 	private ArrayList<Insurance> insuranceList;
 	private InsuranceDao insuranceDao;
@@ -38,8 +38,8 @@ public class InsuranceListImpl implements InsuranceList{
 			}
 		}
 		return false;
-	} 
-	
+	}
+
 	public boolean createInsurance(Insurance insurance) throws Exception {
 		if (this.insuranceList.add(insurance)) {
 			insuranceDao.create(insurance);
@@ -51,8 +51,8 @@ public class InsuranceListImpl implements InsuranceList{
 				guaranteeList.create(guarantee);
 			}
 			return true;
-		}
-		else return false;
+		} else
+			return false;
 	}
 
 	public ArrayList<Insurance> retrieveInsurance(String type) {
@@ -79,16 +79,20 @@ public class InsuranceListImpl implements InsuranceList{
 			if (insurance.matchId(insuranceId))
 				if (this.insuranceList.remove(insurance)) {
 					guaranteeList.deleteGuranteeById(insuranceId);
-					insuranceDao.deleteById(insuranceId); 				
-					return true;} 
-				else return false;}
+					insuranceDao.deleteById(insuranceId);
+					return true;
+				} else
+					return false;
+		}
 		return false;
 	}
+
 	public ArrayList<Insurance> getOnSaleInsuranceList() {
 		ArrayList<Insurance> onSaleInsurance = new ArrayList<Insurance>();
 		for (int i = 0; i < this.insuranceList.size(); i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
-			if (insurance.isAuthorization()) onSaleInsurance.add(insurance);
+			if (insurance.isAuthorization())
+				onSaleInsurance.add(insurance);
 		}
 		return onSaleInsurance;
 	}
@@ -108,7 +112,7 @@ public class InsuranceListImpl implements InsuranceList{
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
 			if (insurance.matchId(updateInsurance.getInsuranceID())) {
 				this.insuranceList.set(i, updateInsurance);
-				insuranceDao.update(updateInsurance);		
+				insuranceDao.update(updateInsurance);
 				return true;
 			}
 		}
@@ -122,6 +126,15 @@ public class InsuranceListImpl implements InsuranceList{
 				return insurance.getType();
 		}
 		return null;
+	}
+
+	public String getInsuranceIdbyName(String insuranceName) {
+		for (int i = 0; i < this.insuranceList.size(); i++) {
+			Insurance insurance = (Insurance) this.insuranceList.get(i);
+			if (insurance.getInsuranceName().equals(insuranceName))
+				return insurance.getInsuranceID();
+		}
+		return "[System] 잘못된 보헙 정보입니다.";
 	}
 
 	public ArrayList<String> getInsuranceNameById(String insuranceId) {
@@ -171,7 +184,8 @@ public class InsuranceListImpl implements InsuranceList{
 	public boolean isExistInsuranceDesign(String insuranceID) {
 		for (int i = 0; i < this.insuranceList.size(); i++) {
 			Insurance insurance = (Insurance) this.insuranceList.get(i);
-			if (insurance.matchId(insuranceID)&&insurance.isAuthorization()==false) return true;
+			if (insurance.matchId(insuranceID) && insurance.isAuthorization() == false)
+				return true;
 		}
 		return false;
 	}

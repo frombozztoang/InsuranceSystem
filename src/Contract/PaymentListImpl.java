@@ -80,6 +80,17 @@ public class PaymentListImpl {
 		return customerPayment;
 	}
 
+	public ArrayList<Payment> retreiveCustomerInsurancePayment(String customerID, String insuranceID) {
+		ArrayList<Payment> customerPayment = new ArrayList<Payment>();
+		for (int i = 0; i < this.paymentList.size(); i++) {
+			if (paymentList.get(i).getCustomerID().equals(customerID)
+					&& paymentList.get(i).getInsuranceID().equals(insuranceID)) {
+				customerPayment.add(paymentList.get(i));
+			}
+		}
+		return customerPayment;
+	}
+
 	public ArrayList<String> retreiveDateStatusById(String customerID, String insuranceId) {
 		ArrayList<String> dateAndStatus = new ArrayList<String>();
 		for (int i = 0; i < this.paymentList.size(); i++) {
