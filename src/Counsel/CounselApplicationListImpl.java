@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import Customer.Customer;
+import Dao.CounselApplicationDao;
 
 
 public class CounselApplicationListImpl implements CounselApplicationList{
 
 	private ArrayList<CounselApplication> CounselApplicationList;
+	private CounselApplicationDao counselApplicationDao;
 
 	public CounselApplicationListImpl(String councelFileName) throws IOException, ParseException {
 		BufferedReader customerFile = new BufferedReader(new FileReader(councelFileName));
@@ -24,6 +26,11 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 				add(councelApplication);
 		}
 		customerFile.close();
+	}
+	
+	public CounselApplicationListImpl() throws Exception {
+		this.counselApplicationDao = new CounselApplicationDao();
+		this.CounselApplicationList = counselApplicationDao.retrieveAll();
 	}
 	
 	private CounselApplication makeCouncel(String councelInfo) throws ParseException {
@@ -52,38 +59,6 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 		return councelApplication;
 	}
 
-	@Override
-	public boolean add(CounselApplication counselApplication) {
-		if(this.CounselApplicationList.add(counselApplication)) return true;	
-		else return false;
-	}
-
-	@Override
-	public boolean delete(String counselID) {
-		for(CounselApplication counselApplication : this.CounselApplicationList) {
-			if(counselApplication.getCounselID().equals(counselID)) {
-				if(CounselApplicationList.remove(counselApplication)) return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean update(CounselApplication counselApplication, String counselID) {
-		for(CounselApplication ucounselApplication : this.CounselApplicationList) {
-			if(ucounselApplication.getCounselID().equals(counselID)) {
-				ucounselApplication.setCategory(counselApplication.getCategory());
-				ucounselApplication.setRequirement(counselApplication.getRequirement());
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public ArrayList<CounselApplication> retrieve() {
-		// TODO Auto-generated method stub
-		return CounselApplicationList;
-	}
 	public static List<CounselApplication> getCounselList(Customer customer, 
 			   CounselApplicationListImpl counselApplicationListImpl) {
 		List<CounselApplication> selectedCouncels = new ArrayList<CounselApplication>();
@@ -104,5 +79,29 @@ public class CounselApplicationListImpl implements CounselApplicationList{
 			   if(counselApplication.getDateOfSecond().equals(date)) return counselApplication;
 		   }
 		   return null;
+	}
+
+	@Override
+	public boolean add(CounselApplication counselApplication) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delete(String counselID) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(CounselApplication counselApplication, String counselID) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ArrayList<CounselApplication> retrieve() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

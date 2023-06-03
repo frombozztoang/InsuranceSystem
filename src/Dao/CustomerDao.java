@@ -6,16 +6,23 @@ import java.util.ArrayList;
 
 import Customer.Customer;
 import Customer.CustomerList;
+import Insurance.Guarantee;
 
 public class CustomerDao extends Dao {
 	public CustomerDao() throws Exception {
-		super.connect();
+
+		try {
+			super.connect();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void create(Customer customer) {
-		String query = "INSERT INTO Customer (customerID, customerName, birth, eGender, pnumber, job, address) VALUES ('"
-				+ customer.getCustomerID() + "', '" + customer.getCustomerName() + "', '" + customer.getBirth() + "', '"
-				+ customer.getEGender() + "', '" + customer.getPnumber() + "', '" + customer.getJob() + "', '"
+		String query = "INSERT INTO Customer (customerID, customerName, job, pnumber, birth, eGender, address) VALUES ('"
+				+ customer.getCustomerID() + "', '" + customer.getCustomerName() + "', '" + customer.getJob() + "', '"
+				+ customer.getPnumber() + "', '" + customer.getBirth() + "', '" + customer.getEGender() + "', '"
 				+ customer.getAddress() + "')";
 		super.create(query);
 	}
@@ -38,7 +45,6 @@ public class CustomerDao extends Dao {
 
 				customerList.add(customer);
 			}
-
 			return customerList;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,12 +52,11 @@ public class CustomerDao extends Dao {
 		} finally {
 			// ResultSet, Statement, Connection 등 리소스를 닫는 코드 추가
 		}
-
 		return null;
 	}
 
-	public CustomerList retrieveById(Customer customer) {
-		String query = "SELECT * FROM Customer WHERE customerID = '" + customer.getCustomerID() + "'";
+	public CustomerList retrieveByCustomerID(String customerID) {
+		String query = "SELECT * FROM Customer WHERE customerID = '" + customerID + "'";
 		super.retrieve(query);
 		// CustomerList에 ResultSet 값을 채우는 부분 구현
 		return null;
@@ -65,13 +70,13 @@ public class CustomerDao extends Dao {
 		super.update(query);
 	}
 
-	public void deleteAll(Customer customer) {
+	public void deleteAll() throws Exception {
 		String query = "DELETE FROM Customer";
 		super.delete(query);
 	}
 
-	public void deleteById(Customer customer) {
-		String query = "DELETE FROM Customer WHERE customerID = '" + customer.getCustomerID() + "'";
+	public void deleteById(String customerID) throws Exception {
+		String query = "DELETE FROM Customer WHERE customerID = '" + customerID + "'";
 		super.delete(query);
 	}
 

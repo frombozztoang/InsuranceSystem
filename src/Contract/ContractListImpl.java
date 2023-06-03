@@ -11,6 +11,7 @@ import Dao.ContractDao;
 public class ContractListImpl {
 
 	private ArrayList<Contract> contractList;
+
 	private ContractDao contractDao;
 	public Contract m_Contract;
 

@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76272c56-46e5-414e-8018-c71372182699" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Dao/CarAccidentDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Dao/CompensationClaimDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Dao/InsuranceApplicationDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Dao/SurveyDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/InsuranceApplication.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/InsuranceApplication.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CarAccidentListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CarAccidentListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/CompensationClaimListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/Survey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/Survey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CompensationClaim/SurveyListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CompensationClaim/SurveyListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contract/ContractListImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Insurance/InsuranceApplicationListImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,6 +39,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.appearance&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Dao" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -53,6 +67,10 @@
       <workItem from="1685106355948" duration="541000" />
       <workItem from="1685107247492" duration="1944000" />
       <workItem from="1685188042354" duration="15639000" />
+      <workItem from="1685427870248" duration="13359000" />
+      <workItem from="1685473829664" duration="2823000" />
+      <workItem from="1685499637678" duration="1555000" />
+      <workItem from="1685502880272" duration="303000" />
     </task>
     <servers />
   </component>

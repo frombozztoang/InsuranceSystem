@@ -1,85 +1,36 @@
 package CompensationClaim;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
+import Dao.CarAccidentDao;
+
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class CarAccidentListImpl {
 
 	private ArrayList<CarAccident> carAccidentList;
-	public CarAccident carAccident;
+	public CarAccidentDao carAccidentDao;
 
-	public CarAccidentListImpl(String carAccidentFileName) throws IOException {
-		BufferedReader carAccidentFile = new BufferedReader(new FileReader(carAccidentFileName));
-		this.carAccidentList = new ArrayList<CarAccident>();
-		while (carAccidentFile.ready()) {
-			CarAccident carAccident = stringToCarAccident(carAccidentFile.readLine());
-			if (carAccident!=null) this.carAccidentList.add(carAccident);
-		}
-		carAccidentFile.close();
+	public CarAccidentListImpl() throws Exception {
+		this.carAccidentDao = new CarAccidentDao();
+		this.carAccidentList = carAccidentDao.retrieveAll();
 	}
-
-	private CarAccident stringToCarAccident(String carAccidentInfo) {
-		CarAccident carAccident = new CarAccident();
-		StringTokenizer stringTokenizer = new StringTokenizer(carAccidentInfo);
-		carAccident.setCCID(stringTokenizer.nextToken());
-		carAccident.setType(stringTokenizer.nextToken());
-		carAccident.setDateTime(LocalDateTime.parse(stringTokenizer.nextToken()));
-		carAccident.setPlace(stringTokenizer.nextToken());
-		carAccident.setCarNumber(stringTokenizer.nextToken());
-		carAccident.setDriverName(stringTokenizer.nextToken());
-		carAccident.setLicenseNumber(stringTokenizer.nextToken());
-		carAccident.setAccidentDetail(stringTokenizer.nextToken());
-		return carAccident;
-	}
-
 	public void finalize() throws Throwable {
-
 	}
 	public boolean add(){
 		return false;
 	}
-
 	public boolean delete(){
 		return false;
 	}
-
 	public ArrayList<CarAccident> retrieve(){
 		return carAccidentList;
 	}
-
 	public boolean update(){
 		return false;
 	}
-	public boolean createCarAccident(CarAccident carAccident) {
+	public boolean createCarAccident(CarAccident carAccident) throws Exception {
 		if(this.carAccidentList.add(carAccident)) {
-			updateFile("data/CarAccident.txt");
+			carAccidentDao.create(carAccident);
 			return true;
 		} else return false;
 	}
-	private void updateFile(String filename) {
-		try {
-			File file = new File(filename);
-			if (!file.exists())
-				file.createNewFile();
-			String carAccidentInfo = "";
-			if(carAccidentList.size()>=1) carAccidentInfo = carAccidentList.get(0).toString();
-			BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
-			for (int i = 1; i < this.carAccidentList.size(); i++)
-				carAccidentInfo = carAccidentInfo + "\r\n" + carAccidentList.get(i).toString();
-			fileWriter.write(carAccidentInfo);
-			fileWriter.flush();
-			fileWriter.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 }//end carAccidentListImpl

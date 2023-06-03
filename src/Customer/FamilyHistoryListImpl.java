@@ -1,5 +1,7 @@
 package Customer;
 
+import Dao.FamilyHistoryDao;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.util.StringTokenizer;
 
 public class FamilyHistoryListImpl {
 
+	private FamilyHistoryDao familyHistoryDao;
 	private ArrayList<FamilyHistory> familyHistoryList;
 
 	public FamilyHistoryListImpl(String familyFileName) throws IOException, ParseException {
@@ -20,6 +23,11 @@ public class FamilyHistoryListImpl {
 				this.familyHistoryList.add(familyHistory);
 		}
 		familyFile.close();
+	}
+
+	public FamilyHistoryListImpl() {
+		familyHistoryDao = new FamilyHistoryDao();
+//		familyHistoryList = familyHistoryDao.retrieveAll(); -- 이거 만들어야함
 	}
 
 	private FamilyHistory makeFamilyHistory(String familyInfo) throws ParseException {
@@ -68,24 +76,26 @@ public class FamilyHistoryListImpl {
 		this.familyHistoryList = familyHistoryList;
 	}
 
-	public FamilyHistory getFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) { // 고객 아이디에 맞는 가족력 반환
-		   ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
-		   for(FamilyHistory familyHistory : familyHistories) {
-			   if (familyHistory.getCustomerID().equals(id)) {
-				   return familyHistory;
-			   }
-		   }
-		   return null;
-	   }
+	public FamilyHistory getFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) { // 고객 아이디에 맞는
+																											// 가족력 반환
+		ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
+		for (FamilyHistory familyHistory : familyHistories) {
+			if (familyHistory.getCustomerID().equals(id)) {
+				return familyHistory;
+			}
+		}
+		return null;
+	}
 
-    public ArrayList<FamilyHistory> getFamilyHistoryByCID(String customerID) {
+	public ArrayList<FamilyHistory> getFamilyHistoryByCID(String customerID) {
 		ArrayList<FamilyHistory> familyHistories = new ArrayList<FamilyHistory>();
-		for(int i=0;i<this.familyHistoryList.size();i++) {
-			if(this.familyHistoryList.get(i).matchCID(customerID))
+		for (int i = 0; i < this.familyHistoryList.size(); i++) {
+			if (this.familyHistoryList.get(i).matchCID(customerID))
 				familyHistories.add(this.familyHistoryList.get(i));
 		}
 		return familyHistories;
-    }
+	}
+
 	public ArrayList<FamilyHistory> getAllFamilyHistoryFromId(String id, FamilyHistoryListImpl familyHistoryListImpl) {
 		ArrayList<FamilyHistory> familyHistories = familyHistoryListImpl.retrieve();
 		ArrayList<FamilyHistory> matchingFamilyHistories = new ArrayList<>();
