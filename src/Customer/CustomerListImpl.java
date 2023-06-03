@@ -1,19 +1,13 @@
 package Customer;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import Contract.Contract;
 import Contract.ContractListImpl;
 import Counsel.CounselApplication;
-import Customer.Customer.EGender;
-import Insurance.Insurance;
+import Dao.CustomerDao;
 
 public class CustomerListImpl implements CustomerList {
 
@@ -22,20 +16,16 @@ public class CustomerListImpl implements CustomerList {
 		EXPIRED_CONTRACTS, UNPAID_CUSTOMERS, RESURRECT_CANDIDATES
 	}
 
+	private CustomerDao customerDao;
 	private ArrayList<Customer> customerList;
 	private ArrayList<Customer> expiredContracts; // 만기계약 대상자 리스트
 	private ArrayList<Customer> unpaidCustomers; // 미납대상자 리스트
 	private ArrayList<Customer> resurrectCandidates; // 부활대상자 리스트
 
-	public CustomerListImpl(String customerFileName) throws IOException, ParseException {
-		BufferedReader customerFile = new BufferedReader(new FileReader(customerFileName));
-		this.customerList = new ArrayList<Customer>();
-		while (customerFile.ready()) {
-			Customer customer = makeCustomer(customerFile.readLine());
-			if (customer != null)
-				this.customerList.add(customer);
-		}
-		customerFile.close();
+	public CustomerListImpl() throws Exception {
+		this.customerDao = new CustomerDao();
+		this.customerList = customerDao.retrieveAll();
+
 	}
 
 	public ArrayList<Customer> getResurrectCandidates(ContractListImpl contractListImpl) throws Exception {
@@ -107,29 +97,6 @@ public class CustomerListImpl implements CustomerList {
 		return unpaidCustomers;
 	}
 
-	private Customer makeCustomer(String customerInfo) throws ParseException {
-		Customer customer = new Customer();
-
-		StringTokenizer stringTokenizer = new StringTokenizer(customerInfo);
-		customer.setCustomerID(stringTokenizer.nextToken());
-		customer.setCustomerName(stringTokenizer.nextToken());
-		customer.setBirth(stringTokenizer.nextToken());
-		customer.setEGender(stringTokenizer.nextToken().equals("남") ? EGender.male : EGender.female);
-		customer.setPnumber(stringTokenizer.nextToken());
-		customer.setJob(stringTokenizer.nextToken());
-
-		StringBuffer buffer = new StringBuffer();
-		while (stringTokenizer.hasMoreTokens()) {
-			buffer.append(stringTokenizer.nextToken());
-			buffer.append(" ");
-		}
-		customer.setAddress(buffer.toString());
-		return customer;
-	}
-
-	/**
-	 * 안쓰임
-	 */
 	public boolean add(Customer customer) {
 		if (this.customerList.add(customer))
 			return true;

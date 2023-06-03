@@ -1,6 +1,5 @@
 package Dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +41,7 @@ public class ContractDao extends Dao {
 
 	public List<Contract> retrieveByCustomerId(String customerId) {
 		List<Contract> contracts = new ArrayList<>();
-		String query = "SELECT * FROM contracts WHERE customerID = ?";
+		String query = "SELECT * FROM contract WHERE customerID = ?";
 
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			statement.setString(1, customerId);
@@ -77,7 +76,7 @@ public class ContractDao extends Dao {
 
 	public List<Contract> retrieveByInsuranceId(String insuranceId) {
 		List<Contract> contracts = new ArrayList<>();
-		String query = "SELECT * FROM contracts WHERE insuranceID = ?";
+		String query = "SELECT * FROM contract WHERE insuranceID = ?";
 
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			statement.setString(1, insuranceId);
@@ -110,9 +109,47 @@ public class ContractDao extends Dao {
 		return contracts;
 	}
 
+	public void update(Contract contract) {
+		String query = "UPDATE contract SET insurancePeriod = ?, premium = ?, paymentCycle = ?, "
+				+ "maxCompensation = ?, dateOfSubscription = ?, dateOfMaturity = ?, maturity = ?, "
+				+ "resurrection = ?, cancellation = ? WHERE customerID = ? AND insuranceID = ?";
+
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			statement.setString(1, contract.getInsurancePeriod());
+			statement.setDouble(2, contract.getPremium());
+			statement.setString(3, contract.getPaymentCycle());
+			statement.setDouble(4, contract.getMaxCompensation());
+			statement.setDate(5, java.sql.Date.valueOf(contract.getDateOfSubscription()));
+			statement.setDate(6, java.sql.Date.valueOf(contract.getDateOfMaturity()));
+			statement.setBoolean(7, contract.isMaturity());
+			statement.setBoolean(8, contract.isResurrection());
+			statement.setBoolean(9, contract.isCancellation());
+			statement.setString(10, contract.getCustomerID());
+			statement.setString(11, contract.getInsuranceID());
+
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateCancellation(String customerId, String insuranceId, boolean cancellation) {
+		String query = "UPDATE contract SET cancellation = ? WHERE customerID = ? AND insuranceID = ?";
+
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			statement.setBoolean(1, cancellation);
+			statement.setString(2, customerId);
+			statement.setString(3, insuranceId);
+
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public List<Contract> retrieveByCustomerInsuranceId(String customerId, String insuranceId) {
 		List<Contract> contracts = new ArrayList<>();
-		String query = "SELECT * FROM contracts WHERE customerID = ? AND insuranceID = ?";
+		String query = "SELECT * FROM contract WHERE customerID = ? AND insuranceID = ?";
 
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			statement.setString(1, customerId);
@@ -144,6 +181,34 @@ public class ContractDao extends Dao {
 		}
 
 		return contracts;
+	}
+
+	public ArrayList<Contract> retrieveAll() throws SQLException {
+		String query = "select * from contract;";
+		ResultSet results = super.retrieve(query);
+		ArrayList<Contract> contractList = new ArrayList<Contract>();
+
+		while (results.next()) {
+			Contract contract = new Contract();
+			contract.setCustomerID(results.getString("customerID"));
+			contract.setInsuranceID(results.getString("insuranceID"));
+			contract.setInsurancePeriod(results.getString("insurancePeriod"));
+			contract.setPremium(results.getInt("premium"));
+			contract.setPaymentCycle(results.getString("paymentCycle"));
+			contract.setMaxCompensation(results.getInt("maxCompensation"));
+			String dateString = results.getString("dateOfSubscription");
+			LocalDate dateOfSubscription = LocalDate.parse(dateString);
+			contract.setDateOfSubscription(dateOfSubscription);
+			String dateStringMaturity = results.getString("dateOfMaturity");
+			LocalDate dateOfMaturity = LocalDate.parse(dateStringMaturity);
+			contract.setDateOfMaturity(dateOfMaturity);
+			contract.setMaturity(results.getBoolean("maturity"));
+			contract.setResurrection(results.getBoolean("resurrection"));
+			contract.setCancellation(results.getBoolean("cancellation"));
+
+			contractList.add(contract);
+		}
+		return contractList;
 	}
 
 }

@@ -1,9 +1,6 @@
 package CompensationClaim;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-
-	public class CompensationClaim {
+public class CompensationClaim {
 		protected String CCID;
 		protected String insuranceID;
 		protected String customerID;

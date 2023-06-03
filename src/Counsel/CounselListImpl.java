@@ -1,9 +1,6 @@
 package Counsel;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import Customer.Customer;
 
 public class CounselListImpl {
 

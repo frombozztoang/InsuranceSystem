@@ -2,7 +2,6 @@ package Customer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Customer implements Serializable {
 
@@ -22,6 +21,16 @@ public class Customer implements Serializable {
 
 		public void setGenderStr(String genderStr) {
 			this.genderStr = genderStr;
+		}
+	}
+
+	public void setEGender(String eGender) {
+		if (eGender.equalsIgnoreCase("MALE")) {
+			this.eGender = EGender.male;
+		} else if (eGender.equalsIgnoreCase("FEMALE")) {
+			this.eGender = EGender.female;
+		} else {
+			// Handle invalid input or throw an exception
 		}
 	}
 
@@ -47,7 +56,6 @@ public class Customer implements Serializable {
 				+ this.pnumber + " " + this.job + " " + this.address;
 		return stringReturn;
 	}
-	
 
 	public boolean deleteCustomer(int customerID) {
 		Customer customerToRemove = null;

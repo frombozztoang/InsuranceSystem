@@ -1,7 +1,5 @@
 package Customer;
 
-import Contract.Contract;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

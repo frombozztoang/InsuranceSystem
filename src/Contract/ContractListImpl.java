@@ -1,33 +1,22 @@
 package Contract;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import Customer.Customer;
+import Dao.ContractDao;
 
 public class ContractListImpl {
 
 	private ArrayList<Contract> contractList;
+	private ContractDao contractDao;
 	public Contract m_Contract;
 
-	public ContractListImpl(String contractFileName) throws IOException, ParseException {
-		BufferedReader contractFile = new BufferedReader(new FileReader(contractFileName));
-		this.contractList = new ArrayList<Contract>();
-		while (contractFile.ready()) {
-			Contract contract = makeContract(contractFile.readLine());
-			if (contract != null)
-				this.contractList.add(contract);
-		}
-		contractFile.close();
+	public ContractListImpl() throws Exception {
+		this.contractDao = new ContractDao();
+		this.contractList = contractDao.retrieveAll();
 	}
 
 	public static LocalDate stringToDate(String dateString) {
@@ -38,59 +27,16 @@ public class ContractListImpl {
 		return LocalDate.of(year, month, day);
 	}
 
-	private Contract makeContract(String contractInfo) throws ParseException {
-		Contract contract = new Contract();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-
-		StringTokenizer stringTokenizer = new StringTokenizer(contractInfo);
-//		contract.setContractIndex(Integer.parseInt(stringTokenizer.nextToken()));
-		contract.setCustomerID(stringTokenizer.nextToken());
-		contract.setInsuranceID(stringTokenizer.nextToken());
-		contract.setInsurancePeriod(stringTokenizer.nextToken());
-		contract.setPremium(Integer.parseInt(stringTokenizer.nextToken()));
-		contract.setPaymentCycle(stringTokenizer.nextToken());
-		contract.setMaxCompensation(Integer.parseInt(stringTokenizer.nextToken()));
-		contract.setStringDateOfSubscription(stringTokenizer.nextToken());
-		LocalDate dateOfSubscription = stringToDate(contract.getStringDateOfSubscription());
-		contract.setDateOfSubscription(dateOfSubscription);
-		contract.setStringDateOfMaturity(stringTokenizer.nextToken());
-		LocalDate dateOfMaturity = stringToDate(contract.getStringDateOfMaturity());
-		contract.setDateOfMaturity(dateOfMaturity);
-		contract.setMaturity(Boolean.parseBoolean(stringTokenizer.nextToken()));
-		contract.setResurrection(Boolean.parseBoolean(stringTokenizer.nextToken()));
-		contract.setCancellation(Boolean.parseBoolean(stringTokenizer.nextToken()));
-		contract.setM_Payment(new Payment());
-
-		return contract;
-	}
-
 	public void finalize() throws Throwable {
 
 	}
 
 	public boolean add(Contract contract) throws IOException {
 		if (this.contractList.add(contract)) {
-			updateFile("data/Contract.txt");
+
 			return true;
 		} else
 			return false;
-	}
-
-	private void updateFile(String string) throws IOException {
-		File file = new File(string);
-		if (!file.exists())
-			file.createNewFile();
-		String contractInfo = "";
-		if (!contractList.isEmpty()) {
-			contractInfo = contractList.get(0).toString();
-		}
-		BufferedWriter contractFileWriter = new BufferedWriter(new FileWriter(file));
-		for (int i = 1; i < this.contractList.size(); i++)
-			contractInfo = contractInfo + "\r\n" + contractList.get(i).toString();
-		contractFileWriter.write(contractInfo);
-		contractFileWriter.flush();
-		contractFileWriter.close();
-
 	}
 
 	public boolean delete() {
@@ -140,8 +86,8 @@ public class ContractListImpl {
 		for (int i = 0; i < this.contractList.size(); i++) {
 			if (this.contractList.get(i).getCustomerID().equals(customerId)
 					&& contractList.get(i).getInsuranceID().equals(insuranceId)) {
-				this.contractList.get(i).updateCancellation();
-				updateFile("data/Contract.txt");
+
+				contractDao.updateCancellation(customerId, insuranceId, !this.contractList.get(i).isCancellation());
 				return true;
 			}
 		}
@@ -199,5 +145,17 @@ public class ContractListImpl {
 			}
 		}
 		return premiums;
+	}
+
+	public boolean update(Contract updatedContract) {
+		for (int i = 0; i < this.contractList.size(); i++) {
+			Contract contract = (Contract) this.contractList.get(i);
+			if (contract.match(updatedContract.getInsuranceID(), updatedContract.getCustomerID())) {
+				this.contractList.set(i, updatedContract);
+				contractDao.update(updatedContract);
+				return true;
+			}
+		}
+		return false;
 	}
 }// end ContractListImpl
