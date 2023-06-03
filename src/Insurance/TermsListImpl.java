@@ -1,6 +1,7 @@
 package Insurance;
 
 import java.util.ArrayList;
+
 import Dao.TermsDao;
 
 public class TermsListImpl implements TermsList{

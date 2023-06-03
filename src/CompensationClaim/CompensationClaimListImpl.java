@@ -1,12 +1,8 @@
 package CompensationClaim;
 
-import Dao.CompensationClaimDao;
-import Insurance.Guarantee;
-import Insurance.InsuranceApplication;
 
-import java.io.*;
+import Dao.CompensationClaimDao;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class CompensationClaimListImpl {
 

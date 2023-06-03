@@ -1,28 +1,5 @@
 package UI;
 
-import CompensationClaim.*;
-import Contract.Contract;
-import Contract.ContractListImpl;
-import Contract.Payment;
-import Contract.PaymentListImpl;
-import Counsel.Counsel;
-import Counsel.CounselApplication;
-import Counsel.CounselApplicationListImpl;
-import Customer.Customer;
-import Customer.Customer.EGender;
-import Customer.CustomerListImpl;
-import Customer.CustomerListImpl.TargetType;
-import Customer.FamilyHistory;
-import Customer.FamilyHistoryListImpl;
-import Insurance.Insurance;
-import Insurance.InsuranceListImpl;
-import Insurance.Terms;
-import Insurance.TermsListImpl;
-import Insurance.Guarantee;
-import Insurance.GuaranteeListImpl;
-import Insurance.InsuranceApplication;
-import Insurance.InsuranceApplicationListImpl;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,6 +17,34 @@ import java.util.List;
 //import java.rmi.RemoteException;
 import java.util.Map;
 
+import CompensationClaim.CarAccident;
+import CompensationClaim.CarAccidentListImpl;
+import CompensationClaim.CompensationClaim;
+import CompensationClaim.CompensationClaimListImpl;
+import CompensationClaim.Survey;
+import CompensationClaim.SurveyListImpl;
+import Contract.Contract;
+import Contract.ContractListImpl;
+import Contract.Payment;
+import Contract.PaymentListImpl;
+import Counsel.Counsel;
+import Counsel.CounselApplication;
+import Counsel.CounselApplicationListImpl;
+import Customer.Customer;
+import Customer.Customer.EGender;
+import Customer.CustomerListImpl;
+import Customer.CustomerListImpl.TargetType;
+import Customer.FamilyHistory;
+import Customer.FamilyHistoryListImpl;
+import Insurance.Guarantee;
+import Insurance.GuaranteeListImpl;
+import Insurance.Insurance;
+import Insurance.InsuranceApplication;
+import Insurance.InsuranceApplicationListImpl;
+import Insurance.InsuranceListImpl;
+import Insurance.Terms;
+import Insurance.TermsListImpl;
+
 public class Main {
 
 	public static void main(String[] args) throws Exception {
@@ -50,11 +55,13 @@ public class Main {
 		InsuranceListImpl insuranceList = new InsuranceListImpl();
 		GuaranteeListImpl guaranteeList = new GuaranteeListImpl();
 		TermsListImpl termsListImpl = new TermsListImpl();
+
 		CounselApplicationListImpl counselApplicationList = new CounselApplicationListImpl();
 		FamilyHistoryListImpl familyHistoryList = new FamilyHistoryListImpl();
 		CustomerListImpl customerList = new CustomerListImpl();
-		ContractListImpl contractListImpl = new ContractListImpl("data/Contract.txt");
-		PaymentListImpl paymentListImpl = new PaymentListImpl("data/Payment.txt");
+		ContractListImpl contractListImpl = new ContractListImpl();
+		PaymentListImpl paymentListImpl = new PaymentListImpl();
+
 		String userChoice = "";
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -88,8 +95,8 @@ public class Main {
 				showManageConsultation(inputReader, counselApplicationList, customerList);
 				break;
 			case "8":
-				showInsuranceApplicationList(contractListImpl, insuranceApplicationList, insuranceList,
-						customerList, familyHistoryList, inputReader);
+				showInsuranceApplicationList(contractListImpl, insuranceApplicationList, insuranceList, customerList,
+						familyHistoryList, inputReader);
 				break;
 			case "9":
 				showSubscriptionInsurance(inputReader, contractListImpl, customerList, insuranceList);
@@ -213,7 +220,7 @@ public class Main {
 		} else {
 			System.out.println("거절 사유: ");
 			insuranceApplication.setReasonOfApproval(inputReader.readLine().trim());
-			System.out.println(insuranceApplication.getReasonOfApproval() + "\n위 사유로 인해 "
+			System.out.println(insuranceApplication.getReasonOfApproval() + "\n위 사유로 인해"
 					+ insuranceApplication.getApplicationID() + " 보험 가입이 거절되었습니다.");
 		}
 		insuranceApplicationList.updateInsuranceApplication(insuranceApplication);
@@ -620,9 +627,8 @@ public class Main {
 	}
 
 	private static void showCustomerList(CustomerListImpl customerList, BufferedReader inputReader,
-			FamilyHistoryListImpl familyHistoryList, ContractListImpl contractListImpl,
-			InsuranceListImpl insuranceList, PaymentListImpl paymentListImpl,
-			CompensationClaimListImpl compensationClaimList) throws Exception {
+			FamilyHistoryListImpl familyHistoryList, ContractListImpl contractListImpl, InsuranceListImpl insuranceList,
+			PaymentListImpl paymentListImpl, CompensationClaimListImpl compensationClaimList) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("고객 조회 메뉴입니다.");
 		System.out.println("1. 고객 정보 조회");
@@ -893,7 +899,6 @@ public class Main {
 		return carAccident;
 	}
 
-
 	private static void designInsurance(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl,
 			CustomerListImpl customerList, FamilyHistoryListImpl familyHistoryList, GuaranteeListImpl guaranteeList,
 			BufferedReader inputReader, InsuranceApplicationListImpl insuranceApplicationList) throws Exception {
@@ -905,28 +910,39 @@ public class Main {
 			System.out.println("선택 : ");
 			choice = inputReader.readLine().trim();
 
-
-			if (choice.equals("1")) showDesignedInsurance(insuranceListImpl, guaranteeList, inputReader);
-			else if (choice.equals("2")) createInsurance(insuranceListImpl, inputReader);
-			else if (choice.equals("3")) termsManagement(insuranceListImpl, termsListImpl, inputReader);
-			else if (choice.equals("4")) showOnSaleInsurance(insuranceListImpl, insuranceApplicationList, customerList, familyHistoryList,
-					guaranteeList, termsListImpl, inputReader, "Manager");
-			else if (choice.equals("x")) break;
-			else System.out.println("잘못된 선택지입니다.");}
+			if (choice.equals("1"))
+				showDesignedInsurance(insuranceListImpl, guaranteeList, inputReader);
+			else if (choice.equals("2"))
+				createInsurance(insuranceListImpl, inputReader);
+			else if (choice.equals("3"))
+				termsManagement(insuranceListImpl, termsListImpl, inputReader);
+			else if (choice.equals("4"))
+				showOnSaleInsurance(insuranceListImpl, insuranceApplicationList, customerList, familyHistoryList,
+						guaranteeList, termsListImpl, inputReader, "Manager");
+			else if (choice.equals("x"))
+				break;
+			else
+				System.out.println("잘못된 선택지입니다.");
+		}
 	}
-	private static void termsManagement(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl, BufferedReader inputReader) throws Exception {
+
+	private static void termsManagement(InsuranceListImpl insuranceListImpl, TermsListImpl termsListImpl,
+			BufferedReader inputReader) throws Exception {
 		while (true) {
 			System.out.println("****************** 약관 관리 화면 *******************");
 			System.out.println("1. 약관 조회 2. 새 약관 등록 x. 종료");
 			System.out.println("선택 : ");
 			String choice = inputReader.readLine().trim();
-			if (choice.equals("1")) showList(termsListImpl.retrieveAllTerms());
-			else if (choice.equals("2")) createTerms(termsListImpl, inputReader);
-			else if (choice.equals("x")) break;
-			else System.out.println("잘못된 선택지입니다.");
+			if (choice.equals("1"))
+				showList(termsListImpl.retrieveAllTerms());
+			else if (choice.equals("2"))
+				createTerms(termsListImpl, inputReader);
+			else if (choice.equals("x"))
+				break;
+			else
+				System.out.println("잘못된 선택지입니다.");
 		}
 	}
-
 
 	private static void createTerms(TermsListImpl termsListImpl, BufferedReader inputReader) throws Exception {
 
@@ -941,71 +957,98 @@ public class Main {
 		System.out.println("지급보험금 산정방식: ");
 		terms.setCalculatedMoneyMethod(inputReader.readLine().trim());
 		System.out.println("입력한 내용을 저장하시겠습니까? (Y/N)");
-		while(true) {
-		System.out.println("선택 : ");
-		String save = inputReader.readLine().trim();
-		if (save.equals("Y") && terms.checkAllFillIn()== true) {
-			if (termsListImpl.createTerms(terms)) System.out.println("저장되었습니다.");
-			else System.out.println("저장되지 않았습니다.");	
-		break;}
-		else if(save.equals("Y") && terms.checkAllFillIn() == false) {System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해 주세요"); break;}
-		else if(save.equals("N")) { System.out.println("저장을 취소했습니다."); break;}
-		else System.out.println("Y/N중 하나는 입력하셔야합니다.");
+		while (true) {
+			System.out.println("선택 : ");
+			String save = inputReader.readLine().trim();
+			if (save.equals("Y") && terms.checkAllFillIn() == true) {
+				if (termsListImpl.createTerms(terms))
+					System.out.println("저장되었습니다.");
+				else
+					System.out.println("저장되지 않았습니다.");
+				break;
+			} else if (save.equals("Y") && terms.checkAllFillIn() == false) {
+				System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해 주세요");
+				break;
+			} else if (save.equals("N")) {
+				System.out.println("저장을 취소했습니다.");
+				break;
+			} else
+				System.out.println("Y/N중 하나는 입력하셔야합니다.");
 		}
 
 	}
 
-	private static void showDesignedInsurance(InsuranceListImpl insuranceListImpl, GuaranteeListImpl guaranteeList, BufferedReader inputReader) throws Exception {
+	private static void showDesignedInsurance(InsuranceListImpl insuranceListImpl, GuaranteeListImpl guaranteeList,
+			BufferedReader inputReader) throws Exception {
 		while (true) {
 			System.out.println("****************** 설계 보험 관리 화면 *******************");
 			showList(insuranceListImpl.getUnregisteredInsuranceList());
 			System.out.println("1. 설계서 수정/삭제하기 2. 보험 등록하기 3. 금융감독원에 인가 요청 x. 종료");
 			System.out.println("선택 : ");
 			String choice = inputReader.readLine().trim();
-			if (choice.equals("1")) updateInsuranceDetail(insuranceListImpl, guaranteeList, inputReader);
-			else if (choice.equals("2")) registerInsurance(insuranceListImpl, inputReader);
-			else if (choice.equals("3")) requestAuthorization(insuranceListImpl, inputReader);
-			else if (choice.equals("x")) break;
-			else System.out.println("잘못된 선택지입니다.");}
+			if (choice.equals("1"))
+				updateInsuranceDetail(insuranceListImpl, guaranteeList, inputReader);
+			else if (choice.equals("2"))
+				registerInsurance(insuranceListImpl, inputReader);
+			else if (choice.equals("3"))
+				requestAuthorization(insuranceListImpl, inputReader);
+			else if (choice.equals("x"))
+				break;
+			else
+				System.out.println("잘못된 선택지입니다.");
+		}
 	}
-	
 
 	private static void requestAuthorization(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
 			throws IOException {
 		System.out.println("****************** 인가 요청 화면 *******************");
 		System.out.println("인가를 요청할 보험 ID를 입력하세요. 없으면 x를 입력하세요");
-		while(true) {
-		System.out.println("선택 : ");
-		String insuranceID = inputReader.readLine().trim();
-		if (!insuranceID.equals("x") && !insuranceID.equals(null)) {
-			String insuranceName = insuranceListImpl.requestAuthorization(insuranceID);
-			if (!insuranceName.equals(null)) System.out.println(insuranceName + "인가 신청이 완료되었습니다. 인가 완료까지 수 일이 소요될 수 있습니다.");
-			else System.out.println("신청에 실패했습니다."); 
-			break;} 
-		else if (insuranceID.equals("x")) { System.out.println("이전화면으로 돌아갑니다."); break;}
-		else if (insuranceID.equals(null)) System.out.println("아무것도 입력되지 않았습니다.");}
-	}
-	private static void registerInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
-			System.out.println("****************** 보험 등록 화면 *******************");
-			System.out.println("판매중으로 등록할 보험 ID를 입력하세요. 없으면 x를 입력하세요");
+		while (true) {
 			System.out.println("선택 : ");
 			String insuranceID = inputReader.readLine().trim();
 			if (!insuranceID.equals("x") && !insuranceID.equals(null)) {
-				while(true) {
+				String insuranceName = insuranceListImpl.requestAuthorization(insuranceID);
+				if (!insuranceName.equals(null))
+					System.out.println(insuranceName + "인가 신청이 완료되었습니다. 인가 완료까지 수 일이 소요될 수 있습니다.");
+				else
+					System.out.println("신청에 실패했습니다.");
+				break;
+			} else if (insuranceID.equals("x")) {
+				System.out.println("이전화면으로 돌아갑니다.");
+				break;
+			} else if (insuranceID.equals(null))
+				System.out.println("아무것도 입력되지 않았습니다.");
+		}
+	}
+
+	private static void registerInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
+			throws Exception {
+		System.out.println("****************** 보험 등록 화면 *******************");
+		System.out.println("판매중으로 등록할 보험 ID를 입력하세요. 없으면 x를 입력하세요");
+		System.out.println("선택 : ");
+		String insuranceID = inputReader.readLine().trim();
+		if (!insuranceID.equals("x") && !insuranceID.equals(null)) {
+			while (true) {
 				System.out.println("금융감독원에 의해 인가받은 보험이 확실합니까? (Y/N)");
 				System.out.println("선택 : ");
 				String choice = inputReader.readLine().trim();
 				if (choice.equals("Y")) {
-					if (insuranceListImpl.updateAuthorization(insuranceID, true)) System.out.println("신규 보험 등록이 완료되었습니다.");
-					else System.out.println("존재하지 않는 보험ID입니다.");
-					break;}
-				else if(choice.equals("N")) {System.out.println("신청이 취소되었습니다.");break;}
-				else System.out.println("Y/N 중 하나를 입력해주세요");
-				}}
-			else if (insuranceID.equals(null)) System.out.println("아무것도 입력되지 않았습니다.");
-			else if (insuranceID.equals("x")) System.out.println("보험 등록을 종료합니다.");
-		}
-
+					if (insuranceListImpl.updateAuthorization(insuranceID, true))
+						System.out.println("신규 보험 등록이 완료되었습니다.");
+					else
+						System.out.println("존재하지 않는 보험ID입니다.");
+					break;
+				} else if (choice.equals("N")) {
+					System.out.println("신청이 취소되었습니다.");
+					break;
+				} else
+					System.out.println("Y/N 중 하나를 입력해주세요");
+			}
+		} else if (insuranceID.equals(null))
+			System.out.println("아무것도 입력되지 않았습니다.");
+		else if (insuranceID.equals("x"))
+			System.out.println("보험 등록을 종료합니다.");
+	}
 
 	private static void showOnSaleInsurance(InsuranceListImpl insuranceListImpl,
 			InsuranceApplicationListImpl insuranceApplicationList, CustomerListImpl customerList,
@@ -1018,14 +1061,22 @@ public class Main {
 			System.out.println("1. 전체, 2. 자동차보험, 3. 건강보험, 4. 종신보험, 5. 화재보험 6. 재물보험 x. 조회 종료");
 			System.out.println("선택 : ");
 			insuranceType = inputReader.readLine().trim();
-			if (insuranceType.equals("1")) showList(insuranceListImpl.getOnSaleInsuranceList());
-			else if (insuranceType.equals("2")) showList(insuranceListImpl.retrieveInsurance("Car"));
-			else if (insuranceType.equals("3")) showList(insuranceListImpl.retrieveInsurance("Health"));
-			else if (insuranceType.equals("4")) showList(insuranceListImpl.retrieveInsurance("Life"));
-			else if (insuranceType.equals("5")) showList(insuranceListImpl.retrieveInsurance("Fire"));
-			else if (insuranceType.equals("6")) showList(insuranceListImpl.retrieveInsurance("Property"));
-			else if (!insuranceType.equals("x")) System.out.println("잘못된 선택지입니다.");
-			else if (insuranceType.equals("x")) break;
+			if (insuranceType.equals("1"))
+				showList(insuranceListImpl.getOnSaleInsuranceList());
+			else if (insuranceType.equals("2"))
+				showList(insuranceListImpl.retrieveInsurance("Car"));
+			else if (insuranceType.equals("3"))
+				showList(insuranceListImpl.retrieveInsurance("Health"));
+			else if (insuranceType.equals("4"))
+				showList(insuranceListImpl.retrieveInsurance("Life"));
+			else if (insuranceType.equals("5"))
+				showList(insuranceListImpl.retrieveInsurance("Fire"));
+			else if (insuranceType.equals("6"))
+				showList(insuranceListImpl.retrieveInsurance("Property"));
+			else if (!insuranceType.equals("x"))
+				System.out.println("잘못된 선택지입니다.");
+			else if (insuranceType.equals("x"))
+				break;
 			if (who.equals("Customer")) {
 				System.out.println("보험 신청 메뉴로 이동하시겠습니까? (Y/N)");
 				String choice = inputReader.readLine().trim();
@@ -1089,10 +1140,10 @@ public class Main {
 		System.out.println("********** 보험 약관 안내 **********");
 		System.out.println("--------보험 정보--------");
 
-		System.out.println("보험종류: " + insurance.getType() + "\n보험명: " + insurance.getInsuranceName()
-				+ "\n최대보장한도: " + insurance.getMaxCompensation() + "\n보험기간: "
-				+ insurance.getPeriodOfInsurance() + "\n납입기간: " + insurance.getPaymentPeriod() + "\n가입나이: "
-				+ insurance.getAgeOfTarget() + "\n납입주기: " + insurance.getPaymentCycle() + "\n보장내용(보통약관)");
+		System.out.println("보험종류: " + insurance.getType() + "\n보험명: " + insurance.getInsuranceName() + "\n최대보장한도: "
+				+ insurance.getMaxCompensation() + "\n보험기간: " + insurance.getPeriodOfInsurance() + "\n납입기간: "
+				+ insurance.getPaymentPeriod() + "\n가입나이: " + insurance.getAgeOfTarget() + "\n납입주기: "
+				+ insurance.getPaymentCycle() + "\n보장내용(보통약관)");
 
 		ArrayList<Guarantee> guarantees = guaranteeList.getAllGuranteeByID(insurance.getInsuranceID());
 		for (int i = 0; i < guarantees.size(); i++) {
@@ -1122,7 +1173,8 @@ public class Main {
 			return false;
 	}
 
-	private static void updateInsuranceDetail(InsuranceListImpl insuranceListImpl, GuaranteeListImpl guaranteeList, BufferedReader inputReader) throws Exception {
+	private static void updateInsuranceDetail(InsuranceListImpl insuranceListImpl, GuaranteeListImpl guaranteeList,
+			BufferedReader inputReader) throws Exception {
 		while (true) {
 			System.out.println("****************** 설계서 관리 화면 *******************");
 			System.out.println("수정/삭제할 설계서의 보험 ID를 입력하세요. 없으면 x를 입력하세요");
@@ -1130,102 +1182,164 @@ public class Main {
 			Insurance insurance;
 			System.out.println("보험 ID : ");
 			insuranceID = inputReader.readLine().trim();
-			if(!insuranceListImpl.isExistInsuranceDesign(insuranceID)) {System.out.println("존재하지 않는 보험 설계서입니다."); break;}
+			if (!insuranceListImpl.isExistInsuranceDesign(insuranceID)) {
+				System.out.println("존재하지 않는 보험 설계서입니다.");
+				break;
+			}
 			if (!insuranceID.equals("x")) {
 				insurance = insuranceListImpl.retrieveInsuranceDetail(insuranceID);
 				System.out.println(insurance.toStringDesignInsurance());
 				System.out.println("1. 수정, 2. 삭제");
 				String choice = inputReader.readLine().trim();
-				if (choice.equals("1")) updateInsurance(insurance, guaranteeList, insuranceListImpl, inputReader);
-				else if (choice.equals("2")) deleteInsurance(insuranceListImpl, insurance.getInsuranceID(), inputReader);
-				else System.out.println("잘못된 선택지 입니다.");} 
-			else if (insuranceID.equals("x")) break;
-			else if (!insuranceID.equals(null)) System.out.println("아무것도 입력되지 않았습니다.");}
+				if (choice.equals("1"))
+					updateInsurance(insurance, guaranteeList, insuranceListImpl, inputReader);
+				else if (choice.equals("2"))
+					deleteInsurance(insuranceListImpl, insurance.getInsuranceID(), inputReader);
+				else
+					System.out.println("잘못된 선택지 입니다.");
+			} else if (insuranceID.equals("x"))
+				break;
+			else if (!insuranceID.equals(null))
+				System.out.println("아무것도 입력되지 않았습니다.");
+		}
 	}
 
-	
 	private static boolean isInteger(String input) {
-	    try {
-	      Integer.parseInt(input);
-	      return true;
-	    } catch (NumberFormatException ex) {
-	      return false;
-	    }
-	  }
+		try {
+			Integer.parseInt(input);
+			return true;
+		} catch (NumberFormatException ex) {
+			return false;
+		}
+	}
 
-	private static void createInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
+	private static void createInsurance(InsuranceListImpl insuranceListImpl, BufferedReader inputReader)
+			throws Exception {
 
 		Insurance insurance = new Insurance();
 		System.out.println("--------보험 설계 화면---------");
-		System.out.println("보험 ID : "); insurance.setInsuranceID(inputReader.readLine().trim());
-		System.out.println("보험명 : "); insurance.setInsuranceName(inputReader.readLine().trim());
-		System.out.println("보험 종류 : "); insurance.setType(inputReader.readLine().trim());
-		while(true) {
-		System.out.println("보험가입금액 : "); String input = inputReader.readLine().trim();
-		if(isInteger(input)) { insurance.setMaxCompensation(Integer.valueOf(input)); break;}
-		else System.out.println("숫자로 입력해주세요");
+		System.out.println("보험 ID : ");
+		insurance.setInsuranceID(inputReader.readLine().trim());
+		System.out.println("보험명 : ");
+		insurance.setInsuranceName(inputReader.readLine().trim());
+		System.out.println("보험 종류 : ");
+		insurance.setType(inputReader.readLine().trim());
+		while (true) {
+			System.out.println("보험가입금액 : ");
+			String input = inputReader.readLine().trim();
+			if (isInteger(input)) {
+				insurance.setMaxCompensation(Integer.valueOf(input));
+				break;
+			} else
+				System.out.println("숫자로 입력해주세요");
 		}
-		System.out.println("보험 기간 : "); insurance.setPeriodOfInsurance(inputReader.readLine().trim());
-		System.out.println("납입 주기 : "); insurance.setPaymentCycle(inputReader.readLine().trim());
-		System.out.println("납입 기간 : "); insurance.setPaymentPeriod(inputReader.readLine().trim());
-		System.out.println("가입 나이 : "); insurance.setAgeOfTarget(inputReader.readLine().trim());
-		while(true) {
-			System.out.println("기본 보험료 : "); String input = inputReader.readLine().trim();
-			if(isInteger(input)) {insurance.setBasicPremium(Integer.valueOf(input)); break;}
-			else System.out.println("숫자로 입력해주세요");
+		System.out.println("보험 기간 : ");
+		insurance.setPeriodOfInsurance(inputReader.readLine().trim());
+		System.out.println("납입 주기 : ");
+		insurance.setPaymentCycle(inputReader.readLine().trim());
+		System.out.println("납입 기간 : ");
+		insurance.setPaymentPeriod(inputReader.readLine().trim());
+		System.out.println("가입 나이 : ");
+		insurance.setAgeOfTarget(inputReader.readLine().trim());
+		while (true) {
+			System.out.println("기본 보험료 : ");
+			String input = inputReader.readLine().trim();
+			if (isInteger(input)) {
+				insurance.setBasicPremium(Integer.valueOf(input));
+				break;
+			} else
+				System.out.println("숫자로 입력해주세요");
 		}
-		System.out.println("요율 : "); insurance.setRate(inputReader.readLine().trim());
-		System.out.println("배당 여부(False/True) : "); insurance.setDistributionStatus(Boolean.parseBoolean(inputReader.readLine().trim()));
+		System.out.println("요율 : ");
+		insurance.setRate(inputReader.readLine().trim());
+		System.out.println("배당 여부(False/True) : ");
+		insurance.setDistributionStatus(Boolean.parseBoolean(inputReader.readLine().trim()));
 		while (true) {
 			System.out.println("보장 내용(약관ID, 콤마로 구분해주세요) : ");
-			if (insurance.setTermsIDList(inputReader.readLine().trim()) == false) System.out.println("약관ID가 존재하지 않습니다. 다시 입력해주세요");
-			else break;
+			if (insurance.setTermsIDList(inputReader.readLine().trim()) == false)
+				System.out.println("약관ID가 존재하지 않습니다. 다시 입력해주세요");
+			else
+				break;
 		}
-		System.out.println("주의사항 : "); insurance.setPrecaution(inputReader.readLine().trim());
-		System.out.println("보험 면책 기간 : "); insurance.setInsuranceClausePeriod(inputReader.readLine().trim());
+		System.out.println("주의사항 : ");
+		insurance.setPrecaution(inputReader.readLine().trim());
+		System.out.println("보험 면책 기간 : ");
+		insurance.setInsuranceClausePeriod(inputReader.readLine().trim());
 		System.out.println("입력한 내용을 저장하시겠습니까? (Y/N)");
 
-		while(true) {
-		System.out.println("선택 : ");
-		String save = inputReader.readLine().trim();	
-		if (save.equals("Y")&&insurance.checkAllFillIn()==true) {	
-			if(insuranceListImpl.createInsurance(insurance)) System.out.println("저장되었습니다.");
-			else System.out.println("저장에 실패했습니다.");
-			break;}
-		else if(save.equals("Y")&&insurance.checkAllFillIn()==false) {System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해 주세요"); break;}
-		else if(save.equals("N")) {System.out.println("저장을 취소했습니다."); break;}
-		else System.out.println("Y/N중 하나는 입력하셔야합니다.");
+		while (true) {
+			System.out.println("선택 : ");
+			String save = inputReader.readLine().trim();
+			if (save.equals("Y") && insurance.checkAllFillIn() == true) {
+				if (insuranceListImpl.createInsurance(insurance))
+					System.out.println("저장되었습니다.");
+				else
+					System.out.println("저장에 실패했습니다.");
+				break;
+			} else if (save.equals("Y") && insurance.checkAllFillIn() == false) {
+				System.out.println("입력하지 않은 항목이 있습니다. 모든 항목을 입력해 주세요");
+				break;
+			} else if (save.equals("N")) {
+				System.out.println("저장을 취소했습니다.");
+				break;
+			} else
+				System.out.println("Y/N중 하나는 입력하셔야합니다.");
 		}
-	}	
+	}
 
-	private static void updateInsurance(Insurance insurance, GuaranteeListImpl guaranteeList, InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
+	private static void updateInsurance(Insurance insurance, GuaranteeListImpl guaranteeList,
+			InsuranceListImpl insuranceListImpl, BufferedReader inputReader) throws Exception {
 		String choice = "";
 		System.out.println("수정할 정보를 선택하고 내용을 입력하세요.");
 		System.out.println(
 				"1. 보험 ID, 2. 보험 이름, 3. 보험 종류, 4. 보험가입금액, 5. 보험 기간, 6. 납입 주기, 7. 납입 기간, 8. 가입 나이, 9. 기본 보험료, 10. 요율, "
 						+ "11. 배당 여부(False/True), 12. 보장 내용(약관ID, 콤마로 구분해주세요), 13. 주의사항, 14. 보험 면책 기간");
-		System.out.println("수정할 정보 : "); choice = inputReader.readLine().trim();
-		System.out.println("수정할 내용 :"); String content = inputReader.readLine().trim();
+		System.out.println("수정할 정보 : ");
+		choice = inputReader.readLine().trim();
+		System.out.println("수정할 내용 :");
+		String content = inputReader.readLine().trim();
 		switch (choice) {
-		case ("1"): insurance.setInsuranceID(content); break;
-		case ("2"): insurance.setInsuranceName(content); break;
-		case ("3"): insurance.setType(content); break;
-		case ("4"): 
-			if(isInteger(content)) insurance.setMaxCompensation(Integer.valueOf(content)); 
-			else System.out.println("숫자로 입력되지 않아 수정이 저장되지 않았습니다.");
+		case ("1"):
+			insurance.setInsuranceID(content);
 			break;
-		case ("5"): insurance.setPeriodOfInsurance(content); break;
-		case ("6"): insurance.setPaymentCycle(content); break;
-		case ("7"): insurance.setPaymentPeriod(content); break;
-		case ("8"): insurance.setAgeOfTarget(content); break;
+		case ("2"):
+			insurance.setInsuranceName(content);
+			break;
+		case ("3"):
+			insurance.setType(content);
+			break;
+		case ("4"):
+			if (isInteger(content))
+				insurance.setMaxCompensation(Integer.valueOf(content));
+			else
+				System.out.println("숫자로 입력되지 않아 수정이 저장되지 않았습니다.");
+			break;
+		case ("5"):
+			insurance.setPeriodOfInsurance(content);
+			break;
+		case ("6"):
+			insurance.setPaymentCycle(content);
+			break;
+		case ("7"):
+			insurance.setPaymentPeriod(content);
+			break;
+		case ("8"):
+			insurance.setAgeOfTarget(content);
+			break;
 		case ("9"):
-			if(isInteger(content)) insurance.setBasicPremium(Integer.valueOf(content));
-			else System.out.println("숫자로 입력되지 않아 수정이 저장되지 않았습니다.");
+			if (isInteger(content))
+				insurance.setBasicPremium(Integer.valueOf(content));
+			else
+				System.out.println("숫자로 입력되지 않아 수정이 저장되지 않았습니다.");
 			break;
-		case ("10"): insurance.setRate(content); break;
-		case ("11"): insurance.setDistributionStatus(Boolean.parseBoolean(content)); break;
-		case ("12"): 
-			if(insurance.setTermsIDList(content)) { 
+		case ("10"):
+			insurance.setRate(content);
+			break;
+		case ("11"):
+			insurance.setDistributionStatus(Boolean.parseBoolean(content));
+			break;
+		case ("12"):
+			if (insurance.setTermsIDList(content)) {
 				guaranteeList.deleteGuranteeById(insurance.getInsuranceID());
 				String[] termsIDListSplit = content.split(",");
 				Guarantee guarantee = new Guarantee();
@@ -1234,38 +1348,54 @@ public class Main {
 					guarantee.setTermsID(termsIDListSplit[i]);
 					guaranteeList.create(guarantee);
 				}
-				}
-			else System.out.println("약관 ID가 존재하지 않아 수정이 저장되지 않았습니다."); 
+			} else
+				System.out.println("약관 ID가 존재하지 않아 수정이 저장되지 않았습니다.");
 			break;
-		case ("13"): insurance.setPrecaution(content); break;
-		case ("14"): insurance.setInsuranceClausePeriod(content); break;
-		default: System.out.println("올바르지 않은 선택지입니다.");
+		case ("13"):
+			insurance.setPrecaution(content);
+			break;
+		case ("14"):
+			insurance.setInsuranceClausePeriod(content);
+			break;
+		default:
+			System.out.println("올바르지 않은 선택지입니다.");
 		}
-		
+
 		System.out.println("수정한 내용을 저장하시겠습니까? (Y/N)");
 		System.out.println(insurance.toStringDesignInsurance());
-		while(true) {
-		System.out.println("선택 : ");
-		String save = inputReader.readLine().trim();	
-		if (save.equals("Y")) {	
-			if (insuranceListImpl.updateinsurance(insurance)) System.out.println("수정이 저장되었습니다.");
-			else System.out.println("수정에 실패했습니다.");
-			break;}
-		else if(save.equals("N")) {System.out.println("저장을 취소했습니다."); break;}
-		else System.out.println("Y/N중 하나는 입력하셔야합니다.");
-		}	
+		while (true) {
+			System.out.println("선택 : ");
+			String save = inputReader.readLine().trim();
+			if (save.equals("Y")) {
+				if (insuranceListImpl.updateinsurance(insurance))
+					System.out.println("수정이 저장되었습니다.");
+				else
+					System.out.println("수정에 실패했습니다.");
+				break;
+			} else if (save.equals("N")) {
+				System.out.println("저장을 취소했습니다.");
+				break;
+			} else
+				System.out.println("Y/N중 하나는 입력하셔야합니다.");
+		}
 	}
 
-	private static void deleteInsurance(InsuranceListImpl insuranceListImpl, String insuranceID, BufferedReader inputReader) throws Exception {
+	private static void deleteInsurance(InsuranceListImpl insuranceListImpl, String insuranceID,
+			BufferedReader inputReader) throws Exception {
 		System.out.println("보험ID : " + insuranceID + "를 삭제하시겠습니까? (Y/N)");
-		while(true) {
-		String choice = inputReader.readLine().trim();
-		if (choice.equals("Y")) {
-			if (insuranceListImpl.deleteInsurance(insuranceID)) System.out.println("삭제되었습니다.");
-			else System.out.println("삭제에 실패하였습니다.");
-			break;}
-		else if (choice.equals("N")) System.out.println("삭제가 취소되었습니다.");
-		else System.out.println("Y/N 중 하나를 입력해야합니다.");}
+		while (true) {
+			String choice = inputReader.readLine().trim();
+			if (choice.equals("Y")) {
+				if (insuranceListImpl.deleteInsurance(insuranceID))
+					System.out.println("삭제되었습니다.");
+				else
+					System.out.println("삭제에 실패하였습니다.");
+				break;
+			} else if (choice.equals("N"))
+				System.out.println("삭제가 취소되었습니다.");
+			else
+				System.out.println("Y/N 중 하나를 입력해야합니다.");
+		}
 	}
 
 	private static void showList(ArrayList<?> dataList) {
@@ -1275,7 +1405,6 @@ public class Main {
 		}
 		System.out.println(list);
 	}
-
 
 	private static void showMenu() {
 		System.out.println("\n****************** Initial Menu *******************");
@@ -1341,7 +1470,6 @@ public class Main {
 					centerAlign(columns[3], 15), centerAlign(columns[4], 10), centerAlign(columns[5], 12),
 					centerAlign(columns[6], 12), centerAlign(columns[7], 10), centerAlign(columns[8], 10),
 					centerAlign(columns[9], 12), centerAlign(columns[10], 11), centerAlign(columns[11], 10));
-
 		}
 
 		while (true) {
@@ -1598,92 +1726,114 @@ public class Main {
 			String combinedLine = customerInfoStr + " " + premiumInsuranceStr;
 			customerPaymentList.add(combinedLine);
 		}
-
-		System.out.println("\n[ 납입 관리 화면 ]");
-		System.out.println("___________________________________________________________________\n");
-		System.out.printf("%10s %10s %20s %10s\n", centerAlign("고객명", 10), centerAlign("고객 연락처", 10),
-				centerAlign("보험명", 13), centerAlign("납입내역버튼", 8));
-		System.out.println("___________________________________________________________________");
-		int paymentBtn = 0;
-		for (String paymentLine : customerPaymentList) {
-			String[] paymentInfo = paymentLine.split(" ");
-			String customerInfoStr = (paymentInfo.length > 0) ? paymentInfo[0] : "";
-			String insuranceNameStr = (paymentInfo.length > 1) ? paymentInfo[1] : "";
-			String premiumStr = (paymentInfo.length > 2) ? paymentInfo[2] : "";
-			System.out.printf("%10s %10s %20s %10s\n", centerAlign(customerInfoStr, 10),
-					centerAlign(insuranceNameStr, 10), centerAlign(premiumStr, 10), Integer.toString(paymentBtn));
-			paymentBtn++;
-		}
-
-		System.out.print("\n\n• 납입내역버튼 선택 (버튼 번호 입력 또는 X 입력하여 종료): ");
-		String choice = inputReader.readLine().trim();
-
-		while (!choice.equalsIgnoreCase("X")) {
-			int selectedBtn = Integer.parseInt(choice);
-			if (selectedBtn >= 0 && selectedBtn < customerPaymentList.size()) {
-				String selectedPaymentLine = customerPaymentList.get(selectedBtn);
-				String[] selectedPaymentInfo = selectedPaymentLine.split(" ");
-				String selectedCustomerName = selectedPaymentInfo[0];
-				String selectedInsuranceName = selectedPaymentInfo[2];
-				String selectedCustomerId = customerId.get(selectedBtn);
-				String selectedInsuranceId = insuranceId.get(selectedBtn);
-				String paymentStatus = "";
-				ArrayList<String> selectedPaymentList = paymentListImpl.retreiveDateStatusById(selectedCustomerId,
-						selectedInsuranceId);
-				ArrayList<String> selectedPremium = contractListImpl.retreivePremiumById(selectedCustomerId,
-						selectedInsuranceId);
-
-				System.out.println("\n[ 납입 내역 ]");
-				System.out.println(
-						"____________________________________________________________________________________________________\n");
-				System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s\n", centerAlign("고객명", 15),
-						centerAlign("보험명", 15), centerAlign("보험료", 15), centerAlign("납입일", 15), centerAlign("납입여부", 15),
-						centerAlign("납입상태변경버튼", 15));
-				System.out.println(
-						"____________________________________________________________________________________________________");
-
-				int paymentStatusBtn = 0;
-				for (int i = 0; i < Math.min(selectedPaymentList.size(), selectedPremium.size()); i++) {
-					String paymentLine = selectedPaymentList.get(i);
-					String[] paymentInfo = paymentLine.split(" ");
-					String paymentDate = (paymentInfo.length > 0) ? paymentInfo[0] : "";
-					paymentStatus = (paymentInfo.length > 1) ? paymentInfo[1] : "";
-
-					System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s\n", centerAlign(selectedCustomerName, 15),
-							centerAlign(selectedInsuranceName, 15), centerAlign(selectedPremium.get(i), 15),
-							centerAlign(paymentDate, 20), centerAlign(paymentStatus, 12),
-							centerAlign(Integer.toString(paymentStatusBtn), 15));
-					paymentStatusBtn++;
-				}
-
-				System.out.print("\n\n• 납입상태변경버튼 선택 (버튼 번호 입력 또는 Q 입력하여 종료): ");
-				String paymentUpdateBtn = inputReader.readLine().trim();
-				if (paymentUpdateBtn.matches("\\d+")) {
-					int selectedPaymentUpdateBtn = Integer.parseInt(paymentUpdateBtn);
-					if (selectedPaymentUpdateBtn >= 0 && selectedPaymentUpdateBtn < Math.min(selectedPaymentList.size(),
-							selectedPremium.size())) {
-						selectedCustomerId = customerId.get(selectedPaymentUpdateBtn);
-						selectedInsuranceId = insuranceId.get(selectedPaymentUpdateBtn);
-
-						if (contractListImpl.updateCancellation(selectedCustomerId, selectedInsuranceId)
-								&& paymentListImpl.updateCancellation(selectedCustomerId, selectedInsuranceId)) {
-							System.out.println("[System] 납입 상태를 변경했습니다.");
-
-						} else {
-							System.out.println("[System] 납입 상태 변경 실패");
-						}
-					}
-				}
-
-				return;
-
-			} else {
-				System.out.println("[System] 유효하지 않은 버튼 번호입니다.");
-				// 다시 선택
-				System.out.print("\n\n• 납입내역버튼 선택 (버튼 번호 입력 또는 Q 입력하여 종료): ");
-				choice = inputReader.readLine().trim();
+		if (customerPaymentList.isEmpty()) {
+			// A1. 모든 고객의 납입 내역이 존재하지 않을 경우
+			System.out.println("[System] 납입 내역이 존재하지 않습니다.");
+			return;
+		} else {
+			System.out.println("\n[ 납입 관리 화면 ]");
+			System.out.println("___________________________________________________________________\n");
+			System.out.printf("%10s %10s %20s %10s\n", centerAlign("고객명", 10), centerAlign("고객 연락처", 10),
+					centerAlign("보험명", 13), centerAlign("납입내역버튼", 8));
+			System.out.println("___________________________________________________________________");
+			int paymentBtn = 0;
+			for (String paymentLine : customerPaymentList) {
+				String[] paymentInfo = paymentLine.split(" ");
+				String customerInfoStr = (paymentInfo.length > 0) ? paymentInfo[0] : "";
+				String insuranceNameStr = (paymentInfo.length > 1) ? paymentInfo[1] : "";
+				String premiumStr = (paymentInfo.length > 2) ? paymentInfo[2] : "";
+				System.out.printf("%10s %10s %20s %10s\n", centerAlign(customerInfoStr, 10),
+						centerAlign(insuranceNameStr, 10), centerAlign(premiumStr, 10), Integer.toString(paymentBtn));
+				paymentBtn++;
 			}
+
+			System.out.print("\n\n• 납입내역버튼 선택 (버튼 번호 입력 또는 X 입력하여 종료): ");
+			String choice = inputReader.readLine().trim();
+
+			while (!choice.equalsIgnoreCase("X")) {
+				int selectedBtn = Integer.parseInt(choice);
+				if (selectedBtn >= 0 && selectedBtn < customerPaymentList.size()) {
+					String selectedPaymentLine = customerPaymentList.get(selectedBtn);
+					String[] selectedPaymentInfo = selectedPaymentLine.split(" ");
+					String selectedCustomerName = selectedPaymentInfo[0];
+					String selectedInsuranceName = selectedPaymentInfo[2];
+					String selectedCustomerId = customerId.get(selectedBtn);
+					String selectedInsuranceId = insuranceId.get(selectedBtn);
+					String paymentStatus = "";
+					ArrayList<String> selectedPaymentList = paymentListImpl.retreiveDateStatusById(selectedCustomerId,
+							selectedInsuranceId);
+					ArrayList<String> selectedPremium = contractListImpl.retreivePremiumById(selectedCustomerId,
+							selectedInsuranceId);
+
+					if (selectedPaymentList.isEmpty()) {
+						// A2. 해당 고객의 납입 내역이 존재하지 않을 경우
+						System.out.println("[System] " + selectedCustomerName + "님 의 납입내역이 존재하지 않습니다.");
+						return;
+					} else {
+						System.out.println("\n[ 납입 내역 ]");
+						System.out.println(
+								"____________________________________________________________________________________________________\n");
+						System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s\n", centerAlign("고객명", 15),
+								centerAlign("보험명", 15), centerAlign("보험료", 15), centerAlign("납입일", 15),
+								centerAlign("납입여부", 15), centerAlign("납입상태변경버튼", 15));
+						System.out.println(
+								"____________________________________________________________________________________________________");
+						int paymentStatusBtn = 0;
+						for (int i = 0; i < Math.min(selectedPaymentList.size(), selectedPremium.size()); i++) {
+							String paymentLine = selectedPaymentList.get(i);
+							String[] paymentInfo = paymentLine.split(" ");
+							String paymentDate = (paymentInfo.length > 0) ? paymentInfo[0] : "";
+							paymentStatus = (paymentInfo.length > 1) ? paymentInfo[1] : "";
+
+							System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s\n",
+									centerAlign(selectedCustomerName, 15), centerAlign(selectedInsuranceName, 15),
+									centerAlign(selectedPremium.get(i), 15), centerAlign(paymentDate, 20),
+									centerAlign(paymentStatus, 12),
+									centerAlign(Integer.toString(paymentStatusBtn), 15));
+							paymentStatusBtn++;
+						}
+
+					}
+
+					System.out.print("\n\n• 납입상태변경버튼 선택 (버튼 번호 입력 또는 Q 입력하여 종료): ");
+					String paymentUpdateBtn = inputReader.readLine().trim();
+					if (paymentUpdateBtn.matches("\\d+")) {
+						int selectedPaymentUpdateBtn = Integer.parseInt(paymentUpdateBtn);
+						if (selectedPaymentUpdateBtn >= 0 && selectedPaymentUpdateBtn < Math
+								.min(selectedPaymentList.size(), selectedPremium.size())) {
+							selectedCustomerId = customerId.get(selectedPaymentUpdateBtn);
+							selectedInsuranceId = insuranceId.get(selectedPaymentUpdateBtn);
+
+							if (paymentListImpl.updateWhetherPayment(selectedCustomerId, selectedInsuranceId)) {
+
+								System.out.println("[System] " + selectedCustomerName + "님의 " + selectedInsuranceName
+										+ " 납입 상태를 변경했습니다.");
+
+							} else {
+								System.out.println("[System] 납입 상태 변경 실패");
+							}
+						}
+					} else {
+						// A4. 잘못된 납입상태변경버튼을 선택한 경우
+						System.out.println("[System] 유효하지 않은 버튼 번호입니다.");
+						// 다시 선택
+						System.out.print("\n\n• 납입상태변경버튼 선택 (버튼 번호 입력 또는 Q 입력하여 종료): ");
+						paymentUpdateBtn = inputReader.readLine().trim();
+					}
+
+					return;
+
+				} else {
+					// A3. 잘못된 납임내역버튼을 선택한 경우
+					System.out.println("[System] 유효하지 않은 버튼 번호입니다.");
+					// 다시 선택
+					System.out.print("\n\n• 납입내역버튼 선택 (버튼 번호 입력 또는 Q 입력하여 종료): ");
+					choice = inputReader.readLine().trim();
+				}
+			}
+
 		}
+
 	}
 
 // End Of uc36) 고객 납입 여부를 등록하다. 
@@ -1734,20 +1884,25 @@ public class Main {
 			// 납부 여부 확인 및 미납 기간, 미납금 계산
 			for (Payment payment : customerPaymentInfo) {
 				if (payment.getInsuranceID().equals(insuranceId)) {
-					LocalDate paymentDate = LocalDate.parse(payment.getStringDateOfPayment()); // LocalDate로 파싱
-					Date paymentDateConverted = java.sql.Date.valueOf(paymentDate); // Date로 변환
-					int daysDiff = (int) ((today.getTime() - paymentDateConverted.getTime()) / (1000 * 60 * 60 * 24));
+					String dateOfPayment = payment.getStringDateOfPayment();
 
-					if (isPaid) {
-						isPaid = payment.isWhetherPayment();
-					}
+					if (dateOfPayment != null) { // 입력된 날짜 값이 null이 아닌 경우에만 처리
+						LocalDate paymentDate = LocalDate.parse(dateOfPayment); // LocalDate로 파싱
+						Date paymentDateConverted = java.sql.Date.valueOf(paymentDate); // Date로 변환
+						int daysDiff = (int) ((today.getTime() - paymentDateConverted.getTime())
+								/ (1000 * 60 * 60 * 24));
 
-					if (!isPaid && (unpaidDays == 0 || paymentDateConverted.after(today))) {
-						unpaidDays = daysDiff;
-					}
+						if (isPaid) {
+							isPaid = payment.isWhetherPayment();
+						}
 
-					if (!payment.isWhetherPayment()) {
-						unpaidAmount += insurance.getBasicPremium();
+						if (!isPaid && (unpaidDays == 0 || paymentDateConverted.after(today))) {
+							unpaidDays = daysDiff;
+						}
+
+						if (!payment.isWhetherPayment()) {
+							unpaidAmount += insurance.getBasicPremium();
+						}
 					}
 				}
 			}
@@ -1820,9 +1975,10 @@ public class Main {
 					for (Payment payment : customerPaymentInfo) {
 						if (payment.getInsuranceID().equals(selectedInsurance.getInsuranceID())) {
 							payment.setWhetherPayment(true);
+							paymentListImpl.update(payment);
 						}
 					}
-					paymentListImpl.update();
+
 				} else if (paymentMethodInput.equals("2")) {
 					// A3. 월보험료(일부납) 버튼을 클릭할 경우
 					System.out.print("\n• 일부 납부할 금액을 입력해 주세요: ");
@@ -1844,10 +2000,11 @@ public class Main {
 							for (Payment payment : customerPaymentInfo) {
 								if (payment.getInsuranceID().equals(selectedInsurance.getInsuranceID())) {
 									payment.setWhetherPayment(true);
+									paymentListImpl.update(payment);
 								}
 							}
 						}
-						paymentListImpl.update();
+
 					}
 				}
 			}
@@ -1855,11 +2012,10 @@ public class Main {
 			System.out.println("[System] 잘못된 버튼 선택입니다.");
 		}
 	}
-// End Of ux39) 보험료를 납부한다. 
 
-// uc40) 보험료 납부 방식을 변경한다.
+// End Of ux39) 보험료를 납부한다.   
+// uc40) 보험료 납부 방식을 변경한다.  
 	private static void paymentMethodChange(String selectionInput) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -31,8 +31,8 @@ public class PaymentDao extends Dao {
 		}
 	}
 
-	public List<Payment> retrieveAll() {
-		List<Payment> paymentList = new ArrayList<>();
+	public ArrayList<Payment> retrieveAll() {
+		ArrayList<Payment> paymentList = new ArrayList<>();
 		String query = "SELECT * FROM Payment";
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
@@ -79,7 +79,7 @@ public class PaymentDao extends Dao {
 	}
 
 	public void update(Payment payment) {
-		String query = "UPDATE Payment SET insuranceID = ?, dateOfPayment = ?, whetherPayment = ? WHERE customerID = ?";
+		String query = "UPDATE payment SET insuranceID = ?, dateOfPayment = ?, whetherPayment = ? WHERE customerID = ?";
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			// 값 설정
 			statement.setString(1, payment.getInsuranceID());
@@ -94,8 +94,8 @@ public class PaymentDao extends Dao {
 		}
 	}
 
-	public void updateWhetherPayment(String customerID, String insuranceID, boolean whetherPayment) {
-		String query = "UPDATE Payment SET whetherPayment = ? WHERE customerID = ? AND insuranceID = ?";
+	public boolean updateWhetherPayment(String customerID, String insuranceID, boolean whetherPayment) {
+		String query = "UPDATE payment SET whetherPayment = ? WHERE customerID = ? AND insuranceID = ?";
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			// 값 설정
 			statement.setBoolean(1, whetherPayment);
@@ -104,9 +104,12 @@ public class PaymentDao extends Dao {
 
 			// 실행
 			statement.executeUpdate();
+			return true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	public List<String> retrieveUnpaidCustomerId() {
@@ -145,4 +148,5 @@ public class PaymentDao extends Dao {
 
 		return payment;
 	}
+
 }

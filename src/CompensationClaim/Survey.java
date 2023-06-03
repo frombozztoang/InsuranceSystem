@@ -1,7 +1,5 @@
 package CompensationClaim;
 
-import java.io.BufferedReader;
-
 public class Survey {
 	private String CCID;
 	private String managerName;

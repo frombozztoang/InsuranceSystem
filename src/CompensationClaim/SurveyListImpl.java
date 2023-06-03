@@ -1,12 +1,8 @@
 package CompensationClaim;
 
-import Dao.CompensationClaimDao;
-import Dao.SurveyDao;
-import Insurance.Insurance;
 
-import java.io.*;
+import Dao.SurveyDao;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class SurveyListImpl {
 
