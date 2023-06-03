@@ -34,7 +34,6 @@ public class ContractListImpl {
 
 	public boolean add(Contract contract) throws IOException {
 		if (this.contractList.add(contract)) {
-
 			return true;
 		} else
 			return false;
@@ -62,14 +61,11 @@ public class ContractListImpl {
 
 	public ArrayList<String> retreiveCustomerContractStatus(String customerId) {
 		ArrayList<String> contractStatus = new ArrayList<String>();
-		Payment payment = new Payment();
-
 		for (Contract contract : this.contractList) {
 			if (contract.matchCustomerID(customerId)) {
 				contractStatus.add(contract.isMaturity() + " " + contract.isCancellation());
 			}
 		}
-
 		return contractStatus;
 	}
 
@@ -79,7 +75,6 @@ public class ContractListImpl {
 				return contract;
 			}
 		}
-
 		return null;
 	}
 
@@ -87,12 +82,10 @@ public class ContractListImpl {
 		for (int i = 0; i < this.contractList.size(); i++) {
 			if (this.contractList.get(i).getCustomerID().equals(customerId)
 					&& contractList.get(i).getInsuranceID().equals(insuranceId)) {
-
 				contractDao.updateCancellation(customerId, insuranceId, !this.contractList.get(i).isCancellation());
 				return true;
 			}
 		}
-
 		return false; // exception
 	}
 

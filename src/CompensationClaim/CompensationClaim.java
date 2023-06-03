@@ -4,13 +4,13 @@ public class CompensationClaim {
 		protected String CCID;
 		protected String insuranceID;
 		protected String customerID;
-		protected String receptionistName;
-		protected String receptionistPNumber;
-		protected String relationshipOfContractor;
-		protected String documentFilePath;
-		protected String bank;
-		protected String accountNumber;
-		protected String accountHolderName;
+		protected String receptionistName; // 접수자명
+		protected String receptionistPNumber; // 접수자전화번호
+		protected String relationshipOfContractor; // 보험계약자와의 관계
+		protected String documentFilePath; // 파일경로
+		protected String bank; // 은행명
+		protected String accountNumber; // 계좌번호
+		protected String accountHolderName; // 예금주명
 		public Survey m_Survey;
 
 		public CompensationClaim() {
