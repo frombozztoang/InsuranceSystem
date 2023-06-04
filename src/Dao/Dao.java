@@ -155,9 +155,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Dao {
-	private static String dburl = "jdbc:mysql://localhost:3306/insuranceSystem?serverTimezone=UTC";
+	private static String dburl = "jdbc:mysql://localhost:3306/contract";
 	private static String dbUser = "root";
-	private static String dbpasswd = "dlqhgus1";
+	private static String dbpasswd = "1357";
 
 	Connection connect = null;
 	Statement statement = null;

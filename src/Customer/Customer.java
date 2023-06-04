@@ -23,16 +23,6 @@ public class Customer implements Serializable {
 		}
 	}
 
-	public void setEGender(String eGender) {
-		if (eGender.equalsIgnoreCase("MALE")) {
-			this.eGender = EGender.male;
-		} else if (eGender.equalsIgnoreCase("FEMALE")) {
-			this.eGender = EGender.female;
-		} else {
-			// Handle invalid input or throw an exception
-		}
-	}
-
 	private static final long serialVersionUID = 1L;
 	private String address;
 	private String customerID;
@@ -54,6 +44,7 @@ public class Customer implements Serializable {
 				+ this.pnumber + " " + this.job + " " + this.address;
 		return stringReturn;
 	}
+	
 
 	public String getAddress() {
 		return address;
