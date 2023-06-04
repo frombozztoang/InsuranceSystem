@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public interface CounselList {
 
 	
-	public boolean add(CounselList counselList);
+	public boolean add(Counsel counsel)throws Exception;
 
-	public boolean delete(int counselID);
+	public boolean delete(String counselID) throws Exception;
 
-	public ArrayList<CounselList> retrieve();
+	public ArrayList<Counsel> retrieve();
 
-	public boolean update(CounselList counselList,int counselID);
-
+	public void update(Counsel updateCounsel)throws Exception;
+	public Counsel getCounselbyId(String customerID);
 }

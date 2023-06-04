@@ -1,6 +1,9 @@
 package Dao;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import Customer.FamilyHistory;
 
 public class FamilyHistoryDao extends Dao {
@@ -34,6 +37,19 @@ public class FamilyHistoryDao extends Dao {
 			//쿼리 제조
 			String query = "DELETE FROM FamilyHistory;";
 			super.delete(query);
+		}
+		public ArrayList<FamilyHistory> retrieveAll() throws SQLException {
+			String query = "select * from familyhistory;";
+	        ResultSet results = super.retrieve(query);
+	        ArrayList<FamilyHistory> familyHistories = new ArrayList<FamilyHistory>();
+	        while (results.next()) {
+	        	FamilyHistory familyHistory = new FamilyHistory();
+	        	familyHistory.setCustomerID(results.getString("customerID"));
+	        	familyHistory.setDiseaseName(results.getString("diseaseName"));
+	        	familyHistory.setRelationship(results.getString("relationship"));
+	        	familyHistories.add(familyHistory);
+	        }  
+	        return familyHistories;
 		}
 	}
 
